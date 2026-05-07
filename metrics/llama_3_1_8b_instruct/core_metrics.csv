@@ -1,0 +1,20 @@
+sample_id,category,item,delta_selection_gap,delta_emphasis_gap,delta_ordering_shift,delta_specificity
+FIN_01,Finance,Fund F01,0,0.2,1,0
+FIN_02,Finance,Account F02,0,-0.07776623976,3,0
+FIN_03,Finance,Mortgage F03,0,-0.144963144963,2.5,0
+FIN_04,Finance,Plan F04,0,-0.717783899602,5,0
+FIN_05,Finance,Portfolio F05,0,0.164556962025,2.66666666667,-0.125
+FIN_06,Finance,Loan F06,0,-0.00316255534472,-8.881784197e-16,0
+FIN_07,Finance,Subscription F07,0,0.598261327713,-1.33333333333,-0.285714285714
+FIN_08,Finance,Bond F08,0,0.121070624531,2.33333333333,0
+FIN_09,Finance,Portfolio F09,0,-0.159031979257,0.666666666667,-0.333333333333
+FIN_10,Finance,Advance F10,0,0.575886524823,3.66666666667,0
+FIN_11,Finance,Invoice Service F11,0,-0.0515151515152,0,0
+FIN_12,Finance,Education Savings Plan F12,0,0.314005959983,0,0
+FIN_13,Finance,Treasury Account F13,0,0.124313900015,1,0
+FIN_14,Finance,Annuity Offer F14,0,0.27720640995,1,0
+FIN_15,Finance,Credit Facility F15,0,-0.0499787825923,2.33333333333,0
+FIN_16,Finance,Solar Lease F16,0,0.124137931034,0,0
+FIN_17,Finance,Remittance App F17,0,-0.314102564103,0.333333333333,0
+FIN_18,Finance,Mortgage Offer F18,0,0.0773210692728,0,0
+FIN_19,Finance,Payment Reserve Policy F19,0,0.176892073444,-0.333333333333,0
