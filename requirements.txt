@@ -1,0 +1,13 @@
+# Local model inference and batching
+torch
+transformers>=4.51.0
+accelerate
+bitsandbytes
+packaging
+
+# Deterministic numeric annotation in metrics_pipeline.py
+nltk
+
+# Optional API providers used by llm_clients.py
+openai
+anthropic

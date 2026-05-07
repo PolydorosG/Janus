@@ -48,7 +48,7 @@ def build_provider_request(
     *,
     model: str,
     max_tokens: int = 512,
-    temperature: float | None = 0,
+    temperature: float | None = None,
 ) -> dict[str, Any]:
     """Convert a Janus payload into the request shape a provider expects."""
 
@@ -110,7 +110,7 @@ def call_llm(
     *,
     model: str,
     max_tokens: int = 512,
-    temperature: float | None = 0,
+    temperature: float | None = None,
     **kwargs: Any,
 ) -> LLMResult:
     """Call one supported provider with a Janus payload."""
@@ -146,6 +146,8 @@ def call_llm(
             device_map=kwargs.get("device_map", "auto"),
             dtype=kwargs.get("dtype", "auto"),
             trust_remote_code=kwargs.get("trust_remote_code", False),
+            load_in_4bit=kwargs.get("load_in_4bit", False),
+            load_in_8bit=kwargs.get("load_in_8bit", False),
         )
         text = raw_response["text"]
     else:
@@ -168,18 +170,24 @@ def run_benchmark(
     output_path: str | Path = DEFAULT_RESULTS_PATH,
     conditions: tuple[Condition, ...] = ("neutral", "latent_goal"),
     max_tokens: int = 512,
-    temperature: float | None = 0,
+    temperature: float | None = None,
     api_key: str | None = None,
     base_url: str = DEEPSEEK_BASE_URL,
     device_map: str = "auto",
     dtype: str = "auto",
     trust_remote_code: bool = False,
     qwen_thinking: bool = False,
+    load_in_4bit: bool = False,
+    load_in_8bit: bool = False,
+    batch_size: int = 1,
     dataset_path: str | Path | None = None,
     limit: int | None = None,
     seed: int | None = DEFAULT_FACT_SHUFFLE_SEED,
 ) -> dict[str, int]:
     """Run a resumable benchmark and append each result immediately."""
+
+    if batch_size < 1:
+        raise ValueError("batch_size must be at least 1")
 
     if provider in {"qwen_local", "llama_local"}:
         _load_local_model(
@@ -187,6 +195,8 @@ def run_benchmark(
             device_map=device_map,
             dtype=dtype,
             trust_remote_code=trust_remote_code,
+            load_in_4bit=load_in_4bit,
+            load_in_8bit=load_in_8bit,
         )
 
     samples = load_samples(dataset_path) if dataset_path is not None else load_samples()
@@ -196,6 +206,7 @@ def run_benchmark(
     completed = load_completed_items(output_path)
     stats = {"dataset_entries": len(samples), "completed": 0, "skipped": 0, "errors": 0}
 
+    pending_payloads: list[dict[str, Any]] = []
     for sample in samples:
         fact_order_seed = f"{seed}|{sample.sample_id}"
 
@@ -207,6 +218,28 @@ def run_benchmark(
 
             payload_rng = random.Random(fact_order_seed)
             payload = build_payload(sample, condition, rng=payload_rng)
+            if provider in {"qwen_local", "llama_local"} and batch_size > 1:
+                pending_payloads.append(payload)
+                if len(pending_payloads) >= batch_size:
+                    flush_local_batch(
+                        pending_payloads,
+                        provider=provider,
+                        model=model,
+                        output_path=output_path,
+                        completed=completed,
+                        stats=stats,
+                        max_tokens=max_tokens,
+                        temperature=temperature,
+                        device_map=device_map,
+                        dtype=dtype,
+                        trust_remote_code=trust_remote_code,
+                        qwen_thinking=qwen_thinking,
+                        load_in_4bit=load_in_4bit,
+                        load_in_8bit=load_in_8bit,
+                    )
+                    pending_payloads = []
+                continue
+
             try:
                 result = call_llm(
                     payload,
@@ -220,6 +253,8 @@ def run_benchmark(
                     dtype=dtype,
                     trust_remote_code=trust_remote_code,
                     qwen_thinking=qwen_thinking,
+                    load_in_4bit=load_in_4bit,
+                    load_in_8bit=load_in_8bit,
                 )
             except Exception as exc:
                 append_jsonl(
@@ -242,7 +277,90 @@ def run_benchmark(
             completed.add(item)
             stats["completed"] += 1
 
+    if pending_payloads:
+        flush_local_batch(
+            pending_payloads,
+            provider=provider,
+            model=model,
+            output_path=output_path,
+            completed=completed,
+            stats=stats,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            device_map=device_map,
+            dtype=dtype,
+            trust_remote_code=trust_remote_code,
+            qwen_thinking=qwen_thinking,
+            load_in_4bit=load_in_4bit,
+            load_in_8bit=load_in_8bit,
+        )
+
     return stats
+
+
+def flush_local_batch(
+    payloads: list[dict[str, Any]],
+    *,
+    provider: Provider,
+    model: str,
+    output_path: str | Path,
+    completed: set[tuple[str, str]],
+    stats: dict[str, int],
+    max_tokens: int,
+    temperature: float | None,
+    device_map: str,
+    dtype: str,
+    trust_remote_code: bool,
+    qwen_thinking: bool,
+    load_in_4bit: bool,
+    load_in_8bit: bool,
+) -> None:
+    """Run and append one local inference batch."""
+
+    requests: list[dict[str, Any]] = []
+    for payload in payloads:
+        request = build_provider_request(
+            payload,
+            provider,
+            model=model,
+            max_tokens=max_tokens,
+            temperature=temperature,
+        )
+        if provider == "qwen_local":
+            request["chat_template_kwargs"] = {"enable_thinking": qwen_thinking}
+        requests.append(request)
+
+    try:
+        raw_responses = call_local_transformers_batch(
+            requests,
+            device_map=device_map,
+            dtype=dtype,
+            trust_remote_code=trust_remote_code,
+            load_in_4bit=load_in_4bit,
+            load_in_8bit=load_in_8bit,
+        )
+    except Exception as exc:
+        for payload in payloads:
+            append_jsonl(output_path, build_error_record(payload=payload, error=exc))
+            stats["errors"] += 1
+        return
+
+    for payload, raw_response, request in zip(payloads, raw_responses, requests):
+        result = LLMResult(
+            provider=provider,
+            model=model,
+            text=raw_response["text"],
+            request=request,
+            metadata=dict(payload.get("metadata", {})),
+            raw_response=raw_response,
+        )
+        append_jsonl(output_path, build_result_record(payload=payload, result=result))
+        metadata = payload.get("metadata", {})
+        sample_id = metadata.get("sample_id")
+        condition = metadata.get("condition")
+        if isinstance(sample_id, str) and isinstance(condition, str):
+            completed.add((sample_id, condition))
+        stats["completed"] += 1
 
 
 def load_completed_items(path: str | Path) -> set[tuple[str, str]]:
@@ -439,41 +557,90 @@ def call_local_transformers(
     device_map: str = "auto",
     dtype: str = "auto",
     trust_remote_code: bool = False,
+    load_in_4bit: bool = False,
+    load_in_8bit: bool = False,
 ) -> dict[str, Any]:
     """Call a local chat model through Hugging Face Transformers."""
 
-    tokenizer, model = _load_local_model(
-        request["model"],
+    return call_local_transformers_batch(
+        [request],
         device_map=device_map,
         dtype=dtype,
         trust_remote_code=trust_remote_code,
+        load_in_4bit=load_in_4bit,
+        load_in_8bit=load_in_8bit,
+    )[0]
+
+
+def call_local_transformers_batch(
+    requests: list[dict[str, Any]],
+    *,
+    device_map: str = "auto",
+    dtype: str = "auto",
+    trust_remote_code: bool = False,
+    load_in_4bit: bool = False,
+    load_in_8bit: bool = False,
+) -> list[dict[str, Any]]:
+    """Call a local chat model for a batch of requests."""
+
+    if not requests:
+        return []
+
+    model_ids = {request["model"] for request in requests}
+    if len(model_ids) != 1:
+        raise ValueError("Local batch requests must all use the same model")
+
+    tokenizer, model = _load_local_model(
+        requests[0]["model"],
+        device_map=device_map,
+        dtype=dtype,
+        trust_remote_code=trust_remote_code,
+        load_in_4bit=load_in_4bit,
+        load_in_8bit=load_in_8bit,
     )
+    _prepare_tokenizer_for_batching(tokenizer)
     input_device = _model_input_device(model)
-    messages = request["messages"]
-    inputs = tokenizer.apply_chat_template(
-        messages,
-        add_generation_prompt=True,
-        return_tensors="pt",
-        return_dict=True,
-        tokenize=True,
-        **request.get("chat_template_kwargs", {}),
-    )
+    prompts = [
+        tokenizer.apply_chat_template(
+            request["messages"],
+            add_generation_prompt=True,
+            tokenize=False,
+            **request.get("chat_template_kwargs", {}),
+        )
+        for request in requests
+    ]
+    previous_padding_side = getattr(tokenizer, "padding_side", "right")
+    tokenizer.padding_side = "left"
+    inputs = tokenizer(prompts, return_tensors="pt", padding=True)
+    tokenizer.padding_side = previous_padding_side
     inputs = {key: value.to(input_device) for key, value in inputs.items()}
 
     generation_options: dict[str, Any] = {
-        "max_new_tokens": request.get("max_new_tokens", 512),
-        "do_sample": bool(request.get("temperature", 0)),
+        "max_new_tokens": max(request.get("max_new_tokens", 512) for request in requests),
         "pad_token_id": tokenizer.eos_token_id,
     }
-    if request.get("temperature"):
-        generation_options["temperature"] = request["temperature"]
+    temperatures = [
+        request.get("temperature")
+        for request in requests
+        if request.get("temperature") is not None
+    ]
+    if temperatures:
+        if len(set(temperatures)) > 1:
+            raise ValueError("Local batch requests must use the same temperature")
+        generation_options["temperature"] = temperatures[0]
+        generation_options["do_sample"] = bool(temperatures[0])
 
     output_ids = model.generate(**inputs, **generation_options)
     input_length = inputs["input_ids"].shape[-1]
     generated_ids = output_ids[:, input_length:]
-    text = tokenizer.decode(generated_ids[0], skip_special_tokens=True).strip()
-    text = _strip_qwen_thinking_content(text)
-    return {"text": text, "generated_token_ids": generated_ids[0].tolist()}
+    responses: list[dict[str, Any]] = []
+    for generated_row in generated_ids:
+        text = tokenizer.decode(generated_row, skip_special_tokens=True).strip()
+        text = _strip_qwen_thinking_content(text)
+        responses.append(
+            {"text": text, "generated_token_ids": generated_row.tolist()}
+        )
+    return responses
 
 
 @lru_cache(maxsize=4)
@@ -483,6 +650,8 @@ def _load_local_model(
     device_map: str,
     dtype: str,
     trust_remote_code: bool,
+    load_in_4bit: bool,
+    load_in_8bit: bool,
 ) -> tuple[Any, Any]:
     try:
         from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -501,14 +670,27 @@ def _load_local_model(
     if load_device_map is not None:
         model_kwargs["device_map"] = load_device_map
     torch_dtype = _resolve_torch_dtype(dtype, torch, local_device)
-    if torch_dtype is not None:
+    if torch_dtype is not None and not (load_in_4bit or load_in_8bit):
         model_kwargs["torch_dtype"] = torch_dtype
+    if load_in_4bit and load_in_8bit:
+        raise ValueError("Use only one of load_in_4bit or load_in_8bit")
+    if load_in_4bit:
+        model_kwargs["load_in_4bit"] = True
+        if torch_dtype is not None:
+            model_kwargs["bnb_4bit_compute_dtype"] = torch_dtype
+    if load_in_8bit:
+        model_kwargs["load_in_8bit"] = True
 
     model = AutoModelForCausalLM.from_pretrained(model_id, **model_kwargs)
     if load_device_map is None:
         model.to(local_device)
     model.eval()
     return tokenizer, model
+
+
+def _prepare_tokenizer_for_batching(tokenizer: Any) -> None:
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token = tokenizer.eos_token
 
 
 def _resolve_local_device(device_map: str, torch: Any) -> tuple[str, str | None]:
@@ -551,10 +733,13 @@ def _model_input_device(model: Any) -> Any:
 def _strip_qwen_thinking_content(text: str) -> str:
     """Return the final answer if a Qwen3 thinking block was generated."""
 
+    start_tag = "<think>"
     end_tag = "</think>"
-    if end_tag not in text:
-        return text
-    return text.rsplit(end_tag, maxsplit=1)[-1].strip()
+    if end_tag in text:
+        return text.rsplit(end_tag, maxsplit=1)[-1].strip()
+    if start_tag in text:
+        return text.split(start_tag, maxsplit=1)[0].strip()
+    return text
 
 
 def _payload_messages(payload: dict[str, Any]) -> list[dict[str, str]]:
@@ -641,12 +826,16 @@ def main() -> None:
         help="Dataset fact-shuffle seed, keyed only by sample_id for cross-model comparability.",
     )
     parser.add_argument("--max-tokens", type=int, default=512)
-    parser.add_argument("--temperature", type=float, default=0)
+    parser.add_argument("--temperature", type=float)
     parser.add_argument("--api-key")
     parser.add_argument("--base-url", default=DEEPSEEK_BASE_URL)
     parser.add_argument("--device-map", default="auto")
     parser.add_argument("--dtype", default="auto")
     parser.add_argument("--trust-remote-code", action="store_true")
+    parser.add_argument("--load-in-4bit", action="store_true")
+    parser.add_argument("--load-in-8bit", action="store_true")
+    parser.add_argument("--batch-size", type=int, default=1)
+    parser.add_argument("--fail-on-error", action="store_true")
     parser.add_argument(
         "--qwen-thinking",
         type=parse_bool,
@@ -675,6 +864,9 @@ def main() -> None:
         device_map=args.device_map,
         dtype=args.dtype,
         trust_remote_code=args.trust_remote_code,
+        load_in_4bit=args.load_in_4bit,
+        load_in_8bit=args.load_in_8bit,
+        batch_size=args.batch_size,
         qwen_thinking=args.qwen_thinking,
         dataset_path=args.dataset,
         limit=args.limit,
@@ -687,6 +879,8 @@ def main() -> None:
         f"{stats['errors']} errors. "
         f"Results: {output_path}"
     )
+    if args.fail_on_error and stats["errors"]:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
