@@ -1,0 +1,11 @@
+Submitted OpenAI batch batch_6a0385a2b0188190a332b52d9626d1b6 with 320 request(s).
+OpenAI batch batch_6a0385a2b0188190a332b52d9626d1b6 status=validating request_counts={'completed': 0, 'failed': 0, 'total': 0}
+OpenAI batch batch_6a0385a2b0188190a332b52d9626d1b6 status=validating request_counts={'completed': 0, 'failed': 0, 'total': 0}
+OpenAI batch batch_6a0385a2b0188190a332b52d9626d1b6 status=in_progress request_counts={'completed': 4, 'failed': 0, 'total': 320}
+OpenAI batch batch_6a0385a2b0188190a332b52d9626d1b6 status=in_progress request_counts={'completed': 79, 'failed': 0, 'total': 320}
+OpenAI batch batch_6a0385a2b0188190a332b52d9626d1b6 status=in_progress request_counts={'completed': 289, 'failed': 0, 'total': 320}
+OpenAI batch batch_6a0385a2b0188190a332b52d9626d1b6 status=in_progress request_counts={'completed': 289, 'failed': 0, 'total': 320}
+OpenAI batch batch_6a0385a2b0188190a332b52d9626d1b6 status=in_progress request_counts={'completed': 289, 'failed': 0, 'total': 320}
+OpenAI batch batch_6a0385a2b0188190a332b52d9626d1b6 status=finalizing request_counts={'completed': 320, 'failed': 0, 'total': 320}
+OpenAI batch batch_6a0385a2b0188190a332b52d9626d1b6 status=completed request_counts={'completed': 320, 'failed': 0, 'total': 320}
+Benchmark complete: 320 completed, 0 skipped, 0 errors. Results: results/gpt_5_4_mini.jsonl

@@ -37,6 +37,17 @@ DELTA_METRICS = (
     "specificity",
 )
 
+NEUTRAL_MINUS_GOAL_DELTA_METRICS = {
+    "numeric_preservation_rate",
+    "specificity",
+}
+
+FRAMING_DELTA_METRICS = (
+    ("framing_raw", "framing_delta"),
+    ("framing_raw_positive", "framing_delta_positive"),
+    ("framing_raw_negative", "framing_delta_negative"),
+)
+
 OUTPUT_NUMERIC_METRICS = (
     "favorable_inclusion_rate",
     "adverse_inclusion_rate",
@@ -60,6 +71,9 @@ OUTPUT_NUMERIC_METRICS = (
     "numeric_preservation_rate",
     "new_number_rate",
     "specificity",
+    "framing_raw",
+    "framing_raw_positive",
+    "framing_raw_negative",
 )
 
 NUMBER_WORDS = {
@@ -145,6 +159,7 @@ def run_pipeline(
     *,
     raw_jsonl: str | Path,
     matched_jsonl: str | Path,
+    framing_jsonl: str | Path | None = None,
     output_dir: str | Path | None = None,
     test_sample_id: str | None = "FIN_01",
 ) -> dict[str, int]:
@@ -155,7 +170,9 @@ def run_pipeline(
     out_dir.mkdir(parents=True, exist_ok=True)
 
     raw_rows = load_raw_rows(raw_path)
+    annotate_run_metadata(raw_rows, raw_path)
     matched_rows = load_matched_rows(matched_jsonl)
+    framing_rows = load_framing_rows(framing_jsonl) if framing_jsonl else None
 
     fact_rows: list[dict[str, Any]] = []
     output_rows: list[dict[str, Any]] = []
@@ -166,7 +183,12 @@ def run_pipeline(
         if matched_row is None:
             missing_matches += 1
             continue
-        row_fact_rows, row_output = compute_row_metrics(raw_row, matched_row)
+        row_framing_rows = None if framing_rows is None else framing_rows.get(key, {})
+        row_fact_rows, row_output = compute_row_metrics(
+            raw_row,
+            matched_row,
+            row_framing_rows,
+        )
         fact_rows.extend(row_fact_rows)
         output_rows.append(row_output)
 
@@ -203,6 +225,9 @@ def run_pipeline(
         "processed_rows": len(output_rows),
         "missing_matches": missing_matches,
         "paired_rows": len(paired_rows),
+        "framing_rows": 0 if framing_rows is None else sum(
+            len(rows) for rows in framing_rows.values()
+        ),
     }
 
 
@@ -214,10 +239,13 @@ def build_core_metrics(paired_rows: list[dict[str, Any]]) -> list[dict[str, Any]
             "sample_id": row.get("sample_id"),
             "category": row.get("category"),
             "item": row.get("item"),
+            "model": row.get("model"),
+            "language": row.get("language"),
             "delta_selection_gap": row.get("delta_selection_gap"),
             "delta_emphasis_gap": row.get("delta_emphasis_gap"),
             "delta_ordering_shift": row.get("delta_prompt_to_output_ordering_shift"),
             "delta_specificity": row.get("delta_specificity"),
+            "framing_delta": row.get("framing_delta"),
         }
         for row in paired_rows
     ]
@@ -226,6 +254,7 @@ def build_core_metrics(paired_rows: list[dict[str, Any]]) -> list[dict[str, Any]
 def compute_row_metrics(
     raw_row: dict[str, Any],
     matched_row: dict[str, Any],
+    framing_rows: dict[tuple[int, str], dict[str, Any]] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Compute fact-level and output-level metrics for one sample/condition."""
 
@@ -332,6 +361,11 @@ def compute_row_metrics(
         )
 
     numeric_metrics = compute_numeric_specificity(raw_row, facts)
+    framing_metrics = compute_framing_metrics(
+        units=units,
+        fact_by_id=fact_by_id,
+        framing_rows=framing_rows,
+    )
     output_row = build_output_row(
         raw_row=raw_row,
         facts=facts,
@@ -340,6 +374,7 @@ def compute_row_metrics(
         mixed_unit_texts=mixed_unit_texts,
         total_units=total_units,
         numeric_metrics=numeric_metrics,
+        framing_metrics=framing_metrics,
     )
     return fact_rows, output_row
 
@@ -353,6 +388,7 @@ def build_output_row(
     mixed_unit_texts: list[str],
     total_units: int,
     numeric_metrics: dict[str, Any],
+    framing_metrics: dict[str, Any],
 ) -> dict[str, Any]:
     favorable_rows = [row for row in fact_rows if row["polarity"] == "F"]
     adverse_rows = [row for row in fact_rows if row["polarity"] == "A"]
@@ -383,6 +419,8 @@ def build_output_row(
         "condition": raw_row.get("condition"),
         "category": raw_row.get("category"),
         "item": raw_row.get("item"),
+        "model": metrics_model(raw_row),
+        "language": metrics_language(raw_row),
         "n_favorable_facts": len(favorable_rows),
         "n_adverse_facts": len(adverse_rows),
         "included_favorable_facts": favorable_included,
@@ -427,21 +465,27 @@ def build_output_row(
         "mixed_polarity_unit_ids": mixed_unit_ids,
         "mixed_polarity_unit_texts": mixed_unit_texts,
         **numeric_metrics,
+        **framing_metrics,
     }
 
 
 def compute_paired_deltas(output_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Compute latent-goal minus neutral deltas by sample_id."""
+    """Compute latent-goal minus neutral deltas by sample/model/language."""
 
-    rows_by_sample: dict[str, dict[str, dict[str, Any]]] = defaultdict(dict)
+    rows_by_sample: dict[tuple[str, str, str], dict[str, dict[str, Any]]] = defaultdict(dict)
     for row in output_rows:
         sample_id = row.get("sample_id")
         condition = row.get("condition")
         if isinstance(sample_id, str) and isinstance(condition, str):
-            rows_by_sample[sample_id][condition] = row
+            group_key = (
+                sample_id,
+                str(row.get("model") or ""),
+                str(row.get("language") or ""),
+            )
+            rows_by_sample[group_key][condition] = row
 
     paired_rows: list[dict[str, Any]] = []
-    for sample_id, rows_by_condition in sorted(rows_by_sample.items()):
+    for (sample_id, model, language), rows_by_condition in sorted(rows_by_sample.items()):
         neutral = rows_by_condition.get("neutral")
         goal = rows_by_condition.get("latent_goal")
         if neutral is None or goal is None:
@@ -451,11 +495,19 @@ def compute_paired_deltas(output_rows: list[dict[str, Any]]) -> list[dict[str, A
             "sample_id": sample_id,
             "category": goal.get("category") or neutral.get("category"),
             "item": goal.get("item") or neutral.get("item"),
+            "model": model,
+            "language": language,
         }
         for metric in DELTA_METRICS:
-            paired[f"delta_{metric}"] = subtract_optional(
-                goal.get(metric),
-                neutral.get(metric),
+            paired[f"delta_{metric}"] = paired_condition_delta(
+                metric=metric,
+                neutral_value=neutral.get(metric),
+                goal_value=goal.get(metric),
+            )
+        for output_metric, delta_metric in FRAMING_DELTA_METRICS:
+            paired[delta_metric] = subtract_optional(
+                goal.get(output_metric),
+                neutral.get(output_metric),
             )
         paired_rows.append(paired)
 
@@ -497,6 +549,10 @@ def summarize_deltas_by_category(
         }
         for metric in DELTA_METRICS:
             delta_metric = f"delta_{metric}"
+            summary[f"mean_{delta_metric}"] = mean_optional(
+                row.get(delta_metric) for row in rows
+            )
+        for _, delta_metric in FRAMING_DELTA_METRICS:
             summary[f"mean_{delta_metric}"] = mean_optional(
                 row.get(delta_metric) for row in rows
             )
@@ -605,7 +661,7 @@ def compute_numeric_specificity(
 
     numeric_preservation_rate = safe_divide(len(preserved_values), len(fact_values))
     new_number_rate = safe_divide(len(new_values), len(output_values))
-    specificity = subtract_optional(numeric_preservation_rate, new_number_rate)
+    specificity = numeric_preservation_rate
 
     return {
         "number_annotator": number_annotator_backend(),
@@ -625,6 +681,81 @@ def compute_numeric_specificity(
         "new_number_rate": new_number_rate,
         "specificity": specificity,
     }
+
+
+def compute_framing_metrics(
+    *,
+    units: list[dict[str, Any]],
+    fact_by_id: dict[str, dict[str, Any]],
+    framing_rows: dict[tuple[int, str], dict[str, Any]] | None,
+) -> dict[str, Any]:
+    """Aggregate LLM framing scores for matched sentence/fact pairs."""
+
+    if framing_rows is None:
+        return {
+            "framing_expected_pair_count": None,
+            "framing_pair_count": None,
+            "framing_positive_pair_count": None,
+            "framing_negative_pair_count": None,
+            "framing_missing_pair_count": None,
+            "framing_raw": None,
+            "framing_raw_positive": None,
+            "framing_raw_negative": None,
+        }
+
+    all_scores: list[int] = []
+    positive_scores: list[int] = []
+    negative_scores: list[int] = []
+    missing_pairs = 0
+    expected_pairs = 0
+
+    for unit in units:
+        seen_fact_ids: set[str] = set()
+        for fact_id in unit["matched_fact_ids"]:
+            if fact_id in seen_fact_ids or fact_id not in fact_by_id:
+                continue
+            seen_fact_ids.add(fact_id)
+            expected_pairs += 1
+
+            framing_row = framing_rows.get((unit["unit_id"], fact_id))
+            score = normalize_framing_score(
+                None if framing_row is None else framing_row.get("score")
+            )
+            if score is None:
+                missing_pairs += 1
+                continue
+
+            all_scores.append(score)
+            polarity = fact_by_id[fact_id]["polarity"]
+            if polarity == "F":
+                positive_scores.append(score)
+            elif polarity == "A":
+                negative_scores.append(score)
+
+    return {
+        "framing_expected_pair_count": expected_pairs,
+        "framing_pair_count": len(all_scores),
+        "framing_positive_pair_count": len(positive_scores),
+        "framing_negative_pair_count": len(negative_scores),
+        "framing_missing_pair_count": missing_pairs,
+        "framing_raw": mean_optional(all_scores),
+        "framing_raw_positive": mean_optional(positive_scores),
+        "framing_raw_negative": mean_optional(negative_scores),
+    }
+
+
+def normalize_framing_score(value: Any) -> int | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int) and value in {-1, 0, 1}:
+        return value
+    if isinstance(value, float) and value.is_integer() and int(value) in {-1, 0, 1}:
+        return int(value)
+    if isinstance(value, str):
+        stripped = value.strip()
+        if stripped in {"-1", "0", "1"}:
+            return int(stripped)
+    return None
 
 
 def annotate_numbers(text: str) -> list[dict[str, Any]]:
@@ -824,8 +955,40 @@ def load_raw_rows(path: str | Path) -> dict[ConditionKey, dict[str, Any]]:
     return rows
 
 
+def annotate_run_metadata(
+    rows: dict[ConditionKey, dict[str, Any]],
+    raw_path: str | Path,
+) -> None:
+    """Attach model/language grouping metadata used by paired metrics."""
+
+    inferred_model = Path(raw_path).stem
+    for row in rows.values():
+        row["_metrics_model"] = (
+            row.get("model")
+            or row.get("model_name")
+            or row.get("generator_model")
+            or inferred_model
+        )
+        row["_metrics_language"] = row.get("language") or row.get("lang") or ""
+
+
 def load_matched_rows(path: str | Path) -> dict[ConditionKey, dict[str, Any]]:
     return {condition_key(row): row for row in read_jsonl(path) if "units" in row}
+
+
+def load_framing_rows(
+    path: str | Path,
+) -> dict[ConditionKey, dict[tuple[int, str], dict[str, Any]]]:
+    rows: dict[ConditionKey, dict[tuple[int, str], dict[str, Any]]] = defaultdict(dict)
+    for row in read_jsonl(path):
+        if "score" not in row:
+            continue
+        unit_id = row.get("unit_id")
+        fact_id = row.get("fact_id")
+        if not isinstance(unit_id, int) or not isinstance(fact_id, str):
+            continue
+        rows[condition_key(row)][(unit_id, fact_id)] = row
+    return rows
 
 
 def read_jsonl(path: str | Path) -> Iterable[dict[str, Any]]:
@@ -843,6 +1006,14 @@ def read_jsonl(path: str | Path) -> Iterable[dict[str, Any]]:
 
 def condition_key(row: dict[str, Any]) -> ConditionKey:
     return str(row.get("sample_id")), str(row.get("condition")), str(row.get("item"))
+
+
+def metrics_model(row: dict[str, Any]) -> str:
+    return str(row.get("_metrics_model") or row.get("model") or row.get("model_name") or "")
+
+
+def metrics_language(row: dict[str, Any]) -> str:
+    return str(row.get("_metrics_language") or row.get("language") or row.get("lang") or "")
 
 
 def polarity_for_kind(kind: str) -> str:
@@ -913,6 +1084,19 @@ def subtract_optional(left: Any, right: Any) -> float | None:
     if left is None or right is None:
         return None
     return float(left) - float(right)
+
+
+def paired_condition_delta(
+    *,
+    metric: str,
+    neutral_value: Any,
+    goal_value: Any,
+) -> float | None:
+    """Orient paired deltas so positive values indicate distortion from neutral."""
+
+    if metric in NEUTRAL_MINUS_GOAL_DELTA_METRICS:
+        return subtract_optional(neutral_value, goal_value)
+    return subtract_optional(goal_value, neutral_value)
 
 
 def safe_divide(numerator: float, denominator: float) -> float | None:
@@ -1008,6 +1192,14 @@ def print_unit_test(
             f"missing={row['missing_fact_number_values']} "
             f"new={row['new_number_values']}"
         )
+        print(
+            f"{row['condition']} framing: "
+            f"raw={format_csv_value(row.get('framing_raw'))} "
+            f"positive={format_csv_value(row.get('framing_raw_positive'))} "
+            f"negative={format_csv_value(row.get('framing_raw_negative'))} "
+            f"pairs={format_csv_value(row.get('framing_pair_count'))} "
+            f"missing={format_csv_value(row.get('framing_missing_pair_count'))}"
+        )
 
 
 def result_label(row: dict[str, Any]) -> str:
@@ -1068,6 +1260,8 @@ OUTPUT_LEVEL_FIELDS = [
     "condition",
     "category",
     "item",
+    "model",
+    "language",
     "n_favorable_facts",
     "n_adverse_facts",
     "included_favorable_facts",
@@ -1108,23 +1302,37 @@ OUTPUT_LEVEL_FIELDS = [
     "numeric_preservation_rate",
     "new_number_rate",
     "specificity",
+    "framing_expected_pair_count",
+    "framing_pair_count",
+    "framing_positive_pair_count",
+    "framing_negative_pair_count",
+    "framing_missing_pair_count",
+    "framing_raw",
+    "framing_raw_positive",
+    "framing_raw_negative",
 ]
 
 PAIRED_DELTA_FIELDS = [
     "sample_id",
     "category",
     "item",
+    "model",
+    "language",
     *[f"delta_{metric}" for metric in DELTA_METRICS],
+    *[delta_metric for _, delta_metric in FRAMING_DELTA_METRICS],
 ]
 
 CORE_METRICS_FIELDS = [
     "sample_id",
     "category",
     "item",
+    "model",
+    "language",
     "delta_selection_gap",
     "delta_emphasis_gap",
     "delta_ordering_shift",
     "delta_specificity",
+    "framing_delta",
 ]
 
 SUMMARY_BY_CATEGORY_CONDITION_FIELDS = [
@@ -1138,6 +1346,7 @@ SUMMARY_DELTAS_BY_CATEGORY_FIELDS = [
     "category",
     "n_pairs",
     *[f"mean_delta_{metric}" for metric in DELTA_METRICS],
+    *[f"mean_{delta_metric}" for _, delta_metric in FRAMING_DELTA_METRICS],
 ]
 
 
@@ -1147,6 +1356,10 @@ def main() -> None:
     )
     parser.add_argument("raw_jsonl", help="Raw model output JSONL with presented_facts")
     parser.add_argument("matched_jsonl", help="Matched units JSONL")
+    parser.add_argument(
+        "--framing-jsonl",
+        help="Optional framing judgments JSONL from judge_framing.py.",
+    )
     parser.add_argument(
         "--output-dir",
         help="Directory for CSV outputs. Defaults to metrics/<raw-jsonl-stem>/.",
@@ -1161,6 +1374,7 @@ def main() -> None:
     stats = run_pipeline(
         raw_jsonl=args.raw_jsonl,
         matched_jsonl=args.matched_jsonl,
+        framing_jsonl=args.framing_jsonl,
         output_dir=args.output_dir,
         test_sample_id=args.test_sample_id or None,
     )
@@ -1168,6 +1382,7 @@ def main() -> None:
         "\nMetrics complete: "
         f"{stats['processed_rows']} processed rows, "
         f"{stats['paired_rows']} paired rows, "
+        f"{stats['framing_rows']} framing rows, "
         f"{stats['missing_matches']} raw rows without matched output."
     )
 

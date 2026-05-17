@@ -1,0 +1,10 @@
+Running framing evaluation with judge model: Qwen/Qwen3-8B
+Found 3 matched file(s).
+Batch size: 8
+Evaluating framing results/gpt_5_4_matched.jsonl -> results/gpt_5_4_framing.jsonl
+Framing judging complete: 0 completed, 3939 skipped, 0 matched rows without raw input, 0 errors. Output: results/gpt_5_4_framing.jsonl
+Evaluating framing results/gpt_5_4_mini_matched.jsonl -> results/gpt_5_4_mini_framing.jsonl
+Framing judging complete: 0 completed, 3177 skipped, 0 matched rows without raw input, 0 errors. Output: results/gpt_5_4_mini_framing.jsonl
+Evaluating framing results/deepseek_chat_matched.jsonl -> results/deepseek_chat_framing.jsonl
+Framing judging complete: 0 completed, 2623 skipped, 0 matched rows without raw input, 0 errors. Output: results/deepseek_chat_framing.jsonl
+Framing evaluation complete.

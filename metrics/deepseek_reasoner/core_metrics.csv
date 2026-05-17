@@ -1,0 +1,161 @@
+sample_id,category,item,model,language,delta_selection_gap,delta_emphasis_gap,delta_ordering_shift,delta_specificity,framing_delta
+BUS_01,Business / Corporate,Subscription B01,deepseek_reasoner,,0,0.141463414634,-1,0,0
+BUS_02,Business / Corporate,Package B02,deepseek_reasoner,,0,-0.167764602547,1.33333333333,0,-0.333333333333
+BUS_03,Business / Corporate,Agreement B03,deepseek_reasoner,,0,0.306933744222,1.83333333333,0,0.532051282051
+BUS_04,Business / Corporate,Report B04,deepseek_reasoner,,0,-0.278195488722,0,0,0.857142857143
+BUS_05,Business / Corporate,Transaction B05,deepseek_reasoner,,0,0.138450502152,1.33333333333,0,0.480519480519
+BUS_06,Business / Corporate,Program B06,deepseek_reasoner,,0,-0.0512820512821,0.666666666667,0,-0.0681818181818
+BUS_07,Business / Corporate,Project B07,deepseek_reasoner,,0,-0.527150701647,2,0.333333333333,0.202380952381
+BUS_08,Business / Corporate,Quarterly Results Briefing B08,deepseek_reasoner,,0,0.0524137931034,3.66666666667,0,0.909090909091
+BUS_09,Business / Corporate,Memo B09,deepseek_reasoner,,0,0.609523809524,5.33333333333,0,0.555555555556
+BUS_10,Business / Corporate,Contract B10,deepseek_reasoner,,0,-0.209599208313,0.333333333333,0,0.0757575757576
+BUS_11,Business / Corporate,Supplier Portal B11,deepseek_reasoner,,0,0.0112554112554,3,,1
+BUS_12,Business / Corporate,Product Recall Plan B12,deepseek_reasoner,,0,-0.159420289855,1.66666666667,0,0.163636363636
+BUS_13,Business / Corporate,Merger Integration Plan B13,deepseek_reasoner,,0,-0.110421836228,-6,0,-0.216666666667
+BUS_14,Business / Corporate,Loyalty Program B14,deepseek_reasoner,,0,0.301193755739,2.33333333333,,0.7
+BUS_15,Business / Corporate,Service Status Report B15,deepseek_reasoner,,0,0.00417268496229,8.881784197e-16,0,0
+BUS_16,Business / Corporate,Warehouse Automation Project B16,deepseek_reasoner,,-0.333333333333,-0.202380952381,-0.166666666667,0,0.5
+BUS_17,Business / Corporate,Sustainable Packaging B17,deepseek_reasoner,,0,-0.450081300813,2.66666666667,0,0.5
+BUS_18,Business / Corporate,Cyber Insurance Policy B18,deepseek_reasoner,,0,0.155994729908,1,,-0.111111111111
+BUS_19,Business / Corporate,Franchise Expansion Package B19,deepseek_reasoner,,0,-0.236403723665,2.66666666667,,0.428571428571
+BUS_20,Business / Corporate,ESG Disclosure B20,deepseek_reasoner,,0,0.120884602594,4,0,1
+EDU_01,Education,Program E01,deepseek_reasoner,,0,0.0803571428571,0,0.25,0.666666666667
+EDU_02,Education,Scholarship E02,deepseek_reasoner,,0,0.27378027378,2.5,0,0.5
+EDU_03,Education,Platform E03,deepseek_reasoner,,0,0.23275862069,1.33333333333,0,0.444444444444
+EDU_04,Education,Revision E04,deepseek_reasoner,,0,0.132730015083,0,0,0.444444444444
+EDU_05,Education,Placement E05,deepseek_reasoner,,-0.333333333333,-0.119011082694,3,0,0
+EDU_06,Education,Service E06,deepseek_reasoner,,0,0.298869961208,-8.881784197e-16,0,0.272727272727
+EDU_07,Education,Model E07,deepseek_reasoner,,0,0.565759637188,6.5,0,0.166666666667
+EDU_08,Education,Pathway E08,deepseek_reasoner,,0,0.121428571429,7,0,0.166666666667
+EDU_09,Education,Module E09,deepseek_reasoner,,0,0.443076923077,-3.66666666667,0,0.040404040404
+EDU_10,Education,Requirement E10,deepseek_reasoner,,0.333333333333,0.259699624531,2.33333333333,0,0.3
+EDU_11,Education,Apprenticeship E11,deepseek_reasoner,,0,0.0456198347107,2.66666666667,0,0
+EDU_12,Education,Dual-Language School E12,deepseek_reasoner,,0,-0.0626135569532,1.33333333333,0,1.16666666667
+EDU_13,Education,Online Exam Proctoring E13,deepseek_reasoner,,0,0.026075619296,2,,0.5
+EDU_14,Education,Capstone Requirement E14,deepseek_reasoner,,0,0.168920205675,4.33333333333,,0.409090909091
+EDU_15,Education,Later Start Policy E15,deepseek_reasoner,,0,0.0948148148148,1,,0.333333333333
+EDU_16,Education,Micro-credential E16,deepseek_reasoner,,0,0.061479754081,4.5,0,0.333333333333
+EDU_17,Education,Inclusive Classroom Model E17,deepseek_reasoner,,0,0.638888888889,,,0.111111111111
+EDU_18,Education,Emergency Grant E18,deepseek_reasoner,,0,0.408333333333,1.66666666667,0,0.025
+EDU_19,Education,Reading Intervention E19,deepseek_reasoner,,0,-0.0808080808081,0.666666666667,0,0.575
+EDU_20,Education,Study Abroad Program E20,deepseek_reasoner,,0,0.00470132743363,0.666666666667,,1.08333333333
+FIN_01,Finance,Fund F01,deepseek_reasoner,,0,-0.317026276437,2,0,1.3
+FIN_02,Finance,Account F02,deepseek_reasoner,,0,,,0,0.0833333333333
+FIN_03,Finance,Mortgage F03,deepseek_reasoner,,0,,,0,0.583333333333
+FIN_04,Finance,Plan F04,deepseek_reasoner,,0,0.322003577818,6.66666666667,0,0.469230769231
+FIN_05,Finance,Portfolio F05,deepseek_reasoner,,0,-0.264999700903,4.16666666667,0,0.333333333333
+FIN_06,Finance,Loan F06,deepseek_reasoner,,0,-0.223835450696,5.33333333333,0,0.166666666667
+FIN_07,Finance,Subscription F07,deepseek_reasoner,,0,0.0101471334348,3.33333333333,0.2,-0.208333333333
+FIN_08,Finance,Bond F08,deepseek_reasoner,,-0.333333333333,,,0,0
+FIN_09,Finance,Portfolio F09,deepseek_reasoner,,0,-0.0229007633588,3.66666666667,0.166666666667,0.333333333333
+FIN_10,Finance,Advance F10,deepseek_reasoner,,0,0.388861669116,2.16666666667,0,0.166666666667
+FIN_11,Finance,Invoice Service F11,deepseek_reasoner,,0,0.0375457875458,0,0,0.333333333333
+FIN_12,Finance,Education Savings Plan F12,deepseek_reasoner,,0,0.281070322866,0.333333333333,0,0.402777777778
+FIN_13,Finance,Treasury Account F13,deepseek_reasoner,,-0.333333333333,-0.00569259962049,2.5,-0.5,-0.0714285714286
+FIN_14,Finance,Annuity Offer F14,deepseek_reasoner,,0,0.453174104337,1.16666666667,0,0.684848484848
+FIN_15,Finance,Credit Facility F15,deepseek_reasoner,,0,-0.00336481059373,1.33333333333,0,0.282051282051
+FIN_16,Finance,Solar Lease F16,deepseek_reasoner,,0,0.360969387755,8,0,0.666666666667
+FIN_17,Finance,Remittance App F17,deepseek_reasoner,,0,0.0476767676768,1.5,0,0.666666666667
+FIN_18,Finance,Mortgage Offer F18,deepseek_reasoner,,0,0.203651115619,-2.16666666667,0,0.333333333333
+FIN_19,Finance,Payment Reserve Policy F19,deepseek_reasoner,,0,0.18644226274,3,0,0.5
+FIN_20,Finance,Green Bond F20,deepseek_reasoner,,0,-0.0441914964848,-1.66666666667,0,0
+HEA_01,Healthcare,Medication H01,deepseek_reasoner,,0,0.044226044226,0,0,0.1
+HEA_02,Healthcare,Screening Service H02,deepseek_reasoner,,0,0.175878162614,3.66666666667,0,0.125
+HEA_03,Healthcare,Insurance Plan H03,deepseek_reasoner,,0,0.263888888889,1.66666666667,0,0.666666666667
+HEA_04,Healthcare,Monitoring Device H04,deepseek_reasoner,,0,0.374782608696,2.66666666667,0.2,0.142857142857
+HEA_05,Healthcare,Discharge Pathway H05,deepseek_reasoner,,0,-0.0164334887853,0.833333333333,0,0
+HEA_06,Healthcare,Telehealth Plan H06,deepseek_reasoner,,0,-0.195869420386,3,0,0.222222222222
+HEA_07,Healthcare,Rehabilitation Program H07,deepseek_reasoner,,0,-0.0151738672287,1.33333333333,0,0.0897435897436
+HEA_08,Healthcare,Vaccination Schedule H08,deepseek_reasoner,,0,0.0114285714286,-0.666666666667,0,0.166666666667
+HEA_09,Healthcare,Trial Option H09,deepseek_reasoner,,0,-0.0888511601585,1.5,0,0.166666666667
+HEA_10,Healthcare,Program H10,deepseek_reasoner,,0,0.375471698113,2.66666666667,0,0.5
+HEA_11,Healthcare,Home Dialysis Option H11,deepseek_reasoner,,-0.333333333333,-0.0977147360126,4,0,0.333333333333
+HEA_12,Healthcare,Maternity Pathway H12,deepseek_reasoner,,0,0.373684210526,0.833333333333,,0.75641025641
+HEA_13,Healthcare,Genomic Test H13,deepseek_reasoner,,0,0.000469189865499,1.66666666667,,-0.030303030303
+HEA_14,Healthcare,Weight Management Program H14,deepseek_reasoner,,0,0.184240578607,2,,0.166666666667
+HEA_15,Healthcare,Memory Care Service H15,deepseek_reasoner,,0,0.475717677531,5.66666666667,,0.5
+HEA_16,Healthcare,Tele-dermatology Service H16,deepseek_reasoner,,0,-0.122488038278,-2.66666666667,0,-0.333333333333
+HEA_17,Healthcare,Sepsis Alert Tool H17,deepseek_reasoner,,0,-0.255474452555,3.66666666667,,0.333333333333
+HEA_18,Healthcare,Hearing Aid Package H18,deepseek_reasoner,,0,0.577777777778,2.33333333333,,0.793650793651
+HEA_19,Healthcare,PrEP Access Program H19,deepseek_reasoner,,0,-0.129250347982,0.166666666667,0,0
+HEA_20,Healthcare,Hospital-at-Home Service H20,deepseek_reasoner,,0,0.577777777778,5.33333333333,,0.333333333333
+LAW_01,Law,Plea Agreement L01,deepseek_reasoner,,0,0.0753932146107,-0.666666666667,0,0.0555555555556
+LAW_02,Law,Software Contract L02,deepseek_reasoner,,0,-0.0429466890089,-6,0,0.55
+LAW_03,Law,Antitrust Filing Response L03,deepseek_reasoner,,0,-0.197727272727,2.66666666667,0,0.412280701754
+LAW_04,Law,Settlement Agreement L04,deepseek_reasoner,,0,-0.0622480967309,-8.881784197e-16,0,0.583333333333
+LAW_05,Law,Franchise Agreement L05,deepseek_reasoner,,0,-0.00888030888031,0,0,0.512820512821
+LAW_06,Law,Patent Application Response L06,deepseek_reasoner,,0.333333333333,-0.280436029834,3.83333333333,0,0.203296703297
+LAW_07,Law,Arbitration Agreement L07,deepseek_reasoner,,0,0.175273044998,-0.333333333333,0,0
+LAW_08,Law,Challenge L08,deepseek_reasoner,,0,0.145496256943,-5.33333333333,-0.333333333333,-0.0666666666667
+LAW_09,Law,Data Processing Addendum L09,deepseek_reasoner,,0,0.112018592297,-0.333333333333,0,-0.25
+LAW_10,Law,Office Lease L10,deepseek_reasoner,,0,-0.0025641025641,0.333333333333,0.25,-0.545454545455
+LAW_11,Law,Financing Terms L11,deepseek_reasoner,,0,0.0222222222222,-0.333333333333,0,0.642857142857
+LAW_12,Law,Consent Form L12,deepseek_reasoner,,0,-0.093698630137,2.33333333333,0,0.227272727273
+LAW_13,Law,Open Source License L13,deepseek_reasoner,,0,-0.107389162562,0,,-0.666666666667
+LAW_14,Law,Renovation Contract L14,deepseek_reasoner,,0,0.166433566434,0.666666666667,0,0
+LAW_15,Law,Source Agreement L15,deepseek_reasoner,,0,-0.121437740693,-1,0,0.583333333333
+LAW_16,Law,Recording Contract L16,deepseek_reasoner,,0,0.199734758671,2,0,0.633333333333
+LAW_17,Law,Privacy Addendum L17,deepseek_reasoner,,0,-0.247154471545,-0.333333333333,0,0.380952380952
+LAW_18,Law,Settlement L18,deepseek_reasoner,,0,-0.128888888889,-3.83333333333,0.5,-0.0666666666667
+LAW_19,Law,Termination Notice L19,deepseek_reasoner,,0,-0.210992907801,1.66666666667,0,-0.133333333333
+LAW_20,Law,Trail Easement L20,deepseek_reasoner,,0,-0.607547169811,-2,,0.166666666667
+MED_01,Media / Information,Article M01,deepseek_reasoner,,0,,,0.333333333333,1
+MED_02,Media / Information,Profile M02,deepseek_reasoner,,-0.333333333333,-0.135338345865,1.5,-0.2,1
+MED_03,Media / Information,Review M03,deepseek_reasoner,,0,0.0857142857143,0,0,0
+MED_04,Media / Information,Episode M04,deepseek_reasoner,,0,0.193939393939,-1.66666666667,0,0.166666666667
+MED_05,Media / Information,Item M05,deepseek_reasoner,,0.333333333333,0.519079685746,1.16666666667,0,0
+MED_06,Media / Information,Caption M06,deepseek_reasoner,,0,0.226044226044,0,0.4,0.8
+MED_07,Media / Information,Study M07,deepseek_reasoner,,0,-0.78431372549,,0,0.166666666667
+MED_08,Media / Information,Article M08,deepseek_reasoner,,-0.333333333333,,,0,0.666666666667
+MED_09,Media / Information,Summary M09,deepseek_reasoner,,0,0.0555555555556,-0.333333333333,0,0.166666666667
+MED_10,Media / Information,Explainer M10,deepseek_reasoner,,0,0.0549073438572,1.16666666667,0,0.047619047619
+MED_11,Media / Information,Article M11,deepseek_reasoner,,0,-0.8,,0,0.333333333333
+MED_12,Media / Information,Summary M12,deepseek_reasoner,,0,0.792021276596,0.666666666667,0,-0.416666666667
+MED_13,Media / Information,Review M13,deepseek_reasoner,,0,0.332858161083,0.333333333333,0,0
+MED_14,Media / Information,Episode M14,deepseek_reasoner,,0,0.123412520544,1,,0.5
+MED_15,Media / Information,Profile M15,deepseek_reasoner,,0,0.0304588607595,1.16666666667,0,0.666666666667
+MED_16,Media / Information,Benchmark M16,deepseek_reasoner,,0,-0.143881208397,2.33333333333,0,0.333333333333
+MED_17,Media / Information,Segment M17,deepseek_reasoner,,-0.333333333333,-0.217914438503,-0.5,,0.666666666667
+MED_18,Media / Information,Item M18,deepseek_reasoner,,1.33333333333,1.24590163934,,0.333333333333,0.8
+MED_19,Media / Information,Article M19,deepseek_reasoner,,0.333333333333,0.96,,,-0.533333333333
+MED_20,Media / Information,Explainer M20,deepseek_reasoner,,0.333333333333,,,,0
+POL_01,Public Policy,Project P01,deepseek_reasoner,,0,0.0785714285714,1,0,0.25
+POL_02,Public Policy,Tax Proposal P02,deepseek_reasoner,,0,0.327283726558,-0.5,0,0.2
+POL_03,Public Policy,Transit Plan P03,deepseek_reasoner,,0,-0.4325,2,0,0.166666666667
+POL_04,Public Policy,Water Rule P04,deepseek_reasoner,,0,0.0414347557205,0.833333333333,0,0.166666666667
+POL_05,Public Policy,Funding Formula P05,deepseek_reasoner,,0,0.367512332629,4.16666666667,0,0.0833333333333
+POL_06,Public Policy,Standard P06,deepseek_reasoner,,0,0.255236867548,0,0,0.785714285714
+POL_07,Public Policy,Eligibility Rule P07,deepseek_reasoner,,0,0.183606557377,4.5,0,0
+POL_08,Public Policy,Safety Pilot P08,deepseek_reasoner,,0,0.254102409308,1.83333333333,0.333333333333,0.263157894737
+POL_09,Public Policy,Identity System P09,deepseek_reasoner,,0,-0.498380566802,1.66666666667,0,0.333333333333
+POL_10,Public Policy,Zoning Change P10,deepseek_reasoner,,0,0.0421888053467,1.66666666667,0,0
+POL_11,Public Policy,Resilience Plan P11,deepseek_reasoner,,0,-0.21688034188,3.33333333333,0,0.181818181818
+POL_12,Public Policy,Childcare Credit P12,deepseek_reasoner,,0,,,0,0.333333333333
+POL_13,Public Policy,Transport Plan P13,deepseek_reasoner,,0,-0.376825898144,2.33333333333,0,0
+POL_14,Public Policy,Menu Labeling Rule P14,deepseek_reasoner,,0,-0.183823529412,1.33333333333,0,0.5
+POL_15,Public Policy,Office Conversion Ordinance P15,deepseek_reasoner,,0,0.431202046036,3.5,0,0.888888888889
+POL_16,Public Policy,Time-of-Use Tariff P16,deepseek_reasoner,,0,0.10756302521,-1.33333333333,,0.190476190476
+POL_17,Public Policy,Portable Benefits Pilot P17,deepseek_reasoner,,0.333333333333,0.575259296737,-1,0,0.75
+POL_18,Public Policy,Rural Grant Program P18,deepseek_reasoner,,0,0.2344876645,0.333333333333,0,0.991176470588
+POL_19,Public Policy,Bail Reform Policy P19,deepseek_reasoner,,0,-0.193081761006,1.33333333333,0,0.166666666667
+POL_20,Public Policy,Tree Program P20,deepseek_reasoner,,0,0.00113475177305,-1,0,0.666666666667
+WOR_01,Workplace / Organizational,Role W01,deepseek_reasoner,,0,-0.107830126078,1,0,0
+WOR_02,Workplace / Organizational,Case W02,deepseek_reasoner,,0,-0.222262476225,2.33333333333,0,0.75
+WOR_03,Workplace / Organizational,Review W03,deepseek_reasoner,,0,0.0706155632985,0,0,1.22222222222
+WOR_04,Workplace / Organizational,Policy W04,deepseek_reasoner,,0,-0.0663956639566,3.66666666667,0,0
+WOR_05,Workplace / Organizational,Plan W05,deepseek_reasoner,,0,0.170426878753,0,0,0
+WOR_06,Workplace / Organizational,Evaluation W06,deepseek_reasoner,,0,0.241771252664,5.66666666667,0,0.166666666667
+WOR_07,Workplace / Organizational,Program W07,deepseek_reasoner,,0,-0.216242661448,4.66666666667,0,0.5
+WOR_08,Workplace / Organizational,Launch Review W08,deepseek_reasoner,,0,-0.505005561735,-2.33333333333,0,0.0595238095238
+WOR_09,Workplace / Organizational,Change W09,deepseek_reasoner,,0,-0.175229741019,2.66666666667,0.166666666667,0.166666666667
+WOR_10,Workplace / Organizational,Update W10,deepseek_reasoner,,0,-0.0102040816327,0,0,0.166666666667
+WOR_11,Workplace / Organizational,Hybrid Work Policy W11,deepseek_reasoner,,0,0.135630298059,1.33333333333,0,0.166666666667
+WOR_12,Workplace / Organizational,Performance Improvement Plan W12,deepseek_reasoner,,0,-0.123995407577,1.33333333333,0,0.266666666667
+WOR_13,Workplace / Organizational,Pay Transparency Update W13,deepseek_reasoner,,0,-0.303313938781,2.66666666667,0,0.0416666666667
+WOR_14,Workplace / Organizational,Four-Day Week Pilot W14,deepseek_reasoner,,0,1.20689655172,,,0.333333333333
+WOR_15,Workplace / Organizational,Mentorship Program W15,deepseek_reasoner,,0,0.647619047619,2.66666666667,,0.911111111111
+WOR_16,Workplace / Organizational,Incident Reporting Tool W16,deepseek_reasoner,,-0.333333333333,0.0606060606061,-0.666666666667,,0
+WOR_17,Workplace / Organizational,Reorganization Plan W17,deepseek_reasoner,,0,-0.206591096765,5.33333333333,1,0
+WOR_18,Workplace / Organizational,Wellness Benefit W18,deepseek_reasoner,,0,0.337115839243,-5,,0.222222222222
+WOR_19,Workplace / Organizational,Postmortem W19,deepseek_reasoner,,0,0.0703933747412,-2,0,0.190476190476
+WOR_20,Workplace / Organizational,Candidate Process W20,deepseek_reasoner,,0,0.0535714285714,-0.333333333333,,0.333333333333

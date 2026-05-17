@@ -1,0 +1,10 @@
+Running sentence/fact matching with judge model: Qwen/Qwen3-8B
+Found 3 raw result file(s).
+Batch size: 4
+Matching results/gpt_5_4.jsonl -> results/gpt_5_4_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/gpt_5_4_matched.jsonl
+Matching results/gpt_5_4_mini.jsonl -> results/gpt_5_4_mini_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/gpt_5_4_mini_matched.jsonl
+Matching results/deepseek_chat.jsonl -> results/deepseek_chat_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/deepseek_chat_matched.jsonl
+Sentence/fact matching complete.

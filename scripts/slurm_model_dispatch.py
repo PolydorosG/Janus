@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Claim and run the next unfinished local-model benchmark on SLURM."""
+"""Claim and run the next unfinished model benchmark on SLURM."""
 
 from __future__ import annotations
 
@@ -47,6 +47,7 @@ MODEL_RUNS: list[dict[str, Any]] = [
         "output": "results/qwen3_8b_thinking.jsonl",
         "batch_size": 4,
         "dtype": "bfloat16",
+        "max_tokens": 2048,
         "qwen_thinking": True,
     },
     {
@@ -65,6 +66,7 @@ MODEL_RUNS: list[dict[str, Any]] = [
         "output": "results/qwen3_14b_thinking.jsonl",
         "batch_size": 2,
         "dtype": "bfloat16",
+        "max_tokens": 2048,
         "qwen_thinking": True,
     },
     {
@@ -83,7 +85,42 @@ MODEL_RUNS: list[dict[str, Any]] = [
         "output": "results/qwen3_32b_thinking.jsonl",
         "batch_size": 1,
         "dtype": "bfloat16",
+        "max_tokens": 2048,
         "qwen_thinking": True,
+    },
+    {
+        "name": "gpt_5_4_mini",
+        "provider": "openai",
+        "model": "gpt-5.4-mini",
+        "output": "results/gpt_5_4_mini.jsonl",
+        "batch_size": 1,
+        "dtype": "auto",
+    },
+    {
+        "name": "gpt_5_4",
+        "provider": "openai",
+        "model": "gpt-5.4",
+        "output": "results/gpt_5_4.jsonl",
+        "batch_size": 1,
+        "dtype": "auto",
+        "openai_reasoning_effort": "none",
+    },
+    {
+        "name": "deepseek_chat",
+        "provider": "deepseek",
+        "model": "deepseek-chat",
+        "output": "results/deepseek_chat.jsonl",
+        "batch_size": 1,
+        "dtype": "auto",
+    },
+    {
+        "name": "deepseek_reasoner",
+        "provider": "deepseek",
+        "model": "deepseek-reasoner",
+        "output": "results/deepseek_reasoner.jsonl",
+        "batch_size": 1,
+        "dtype": "auto",
+        "provider_default_max_tokens": True,
     },
 ]
 
@@ -128,13 +165,20 @@ def main() -> int:
 def claim_next_run(state: dict[str, Any]) -> dict[str, Any] | None:
     state.setdefault("models", {})
     retry_failed = parse_bool_env("RETRY_FAILED", default=False)
+    retry_empty = parse_bool_env("RETRY_EMPTY_RESPONSES", default=False)
     stale_after = timedelta(hours=float(os.environ.get("STALE_RUNNING_HOURS", "8")))
     now = datetime.now(timezone.utc)
 
     for run in MODEL_RUNS:
         entry = state["models"].get(run["name"], {})
         status = entry.get("status", "pending")
-        if status == "done":
+        needs_output_retry = output_needs_retry(
+            run["output"],
+            retry_empty_responses=retry_empty,
+        )
+        if not needs_output_retry and status != "running":
+            continue
+        if status == "done" and not needs_output_retry:
             continue
         if status == "failed" and not retry_failed:
             continue
@@ -167,8 +211,6 @@ def build_command(run: dict[str, Any]) -> list[str]:
         run["model"],
         "--output",
         run["output"],
-        "--max-tokens",
-        os.environ.get("MAX_TOKENS", "768"),
         "--seed",
         os.environ.get("SEED", "1234"),
         "--device-map",
@@ -179,10 +221,35 @@ def build_command(run: dict[str, Any]) -> list[str]:
         os.environ.get("BATCH_SIZE", str(run["batch_size"])),
         "--fail-on-error",
     ]
+    max_tokens = os.environ.get("MAX_TOKENS")
+    if max_tokens is None and "max_tokens" in run:
+        max_tokens = str(run["max_tokens"])
+    if max_tokens is None and not run.get("provider_default_max_tokens"):
+        max_tokens = "768"
+    if max_tokens:
+        command.extend(["--max-tokens", max_tokens])
     if os.environ.get("LIMIT"):
         command.extend(["--limit", os.environ["LIMIT"]])
     if os.environ.get("DATASET"):
         command.extend(["--dataset", os.environ["DATASET"]])
+    if run["provider"] == "deepseek" and os.environ.get("DEEPSEEK_BASE_URL"):
+        command.extend(["--base-url", os.environ["DEEPSEEK_BASE_URL"]])
+    if run["provider"] == "deepseek":
+        command.extend(
+            [
+                "--deepseek-timeout",
+                os.environ.get("DEEPSEEK_TIMEOUT", "120"),
+                "--deepseek-max-retries",
+                os.environ.get("DEEPSEEK_MAX_RETRIES", "0"),
+            ]
+        )
+    if run["provider"] == "openai":
+        if run.get("openai_reasoning_effort"):
+            command.extend(["--openai-reasoning-effort", run["openai_reasoning_effort"]])
+        if os.environ.get("OPENAI_BATCH_ID"):
+            command.extend(["--openai-batch-id", os.environ["OPENAI_BATCH_ID"]])
+        if os.environ.get("OPENAI_BATCH_DIR"):
+            command.extend(["--openai-batch-dir", os.environ["OPENAI_BATCH_DIR"]])
     if run.get("qwen_thinking") is not None:
         command.extend(["--qwen-thinking", "1" if run["qwen_thinking"] else "0"])
     if run.get("load_in_4bit"):
@@ -191,7 +258,61 @@ def build_command(run: dict[str, Any]) -> list[str]:
         command.append("--load-in-8bit")
     if parse_bool_env("TRUST_REMOTE_CODE", default=False):
         command.append("--trust-remote-code")
+    if parse_bool_env("RETRY_EMPTY_RESPONSES", default=False):
+        command.append("--retry-empty-responses")
     return command
+
+
+def output_has_empty_responses(path: str | Path) -> bool:
+    output_path = Path(path)
+    if not output_path.exists():
+        return False
+    latest_empty_by_key: dict[tuple[Any, Any], bool] = {}
+    with output_path.open(encoding="utf-8") as output_file:
+        for line in output_file:
+            if not line.strip():
+                continue
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            response_text = record.get("response_text")
+            if not isinstance(response_text, str):
+                continue
+            key = record.get("sample_id"), record.get("condition")
+            latest_empty_by_key[key] = not response_text.strip()
+    return any(latest_empty_by_key.values())
+
+
+def output_needs_retry(
+    path: str | Path,
+    *,
+    retry_empty_responses: bool,
+) -> bool:
+    """Return True when an output file is missing, incomplete, or retryably blank."""
+
+    output_path = Path(path)
+    if not output_path.exists():
+        return True
+
+    latest_keys: set[tuple[Any, Any]] = set()
+    with output_path.open(encoding="utf-8") as output_file:
+        for line in output_file:
+            if not line.strip():
+                continue
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(record.get("response_text"), str):
+                latest_keys.add((record.get("sample_id"), record.get("condition")))
+
+    expected_rows = int(os.environ.get("EXPECTED_RESULT_ROWS", "320"))
+    if len(latest_keys) < expected_rows:
+        return True
+    if retry_empty_responses and output_has_empty_responses(output_path):
+        return True
+    return False
 
 
 def print_state_summary(state: dict[str, Any]) -> None:

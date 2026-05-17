@@ -1,0 +1,121 @@
+{
+  "models": {
+    "deepseek_reasoner": {
+      "failed_at": "2026-05-13T19:20:21.441637+00:00",
+      "host": "login3.csf3.man.alces.network",
+      "job_id": null,
+      "job_name": null,
+      "model": "deepseek-reasoner",
+      "output": "results/deepseek_reasoner.jsonl",
+      "provider": "deepseek",
+      "return_code": 1,
+      "started_at": "2026-05-13T19:20:20.372013+00:00",
+      "status": "failed",
+      "updated_at": "2026-05-13T19:20:21.441620+00:00"
+    },
+    "llama_3_1_70b": {
+      "completed_at": "2026-05-07T21:59:09.601047+00:00",
+      "host": "node865.csf3.man.alces.network",
+      "job_id": "14734415",
+      "job_name": "slurm_run_next_model.sh",
+      "model": "meta-llama/Llama-3.1-70B-Instruct",
+      "output": "results/llama_3_1_70b_instruct.jsonl",
+      "provider": "llama_local",
+      "return_code": 0,
+      "started_at": "2026-05-07T18:52:43.387120+00:00",
+      "status": "done",
+      "updated_at": "2026-05-07T21:59:09.601033+00:00"
+    },
+    "llama_3_1_8b": {
+      "completed_at": "2026-05-07T19:07:37.667914+00:00",
+      "host": "node865.csf3.man.alces.network",
+      "job_id": "14734137",
+      "job_name": "slurm_run_next_model.sh",
+      "model": "meta-llama/Llama-3.1-8B-Instruct",
+      "output": "results/llama_3_1_8b_instruct.jsonl",
+      "provider": "llama_local",
+      "return_code": 0,
+      "started_at": "2026-05-07T18:47:07.377653+00:00",
+      "status": "done",
+      "updated_at": "2026-05-07T19:07:37.667892+00:00"
+    },
+    "qwen3_14b_no_thinking": {
+      "completed_at": "2026-05-07T19:55:26.074895+00:00",
+      "host": "node865.csf3.man.alces.network",
+      "job_id": "14734418",
+      "job_name": "slurm_run_next_model.sh",
+      "model": "Qwen/Qwen3-14B",
+      "output": "results/qwen3_14b_no_thinking.jsonl",
+      "provider": "qwen_local",
+      "return_code": 0,
+      "started_at": "2026-05-07T19:08:28.432640+00:00",
+      "status": "done",
+      "updated_at": "2026-05-07T19:55:26.074865+00:00"
+    },
+    "qwen3_14b_thinking": {
+      "completed_at": "2026-05-10T23:34:03.404273+00:00",
+      "host": "node865.csf3.man.alces.network",
+      "job_id": "14771916",
+      "job_name": "slurm_run_next_model.sh",
+      "model": "Qwen/Qwen3-14B",
+      "output": "results/qwen3_14b_thinking.jsonl",
+      "provider": "qwen_local",
+      "return_code": 0,
+      "started_at": "2026-05-10T22:05:05.654449+00:00",
+      "status": "done",
+      "updated_at": "2026-05-10T23:34:03.404246+00:00"
+    },
+    "qwen3_32b_no_thinking": {
+      "completed_at": "2026-05-07T21:03:02.300840+00:00",
+      "host": "node848.csf3.man.alces.network",
+      "job_id": "14734421",
+      "job_name": "slurm_run_next_model.sh",
+      "model": "Qwen/Qwen3-32B",
+      "output": "results/qwen3_32b_no_thinking.jsonl",
+      "provider": "qwen_local",
+      "return_code": 0,
+      "started_at": "2026-05-07T19:38:24.547636+00:00",
+      "status": "done",
+      "updated_at": "2026-05-07T21:03:02.300825+00:00"
+    },
+    "qwen3_32b_thinking": {
+      "completed_at": "2026-05-11T12:18:28.388026+00:00",
+      "host": "node855.csf3.man.alces.network",
+      "job_id": "14782657",
+      "job_name": "slurm_run_next_model.sh",
+      "model": "Qwen/Qwen3-32B",
+      "output": "results/qwen3_32b_thinking.jsonl",
+      "provider": "qwen_local",
+      "return_code": 0,
+      "started_at": "2026-05-11T11:35:23.906579+00:00",
+      "status": "done",
+      "updated_at": "2026-05-11T12:18:28.388002+00:00"
+    },
+    "qwen3_8b_no_thinking": {
+      "completed_at": "2026-05-07T19:14:36.089163+00:00",
+      "host": "node858.csf3.man.alces.network",
+      "job_id": "14734417",
+      "job_name": "slurm_run_next_model.sh",
+      "model": "Qwen/Qwen3-8B",
+      "output": "results/qwen3_8b_no_thinking.jsonl",
+      "provider": "qwen_local",
+      "return_code": 0,
+      "started_at": "2026-05-07T18:52:57.371829+00:00",
+      "status": "done",
+      "updated_at": "2026-05-07T19:14:36.089149+00:00"
+    },
+    "qwen3_8b_thinking": {
+      "completed_at": "2026-05-10T20:40:37.813873+00:00",
+      "host": "node847.csf3.man.alces.network",
+      "job_id": "14769911",
+      "job_name": "slurm_run_next_model.sh",
+      "model": "Qwen/Qwen3-8B",
+      "output": "results/qwen3_8b_thinking.jsonl",
+      "provider": "qwen_local",
+      "return_code": 0,
+      "started_at": "2026-05-10T19:44:42.672904+00:00",
+      "status": "done",
+      "updated_at": "2026-05-10T20:40:37.813852+00:00"
+    }
+  }
+}

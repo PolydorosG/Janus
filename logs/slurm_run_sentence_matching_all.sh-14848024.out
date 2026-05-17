@@ -1,0 +1,6 @@
+Running sentence/fact matching with judge model: Qwen/Qwen3-8B
+Found 1 raw result file(s).
+Batch size: 4
+Matching results/deepseek_reasoner.jsonl -> results/deepseek_reasoner_matched.jsonl
+Judging complete: 320 completed, 0 skipped, 0 errors. Output: results/deepseek_reasoner_matched.jsonl
+Sentence/fact matching complete.

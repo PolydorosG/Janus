@@ -1,0 +1,26 @@
+Running sentence/fact matching with judge model: Qwen/Qwen3-8B
+Found 11 raw result file(s).
+Batch size: 4
+Matching results/deepseek_chat.jsonl -> results/deepseek_chat_matched.jsonl
+Judging complete: 320 completed, 0 skipped, 0 errors. Output: results/deepseek_chat_matched.jsonl
+Matching results/gpt_5_4.jsonl -> results/gpt_5_4_matched.jsonl
+Judging complete: 320 completed, 0 skipped, 0 errors. Output: results/gpt_5_4_matched.jsonl
+Matching results/gpt_5_4_mini.jsonl -> results/gpt_5_4_mini_matched.jsonl
+Judging complete: 320 completed, 0 skipped, 0 errors. Output: results/gpt_5_4_mini_matched.jsonl
+Matching results/llama_3_1_70b_instruct.jsonl -> results/llama_3_1_70b_instruct_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/llama_3_1_70b_instruct_matched.jsonl
+Matching results/llama_3_1_8b_instruct.jsonl -> results/llama_3_1_8b_instruct_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/llama_3_1_8b_instruct_matched.jsonl
+Matching results/qwen3_14b_no_thinking.jsonl -> results/qwen3_14b_no_thinking_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/qwen3_14b_no_thinking_matched.jsonl
+Matching results/qwen3_14b_thinking.jsonl -> results/qwen3_14b_thinking_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/qwen3_14b_thinking_matched.jsonl
+Matching results/qwen3_32b_no_thinking.jsonl -> results/qwen3_32b_no_thinking_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/qwen3_32b_no_thinking_matched.jsonl
+Matching results/qwen3_32b_thinking.jsonl -> results/qwen3_32b_thinking_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/qwen3_32b_thinking_matched.jsonl
+Matching results/qwen3_8b_no_thinking.jsonl -> results/qwen3_8b_no_thinking_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/qwen3_8b_no_thinking_matched.jsonl
+Matching results/qwen3_8b_thinking.jsonl -> results/qwen3_8b_thinking_matched.jsonl
+Judging complete: 0 completed, 320 skipped, 0 errors. Output: results/qwen3_8b_thinking_matched.jsonl
+Sentence/fact matching complete.
