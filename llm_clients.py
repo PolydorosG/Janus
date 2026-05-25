@@ -1184,9 +1184,25 @@ def call_local_transformers_batch(
     input_length = inputs["input_ids"].shape[-1]
     generated_ids = output_ids[:, input_length:]
     responses: list[dict[str, Any]] = []
-    for generated_row in generated_ids:
-        text = tokenizer.decode(generated_row, skip_special_tokens=True).strip()
+    for generated_row, request in zip(generated_ids, requests):
+        preserve_qwen_thinking = bool(
+            request.get("chat_template_kwargs", {}).get("enable_thinking")
+        )
+        text = tokenizer.decode(
+            generated_row,
+            skip_special_tokens=not preserve_qwen_thinking,
+        ).strip()
+        if preserve_qwen_thinking:
+            text = _strip_edge_special_tokens(
+                text,
+                tokenizer,
+                keep={"<think>", "</think>"},
+            )
         response_text, reasoning_text = _split_qwen_thinking_content(text)
+        if preserve_qwen_thinking:
+            response_text = _strip_edge_special_tokens(response_text, tokenizer)
+            if reasoning_text:
+                reasoning_text = _strip_edge_special_tokens(reasoning_text, tokenizer)
         response: dict[str, Any] = {
             "text": response_text,
             "generated_token_ids": generated_row.tolist(),
@@ -1288,6 +1304,41 @@ def _strip_qwen_thinking_content(text: str) -> str:
     """Return the final answer if a Qwen3 thinking block was generated."""
 
     return _split_qwen_thinking_content(text)[0]
+
+
+def _strip_edge_special_tokens(
+    text: str,
+    tokenizer: Any,
+    *,
+    keep: set[str] | None = None,
+) -> str:
+    """Remove generated padding/EOS markers without dropping Qwen thinking tags."""
+
+    keep = keep or set()
+    special_tokens = {
+        token
+        for token in getattr(tokenizer, "all_special_tokens", [])
+        if isinstance(token, str) and token and token not in keep
+    }
+    for token in (
+        getattr(tokenizer, "eos_token", None),
+        getattr(tokenizer, "pad_token", None),
+    ):
+        if isinstance(token, str) and token and token not in keep:
+            special_tokens.add(token)
+
+    stripped = text.strip()
+    changed = True
+    while changed and stripped:
+        changed = False
+        for token in special_tokens:
+            if stripped.startswith(token):
+                stripped = stripped[len(token) :].strip()
+                changed = True
+            if stripped.endswith(token):
+                stripped = stripped[: -len(token)].strip()
+                changed = True
+    return stripped
 
 
 def _split_qwen_thinking_content(text: str) -> tuple[str, str | None]:

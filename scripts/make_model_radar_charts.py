@@ -179,6 +179,15 @@ def main() -> None:
         condition_means=condition_means,
         axis_normalized=True,
     )
+    save_condition_overlay_radar_grid(
+        output_dir / "neutral_goal_absolute_radar_overlay_sqrt_scaled.png",
+        condition_means=condition_means,
+        sqrt_scaled=True,
+    )
+    save_condition_metric_dumbbell_chart(
+        output_dir / "neutral_goal_absolute_metric_dumbbells.png",
+        condition_means=condition_means,
+    )
 
     for model, means in sorted(model_means.items()):
         save_radar_chart(
@@ -196,8 +205,8 @@ def main() -> None:
     print(
         f"Wrote {len(model_means)} per-model radar charts, one joint chart, "
         f"one category radar, one composite score chart, one category heatmap, "
-        f"one size-ordered chart, two neutral/goal overlay charts, and one "
-        f"LaTeX table to {output_dir}"
+        f"one size-ordered chart, three neutral/goal overlay charts, one "
+        f"condition dumbbell chart, and one LaTeX table to {output_dir}"
     )
 
 
@@ -713,7 +722,11 @@ def save_condition_overlay_radar_grid(
     *,
     condition_means: dict[str, dict[str, dict[str, float]]],
     axis_normalized: bool = False,
+    sqrt_scaled: bool = False,
 ) -> None:
+    if axis_normalized and sqrt_scaled:
+        raise ValueError("axis_normalized and sqrt_scaled are mutually exclusive")
+
     models = sorted_models(condition_means)
     labels = [label for _, label in ABSOLUTE_METRICS]
     angles = [2 * math.pi * index / len(ABSOLUTE_METRICS) for index in range(len(ABSOLUTE_METRICS))]
@@ -741,7 +754,11 @@ def save_condition_overlay_radar_grid(
             if means is None:
                 continue
             values = [
-                max(0.0, min(1.0, means.get(metric, 0.0) / axis_scales[metric]))
+                absolute_plot_radius(
+                    means.get(metric, 0.0),
+                    axis_scales[metric],
+                    sqrt_scaled=sqrt_scaled,
+                )
                 for metric, _ in ABSOLUTE_METRICS
             ]
             values_closed = values + values[:1]
@@ -774,30 +791,39 @@ def save_condition_overlay_radar_grid(
     )
     fig.suptitle(
         (
-            "Axis-Normalized Absolute Distortion Profiles by Prompt Condition"
+            "Globally Normalized Absolute Distortion Profiles by Prompt Condition"
             if axis_normalized
+            else "Square-Root Scaled Absolute Distortion Profiles by Prompt Condition"
+            if sqrt_scaled
             else "Absolute Distortion Profiles by Prompt Condition"
         ),
         fontsize=15,
         y=0.985,
     )
-    note = (
-        "Each axis is divided by that metric's observed maximum across all model-condition pairs; shapes emphasize relative within-metric differences."
-        if axis_normalized
-        else "Radii show condition-level absolute distortion scores: positive selection/emphasis bias, favorable-first ordering, numeric specificity loss, and positive framing."
+    if not axis_normalized and not sqrt_scaled:
+        fig.text(
+            0.5,
+            0.018,
+            "Radii show condition-level absolute distortion scores: positive selection/emphasis bias, favorable-first ordering, numeric specificity loss, and positive framing.",
+            ha="center",
+            va="center",
+            fontsize=8.5,
+            color="#4b5259",
+        )
+    fig.tight_layout(
+        rect=(0.02, 0.03 if axis_normalized else 0.04, 0.98, 0.93),
+        h_pad=2.0,
+        w_pad=1.0,
     )
-    fig.text(
-        0.5,
-        0.018,
-        note,
-        ha="center",
-        va="center",
-        fontsize=8.5,
-        color="#4b5259",
-    )
-    fig.tight_layout(rect=(0.02, 0.04, 0.98, 0.93), h_pad=2.0, w_pad=1.0)
     fig.savefig(path)
     plt.close(fig)
+
+
+def absolute_plot_radius(value: float, scale: float, *, sqrt_scaled: bool) -> float:
+    normalized = max(0.0, min(1.0, value / scale))
+    if sqrt_scaled:
+        return math.sqrt(normalized)
+    return normalized
 
 
 def absolute_axis_scales(
@@ -815,6 +841,155 @@ def absolute_axis_scales(
         )
         scales[metric] = max(max_value, 1e-12)
     return scales
+
+
+def save_condition_metric_dumbbell_chart(
+    path: Path,
+    *,
+    condition_means: dict[str, dict[str, dict[str, float]]],
+) -> None:
+    models = sorted_models(condition_means)
+    scales = absolute_axis_scales(condition_means)
+    y_positions = list(range(len(models)))
+    neutral_color = "#2563eb"
+    goal_color = "#dc2626"
+    lane_width = 0.62
+    lane_half_width = lane_width / 2
+
+    fig, ax = plt.subplots(figsize=(6.2, 6.9), dpi=180)
+
+    for metric_index, (metric, label) in enumerate(ABSOLUTE_METRICS):
+        values = [
+            condition_means.get(model, {}).get(condition, {}).get(metric, 0.0)
+            for model in models
+            for condition in ("neutral", "latent_goal")
+        ]
+        min_value = min(values, default=0.0)
+        max_value = max(values, default=scales[metric])
+        value_range = max_value - min_value
+        padding = value_range * 0.08 if value_range > 0 else max(abs(max_value), 1.0) * 0.08
+        lane_min = max(0.0, min_value - padding)
+        lane_max = max_value + padding
+        lane_range = lane_max - lane_min or 1.0
+        lane_left = metric_index - lane_half_width
+        lane_right = metric_index + lane_half_width
+        ax.plot(
+            [lane_left, lane_right],
+            [-0.72, -0.72],
+            color="#b8c0cc",
+            linewidth=0.9,
+            clip_on=False,
+            zorder=0,
+        )
+        ax.text(
+            lane_left,
+            -1.04,
+            f"{lane_min:.2g}",
+            ha="center",
+            va="bottom",
+            fontsize=6.3,
+            color="#6b7280",
+            clip_on=False,
+        )
+        ax.text(
+            lane_right,
+            -1.04,
+            f"{lane_max:.2g}",
+            ha="center",
+            va="bottom",
+            fontsize=6.3,
+            color="#6b7280",
+            clip_on=False,
+        )
+
+        for y_position, model in zip(y_positions, models):
+            neutral = condition_means.get(model, {}).get("neutral", {}).get(metric, 0.0)
+            goal = condition_means.get(model, {}).get("latent_goal", {}).get(metric, 0.0)
+            neutral_x = lane_left + lane_width * ((neutral - lane_min) / lane_range)
+            goal_x = lane_left + lane_width * ((goal - lane_min) / lane_range)
+            ax.plot(
+                [neutral_x, goal_x],
+                [y_position, y_position],
+                color="#9aa3af",
+                linewidth=0.9,
+                zorder=1,
+            )
+            ax.scatter(
+                neutral_x,
+                y_position,
+                color=neutral_color,
+                edgecolor="#ffffff",
+                linewidth=0.45,
+                s=24,
+                zorder=3,
+            )
+            ax.scatter(
+                goal_x,
+                y_position,
+                color=goal_color,
+                edgecolor="#ffffff",
+                linewidth=0.45,
+                s=24,
+                zorder=3,
+            )
+
+    ax.set_xlim(-0.58, len(ABSOLUTE_METRICS) - 0.42)
+    ax.set_ylim(len(models) - 0.5, -1.18)
+    ax.set_xticks(list(range(len(ABSOLUTE_METRICS))))
+    ax.set_xticklabels([label for _, label in ABSOLUTE_METRICS], fontsize=8.1)
+    ax.xaxis.tick_top()
+    ax.tick_params(axis="x", length=0, pad=18)
+    ax.set_yticks(y_positions)
+    ax.set_yticklabels([display_name(model) for model in models], fontsize=7.5)
+    ax.tick_params(axis="y", length=0, pad=3)
+    ax.grid(axis="y", color="#eef1f5", linewidth=0.55)
+    for metric_index in range(1, len(ABSOLUTE_METRICS)):
+        ax.axvline(metric_index - 0.5, color="#d9dee5", linewidth=0.8, zorder=0)
+    for boundary in family_boundaries(models):
+        ax.axhline(boundary - 0.5, color="#c7ced8", linewidth=1.0)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+
+    handles = [
+        plt.Line2D(
+            [0],
+            [0],
+            marker="o",
+            color="none",
+            markerfacecolor=neutral_color,
+            markeredgecolor="#ffffff",
+            markersize=6,
+            label="Neutral",
+        ),
+        plt.Line2D(
+            [0],
+            [0],
+            marker="o",
+            color="none",
+            markerfacecolor=goal_color,
+            markeredgecolor="#ffffff",
+            markersize=6,
+            label="Goal-conditioned",
+        ),
+    ]
+    fig.legend(
+        handles=handles,
+        loc="upper center",
+        bbox_to_anchor=(0.5, 0.925),
+        ncol=2,
+        frameon=False,
+        fontsize=8.8,
+        handletextpad=0.4,
+        columnspacing=1.2,
+    )
+    fig.suptitle(
+        "Neutral vs. Goal-Conditioned Distortion",
+        fontsize=12.0,
+        y=0.988,
+    )
+    fig.tight_layout(rect=(0.03, 0.04, 0.995, 0.895))
+    fig.savefig(path)
+    plt.close(fig)
 
 
 def save_category_composite_radar_chart(
