@@ -1,0 +1,6 @@
+Running framing evaluation with judge model: Qwen/Qwen3-8B
+Found 1 matched file(s).
+Batch size: 8
+Evaluating framing results/qwen3_8b_no_thinking_self_awareness_matched.jsonl -> results/qwen3_8b_no_thinking_self_awareness_framing.jsonl
+Framing judging complete: 3470 completed, 0 skipped, 0 matched rows without raw input, 0 errors. Output: results/qwen3_8b_no_thinking_self_awareness_framing.jsonl
+Framing evaluation complete.

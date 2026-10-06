@@ -1,0 +1,31 @@
+\begin{table*}[t]
+\centering
+\small
+\caption{Model-level Janus metric indices and composite distortion scores. Metric columns are signed 0--100 indices; Composite is the positive-only normalized distortion score.}
+\label{tab:janus-model-core-metrics}
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & Selection & Emphasis & Ordering & Specificity & Framing & Composite \\
+\midrule
+\multicolumn{7}{l}{\textit{OpenAI}} \\
+GPT-5.4 & 50.0 & 50.4 & 53.0 & 50.4 & 54.9 & 3.5 \\
+GPT-5.4 Mini & 49.9 & 50.5 & 51.8 & 50.5 & 53.7 & 2.6 \\
+\midrule
+\multicolumn{7}{l}{\textit{DeepSeek}} \\
+DeepSeek Chat & 50.0 & 49.3 & \underline{56.7} & \textbf{51.9} & 54.4 & 5.2 \\
+DeepSeek Reasoner & 50.1 & 51.7 & \textbf{58.5} & 51.3 & \textbf{57.6} & \textbf{7.7} \\
+\midrule
+\multicolumn{7}{l}{\textit{Llama}} \\
+Llama 3.1 70B Instruct & \underline{50.5} & 51.9 & 54.9 & 50.8 & 54.9 & 5.2 \\
+Llama 3.1 8B Instruct & \textbf{50.8} & \textbf{53.6} & 54.3 & 51.3 & \underline{55.9} & \underline{6.4} \\
+\midrule
+\multicolumn{7}{l}{\textit{Qwen}} \\
+Qwen3 14B No Thinking & 50.1 & 51.8 & 55.7 & 50.5 & 54.7 & 5.1 \\
+Qwen3 14B Thinking & 49.9 & \underline{52.7} & 56.4 & 50.8 & 55.5 & 6.2 \\
+Qwen3 32B No Thinking & 50.2 & 51.6 & 56.4 & 50.6 & 54.5 & 5.3 \\
+Qwen3 32B Thinking & 49.9 & 50.4 & 54.4 & \underline{51.4} & 55.2 & 4.6 \\
+Qwen3 8B No Thinking & 50.4 & 52.0 & 54.6 & 49.8 & 54.6 & 4.6 \\
+Qwen3 8B Thinking & 50.2 & 51.1 & 56.6 & 50.2 & 54.9 & 5.2 \\
+\bottomrule
+\end{tabular}
+\end{table*}

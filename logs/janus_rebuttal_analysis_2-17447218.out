@@ -1,0 +1,3 @@
+Compared 5129 matched framing pairs and 320 sample deltas. Output: analysis/judge_robustness_llama70_subset
+Excluded 8 ambiguous scenarios; analyzed 12 models. Output: analysis/valence_sensitivity_llama70
+Rebuttal robustness analyses complete.

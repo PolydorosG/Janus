@@ -1,0 +1,6 @@
+Running framing evaluation with judge model: meta-llama/Llama-3.1-8B-Instruct
+Found 1 matched file(s).
+Batch size: 8
+Evaluating framing results/qwen3_8b_no_thinking_matched.jsonl -> analysis/framing_llama/qwen3_8b_no_thinking_framing_llama.jsonl
+Framing judging complete: 2319 completed, 0 skipped, 0 matched rows without raw input, 0 errors. Output: analysis/framing_llama/qwen3_8b_no_thinking_framing_llama.jsonl
+Framing evaluation complete.

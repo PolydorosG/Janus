@@ -1,0 +1,12 @@
+{
+  "protocol_version": 2,
+  "seed": 20260711,
+  "n": 50,
+  "population_after_exclusion": 1870,
+  "excluded_prior_pairs": 50,
+  "low_quartile_cutoff": 4.8158452658500135,
+  "high_quartile_cutoff": 23.345466618375,
+  "low_n": 25,
+  "high_n": 25,
+  "annotator_must_not_open": "condition_key_private.jsonl"
+}

@@ -1,0 +1,5 @@
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:42<02:07, 42.49s/it]Loading checkpoint shards:  50%|█████     | 2/4 [01:25<01:25, 42.59s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [02:07<00:42, 42.31s/it]Loading checkpoint shards: 100%|██████████| 4/4 [02:17<00:00, 29.56s/it]Loading checkpoint shards: 100%|██████████| 4/4 [02:17<00:00, 34.29s/it]
+/mnt/iusers01/nactem01/e81040pg/.conda/envs/reasoning/lib/python3.11/site-packages/transformers/generation/configuration_utils.py:631: UserWarning: `do_sample` is set to `False`. However, `temperature` is set to `0` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `temperature`.
+  warnings.warn(
+/mnt/iusers01/nactem01/e81040pg/.conda/envs/reasoning/lib/python3.11/site-packages/transformers/generation/configuration_utils.py:636: UserWarning: `do_sample` is set to `False`. However, `top_p` is set to `0.9` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `top_p`.
+  warnings.warn(

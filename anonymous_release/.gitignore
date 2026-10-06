@@ -1,0 +1,14 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+*.lock
+.DS_Store
+
+# Local model and API caches
+.cache/
+openai_batches/
+
+# Fresh reproduction outputs (published artifacts remain versioned elsewhere)
+reproduced_metrics/
+reproduced_analysis/

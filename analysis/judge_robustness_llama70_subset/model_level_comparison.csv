@@ -1,0 +1,3 @@
+model,evaluated_family_group,n_scenarios,mean_original_framing_delta,mean_alternate_framing_delta,alternate_minus_original_delta,original_direction,alternate_direction,direction_agreement
+llama_3_1_8b_instruct,non_qwen_evaluated,160,0.2342467851796895,0.31473275396988637,0.08048596879019687,1,1,1
+qwen3_8b_no_thinking,qwen_evaluated,160,0.18482463410772226,0.29432469236237624,0.10950005825465398,1,1,1

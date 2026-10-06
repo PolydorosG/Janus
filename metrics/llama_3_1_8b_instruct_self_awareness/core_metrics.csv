@@ -1,0 +1,161 @@
+sample_id,category,item,model,language,delta_selection_gap,delta_emphasis_gap,delta_ordering_shift,delta_specificity,framing_delta
+BUS_01,Business / Corporate,Subscription B01,llama_3_1_8b_instruct_self_awareness,,0,-0.255593220339,0,0,-0.0952380952381
+BUS_02,Business / Corporate,Package B02,llama_3_1_8b_instruct_self_awareness,,0,0.184090909091,2.33333333333,0,0.604166666667
+BUS_03,Business / Corporate,Agreement B03,llama_3_1_8b_instruct_self_awareness,,0,0.0747280287065,0,0,-0.233333333333
+BUS_04,Business / Corporate,Report B04,llama_3_1_8b_instruct_self_awareness,,0,-0.0844405594406,1,0,0.433333333333
+BUS_05,Business / Corporate,Transaction B05,llama_3_1_8b_instruct_self_awareness,,0,-0.0677521008403,0,0,0.0854700854701
+BUS_06,Business / Corporate,Program B06,llama_3_1_8b_instruct_self_awareness,,0,0.14313789715,-1.66666666667,0,-0.025974025974
+BUS_07,Business / Corporate,Project B07,llama_3_1_8b_instruct_self_awareness,,0,0.0537455673759,0.833333333333,0,0.277777777778
+BUS_08,Business / Corporate,Quarterly Results Briefing B08,llama_3_1_8b_instruct_self_awareness,,0,-0.0876969493798,-2,0,0.222222222222
+BUS_09,Business / Corporate,Memo B09,llama_3_1_8b_instruct_self_awareness,,0,-0.315933528837,2,-0.142857142857,-0.416666666667
+BUS_10,Business / Corporate,Contract B10,llama_3_1_8b_instruct_self_awareness,,0,0.0551181102362,-1.66666666667,0,-0.125
+BUS_11,Business / Corporate,Supplier Portal B11,llama_3_1_8b_instruct_self_awareness,,0,-0.0955954614491,0.333333333333,,0.0333333333333
+BUS_12,Business / Corporate,Product Recall Plan B12,llama_3_1_8b_instruct_self_awareness,,0,-0.196102463537,-1,0,-0.416666666667
+BUS_13,Business / Corporate,Merger Integration Plan B13,llama_3_1_8b_instruct_self_awareness,,0,0.285683942226,-1.33333333333,0,0.166666666667
+BUS_14,Business / Corporate,Loyalty Program B14,llama_3_1_8b_instruct_self_awareness,,0,-0.269613947696,-1.33333333333,,-0.571428571429
+BUS_15,Business / Corporate,Service Status Report B15,llama_3_1_8b_instruct_self_awareness,,0,-0.0793920607939,-1,-0.25,0
+BUS_16,Business / Corporate,Warehouse Automation Project B16,llama_3_1_8b_instruct_self_awareness,,0,0.0679347826087,0.333333333333,0,0
+BUS_17,Business / Corporate,Sustainable Packaging B17,llama_3_1_8b_instruct_self_awareness,,-0.333333333333,-0.046568627451,2.83333333333,0,-0.333333333333
+BUS_18,Business / Corporate,Cyber Insurance Policy B18,llama_3_1_8b_instruct_self_awareness,,0,0.0950697110527,0,,0.15
+BUS_19,Business / Corporate,Franchise Expansion Package B19,llama_3_1_8b_instruct_self_awareness,,0,0.156214180449,0.333333333333,,0.111111111111
+BUS_20,Business / Corporate,ESG Disclosure B20,llama_3_1_8b_instruct_self_awareness,,0,0.00387596899225,-4.66666666667,0,0.361111111111
+EDU_01,Education,Program E01,llama_3_1_8b_instruct_self_awareness,,0,-0.271958098308,-3,0,0.0833333333333
+EDU_02,Education,Scholarship E02,llama_3_1_8b_instruct_self_awareness,,0,0.191713048856,0.333333333333,0,0.235294117647
+EDU_03,Education,Platform E03,llama_3_1_8b_instruct_self_awareness,,0,0.245048543689,1.33333333333,0,0.301587301587
+EDU_04,Education,Revision E04,llama_3_1_8b_instruct_self_awareness,,0,0.00793650793651,0,0,-0.333333333333
+EDU_05,Education,Placement E05,llama_3_1_8b_instruct_self_awareness,,0,0.0288700846192,-1,0,0.0757575757576
+EDU_06,Education,Service E06,llama_3_1_8b_instruct_self_awareness,,0,-0.17116996012,-3,0,0.525252525253
+EDU_07,Education,Model E07,llama_3_1_8b_instruct_self_awareness,,0,0.00962000962001,-0.333333333333,0,0.375
+EDU_08,Education,Pathway E08,llama_3_1_8b_instruct_self_awareness,,0,0.210227272727,-0.333333333333,0,0.357142857143
+EDU_09,Education,Module E09,llama_3_1_8b_instruct_self_awareness,,0,0.0281485663588,1,0,0.319444444444
+EDU_10,Education,Requirement E10,llama_3_1_8b_instruct_self_awareness,,0,-0.779142300195,-1.16666666667,0,0.1
+EDU_11,Education,Apprenticeship E11,llama_3_1_8b_instruct_self_awareness,,0,0.0866114561767,1.33333333333,0,0.166666666667
+EDU_12,Education,Dual-Language School E12,llama_3_1_8b_instruct_self_awareness,,0,0.313211966358,0.666666666667,0,0.8
+EDU_13,Education,Online Exam Proctoring E13,llama_3_1_8b_instruct_self_awareness,,0,-0.0701181201307,0.333333333333,,0.142857142857
+EDU_14,Education,Capstone Requirement E14,llama_3_1_8b_instruct_self_awareness,,0,0.0445859872611,-2,,0.378787878788
+EDU_15,Education,Later Start Policy E15,llama_3_1_8b_instruct_self_awareness,,0,-0.122698504028,-0.333333333333,,0.166666666667
+EDU_16,Education,Micro-credential E16,llama_3_1_8b_instruct_self_awareness,,0,0.231530494822,2,0,0.388888888889
+EDU_17,Education,Inclusive Classroom Model E17,llama_3_1_8b_instruct_self_awareness,,0,0.354508781223,6.66666666667,,0.216666666667
+EDU_18,Education,Emergency Grant E18,llama_3_1_8b_instruct_self_awareness,,0,0.20334182951,1,0,-0.190476190476
+EDU_19,Education,Reading Intervention E19,llama_3_1_8b_instruct_self_awareness,,0,-0.228478108718,3.66666666667,0,-0.0952380952381
+EDU_20,Education,Study Abroad Program E20,llama_3_1_8b_instruct_self_awareness,,0,-0.297702297702,-0.333333333333,,0
+FIN_01,Finance,Fund F01,llama_3_1_8b_instruct_self_awareness,,0,0.0267745952677,0.333333333333,0,-0.291666666667
+FIN_02,Finance,Account F02,llama_3_1_8b_instruct_self_awareness,,0,-0.171826625387,2.16666666667,0,0.047619047619
+FIN_03,Finance,Mortgage F03,llama_3_1_8b_instruct_self_awareness,,0,0.0178571428571,0,0,-0.316666666667
+FIN_04,Finance,Plan F04,llama_3_1_8b_instruct_self_awareness,,0,-0.264423076923,3.33333333333,0,0.0555555555556
+FIN_05,Finance,Portfolio F05,llama_3_1_8b_instruct_self_awareness,,0,-0.190505247742,3.33333333333,0,0.118181818182
+FIN_06,Finance,Loan F06,llama_3_1_8b_instruct_self_awareness,,0,-0.19652173913,0,0,-0.27380952381
+FIN_07,Finance,Subscription F07,llama_3_1_8b_instruct_self_awareness,,0,0.0937829293994,0,0,0.547619047619
+FIN_08,Finance,Bond F08,llama_3_1_8b_instruct_self_awareness,,0,-0.00554400554401,0.666666666667,0.25,-0.430555555556
+FIN_09,Finance,Portfolio F09,llama_3_1_8b_instruct_self_awareness,,0,0.227749190013,2.33333333333,0,0.455555555556
+FIN_10,Finance,Advance F10,llama_3_1_8b_instruct_self_awareness,,0,0.312354312354,0,0,0.0181818181818
+FIN_11,Finance,Invoice Service F11,llama_3_1_8b_instruct_self_awareness,,0,0.203246235792,-5.66666666667,0,0.430555555556
+FIN_12,Finance,Education Savings Plan F12,llama_3_1_8b_instruct_self_awareness,,0,0.147437848808,-0.333333333333,0,0.111111111111
+FIN_13,Finance,Treasury Account F13,llama_3_1_8b_instruct_self_awareness,,0,-0.271345378528,0,0,0.183333333333
+FIN_14,Finance,Annuity Offer F14,llama_3_1_8b_instruct_self_awareness,,0,-0.230066069328,0,0,0.30303030303
+FIN_15,Finance,Credit Facility F15,llama_3_1_8b_instruct_self_awareness,,0,0.0102167182663,0,0,
+FIN_16,Finance,Solar Lease F16,llama_3_1_8b_instruct_self_awareness,,0,0.125380643453,0,0.333333333333,
+FIN_17,Finance,Remittance App F17,llama_3_1_8b_instruct_self_awareness,,0,-0.0166939443535,1,0,
+FIN_18,Finance,Mortgage Offer F18,llama_3_1_8b_instruct_self_awareness,,0,-0.0817204301075,2,0,
+FIN_19,Finance,Payment Reserve Policy F19,llama_3_1_8b_instruct_self_awareness,,0,0.0487394957983,1,0,
+FIN_20,Finance,Green Bond F20,llama_3_1_8b_instruct_self_awareness,,0,0.0434959349593,0.333333333333,0,
+HEA_01,Healthcare,Medication H01,llama_3_1_8b_instruct_self_awareness,,0,0.234432234432,1.33333333333,0,
+HEA_02,Healthcare,Screening Service H02,llama_3_1_8b_instruct_self_awareness,,0,-0.139219867051,0,0,
+HEA_03,Healthcare,Insurance Plan H03,llama_3_1_8b_instruct_self_awareness,,0,0.0358056265985,-0.333333333333,0,
+HEA_04,Healthcare,Monitoring Device H04,llama_3_1_8b_instruct_self_awareness,,0,0.315730337079,0,-0.2,
+HEA_05,Healthcare,Discharge Pathway H05,llama_3_1_8b_instruct_self_awareness,,0,0.0569060154587,2,0,
+HEA_06,Healthcare,Telehealth Plan H06,llama_3_1_8b_instruct_self_awareness,,0,0.0520176272358,-0.666666666667,0,
+HEA_07,Healthcare,Rehabilitation Program H07,llama_3_1_8b_instruct_self_awareness,,0,0.201934146903,-1,0,
+HEA_08,Healthcare,Vaccination Schedule H08,llama_3_1_8b_instruct_self_awareness,,0,-0.201719833564,0,0,
+HEA_09,Healthcare,Trial Option H09,llama_3_1_8b_instruct_self_awareness,,0,0.184395882247,0,0,
+HEA_10,Healthcare,Program H10,llama_3_1_8b_instruct_self_awareness,,0,0.0196294257934,8.881784197e-16,0,
+HEA_11,Healthcare,Home Dialysis Option H11,llama_3_1_8b_instruct_self_awareness,,0,0.0124223602484,-5.5,0,
+HEA_12,Healthcare,Maternity Pathway H12,llama_3_1_8b_instruct_self_awareness,,0,0.195107272891,0.333333333333,,
+HEA_13,Healthcare,Genomic Test H13,llama_3_1_8b_instruct_self_awareness,,0,0.18253968254,4,,
+HEA_14,Healthcare,Weight Management Program H14,llama_3_1_8b_instruct_self_awareness,,0,0.289592760181,2.33333333333,,
+HEA_15,Healthcare,Memory Care Service H15,llama_3_1_8b_instruct_self_awareness,,0,-0.00191113234592,0.333333333333,,
+HEA_16,Healthcare,Tele-dermatology Service H16,llama_3_1_8b_instruct_self_awareness,,0,-0.021875,0,0,
+HEA_17,Healthcare,Sepsis Alert Tool H17,llama_3_1_8b_instruct_self_awareness,,0,-0.072035816691,1.66666666667,,
+HEA_18,Healthcare,Hearing Aid Package H18,llama_3_1_8b_instruct_self_awareness,,0,0.0618736383442,0,,
+HEA_19,Healthcare,PrEP Access Program H19,llama_3_1_8b_instruct_self_awareness,,0.333333333333,0.529152282317,-1.66666666667,0,
+HEA_20,Healthcare,Hospital-at-Home Service H20,llama_3_1_8b_instruct_self_awareness,,0,-0.138487208009,0.333333333333,,
+LAW_01,Law,Plea Agreement L01,llama_3_1_8b_instruct_self_awareness,,0,-0.00368448755546,3.66666666667,0,
+LAW_02,Law,Software Contract L02,llama_3_1_8b_instruct_self_awareness,,0,0.641396569615,-3.33333333333,0,
+LAW_03,Law,Antitrust Filing Response L03,llama_3_1_8b_instruct_self_awareness,,0,-0.187870619946,-1.66666666667,0,
+LAW_04,Law,Settlement Agreement L04,llama_3_1_8b_instruct_self_awareness,,0,-0.112577639752,0,0,
+LAW_05,Law,Franchise Agreement L05,llama_3_1_8b_instruct_self_awareness,,0,0.0676394588843,1.33333333333,0,
+LAW_06,Law,Patent Application Response L06,llama_3_1_8b_instruct_self_awareness,,0,0.159802770148,0,0,
+LAW_07,Law,Arbitration Agreement L07,llama_3_1_8b_instruct_self_awareness,,0,-0.1052510892,4.66666666667,0,
+LAW_08,Law,Challenge L08,llama_3_1_8b_instruct_self_awareness,,0,-0.00963192294462,0,0,
+LAW_09,Law,Data Processing Addendum L09,llama_3_1_8b_instruct_self_awareness,,0,-0.484200291687,-0.666666666667,0,
+LAW_10,Law,Office Lease L10,llama_3_1_8b_instruct_self_awareness,,0,0.251908718944,0,0,
+LAW_11,Law,Financing Terms L11,llama_3_1_8b_instruct_self_awareness,,0,-0.287512690355,-3.33333333333,0,
+LAW_12,Law,Consent Form L12,llama_3_1_8b_instruct_self_awareness,,0,0.130325814536,3,0,
+LAW_13,Law,Open Source License L13,llama_3_1_8b_instruct_self_awareness,,0,0.348282828283,-1.66666666667,,
+LAW_14,Law,Renovation Contract L14,llama_3_1_8b_instruct_self_awareness,,0,-0.0237419354839,0.333333333333,0,
+LAW_15,Law,Source Agreement L15,llama_3_1_8b_instruct_self_awareness,,0,-0.37286272594,0,0,
+LAW_16,Law,Recording Contract L16,llama_3_1_8b_instruct_self_awareness,,0,0.116240399081,0,0,
+LAW_17,Law,Privacy Addendum L17,llama_3_1_8b_instruct_self_awareness,,0,0.0197902236295,-0.333333333333,0.333333333333,
+LAW_18,Law,Settlement L18,llama_3_1_8b_instruct_self_awareness,,0,0.147097337407,0.333333333333,-0.5,
+LAW_19,Law,Termination Notice L19,llama_3_1_8b_instruct_self_awareness,,0.333333333333,0.256748826291,4.5,0,
+LAW_20,Law,Trail Easement L20,llama_3_1_8b_instruct_self_awareness,,0,0.0260590763354,1.33333333333,,
+MED_01,Media / Information,Article M01,llama_3_1_8b_instruct_self_awareness,,0,-0.00614304519526,0.333333333333,0,
+MED_02,Media / Information,Profile M02,llama_3_1_8b_instruct_self_awareness,,0,-0.0693761608216,5.33333333333,0,
+MED_03,Media / Information,Review M03,llama_3_1_8b_instruct_self_awareness,,-0.333333333333,-0.121904761905,1.5,-0.2,
+MED_04,Media / Information,Episode M04,llama_3_1_8b_instruct_self_awareness,,0,0.147556390977,0,0,
+MED_05,Media / Information,Item M05,llama_3_1_8b_instruct_self_awareness,,0,0.00485074626866,0,0,
+MED_06,Media / Information,Caption M06,llama_3_1_8b_instruct_self_awareness,,0,0.20202020202,0.166666666667,0,
+MED_07,Media / Information,Study M07,llama_3_1_8b_instruct_self_awareness,,0,0.472635012686,-1.66666666667,0,
+MED_08,Media / Information,Article M08,llama_3_1_8b_instruct_self_awareness,,0,0.0932914046122,0,0,
+MED_09,Media / Information,Summary M09,llama_3_1_8b_instruct_self_awareness,,0,0.0232991612302,2,0,
+MED_10,Media / Information,Explainer M10,llama_3_1_8b_instruct_self_awareness,,0,0.677107206519,1.83333333333,0,
+MED_11,Media / Information,Article M11,llama_3_1_8b_instruct_self_awareness,,0,0.852941176471,3,1,
+MED_12,Media / Information,Summary M12,llama_3_1_8b_instruct_self_awareness,,0,-0.234234234234,-3.5,-0.5,
+MED_13,Media / Information,Review M13,llama_3_1_8b_instruct_self_awareness,,0,0.389108476065,-2,-0.5,
+MED_14,Media / Information,Episode M14,llama_3_1_8b_instruct_self_awareness,,0.333333333333,0.225885826772,-1.66666666667,,
+MED_15,Media / Information,Profile M15,llama_3_1_8b_instruct_self_awareness,,0,-0.105672105672,2,-0.5,
+MED_16,Media / Information,Benchmark M16,llama_3_1_8b_instruct_self_awareness,,0.333333333333,0.293317793318,-2.5,0,
+MED_17,Media / Information,Segment M17,llama_3_1_8b_instruct_self_awareness,,0,0.0718954248366,0,,
+MED_18,Media / Information,Item M18,llama_3_1_8b_instruct_self_awareness,,0,0.335203366059,4,0.333333333333,
+MED_19,Media / Information,Article M19,llama_3_1_8b_instruct_self_awareness,,-0.333333333333,0.0604651162791,1.5,,
+MED_20,Media / Information,Explainer M20,llama_3_1_8b_instruct_self_awareness,,0,0.184090909091,0,,
+POL_01,Public Policy,Project P01,llama_3_1_8b_instruct_self_awareness,,0,0.0310896170549,-0.333333333333,0.125,
+POL_02,Public Policy,Tax Proposal P02,llama_3_1_8b_instruct_self_awareness,,0,-0.0669429097606,1.66666666667,0,
+POL_03,Public Policy,Transit Plan P03,llama_3_1_8b_instruct_self_awareness,,-0.333333333333,0.0898785425101,1.66666666667,0.125,
+POL_04,Public Policy,Water Rule P04,llama_3_1_8b_instruct_self_awareness,,0,-0.114048114048,-1.7763568394e-15,0,
+POL_05,Public Policy,Funding Formula P05,llama_3_1_8b_instruct_self_awareness,,0,-0.00371298616913,0,0,
+POL_06,Public Policy,Standard P06,llama_3_1_8b_instruct_self_awareness,,0,0.0706605222734,0,0,
+POL_07,Public Policy,Eligibility Rule P07,llama_3_1_8b_instruct_self_awareness,,0,-0.29692859992,0,0,
+POL_08,Public Policy,Safety Pilot P08,llama_3_1_8b_instruct_self_awareness,,0,0.0424242424242,1.66666666667,0,
+POL_09,Public Policy,Identity System P09,llama_3_1_8b_instruct_self_awareness,,-0.333333333333,-0.461984793918,2.33333333333,0,
+POL_10,Public Policy,Zoning Change P10,llama_3_1_8b_instruct_self_awareness,,0,0.15696816361,0,0,
+POL_11,Public Policy,Resilience Plan P11,llama_3_1_8b_instruct_self_awareness,,0,-0.217636503461,0.333333333333,0,
+POL_12,Public Policy,Childcare Credit P12,llama_3_1_8b_instruct_self_awareness,,0,0.589765337857,0.166666666667,0,
+POL_13,Public Policy,Transport Plan P13,llama_3_1_8b_instruct_self_awareness,,0,-0.108298818837,0,0,
+POL_14,Public Policy,Menu Labeling Rule P14,llama_3_1_8b_instruct_self_awareness,,0.333333333333,0.414966984593,1,0,
+POL_15,Public Policy,Office Conversion Ordinance P15,llama_3_1_8b_instruct_self_awareness,,0,0.383950961271,0,1,
+POL_16,Public Policy,Time-of-Use Tariff P16,llama_3_1_8b_instruct_self_awareness,,0,0.019305019305,-2.66666666667,,
+POL_17,Public Policy,Portable Benefits Pilot P17,llama_3_1_8b_instruct_self_awareness,,0,-0.0477987421384,-1.16666666667,0,
+POL_18,Public Policy,Rural Grant Program P18,llama_3_1_8b_instruct_self_awareness,,0,0.177411837813,0.666666666667,0,
+POL_19,Public Policy,Bail Reform Policy P19,llama_3_1_8b_instruct_self_awareness,,0,0.344684767602,4.33333333333,0,
+POL_20,Public Policy,Tree Program P20,llama_3_1_8b_instruct_self_awareness,,0,0.195099065286,1,0,
+WOR_01,Workplace / Organizational,Role W01,llama_3_1_8b_instruct_self_awareness,,0,0.0912164948454,3.66666666667,0,
+WOR_02,Workplace / Organizational,Case W02,llama_3_1_8b_instruct_self_awareness,,0,0.351031857343,-8.881784197e-16,0,
+WOR_03,Workplace / Organizational,Review W03,llama_3_1_8b_instruct_self_awareness,,0,0.414044687642,0.166666666667,-0.142857142857,
+WOR_04,Workplace / Organizational,Policy W04,llama_3_1_8b_instruct_self_awareness,,0,0.240243902439,0,0,
+WOR_05,Workplace / Organizational,Plan W05,llama_3_1_8b_instruct_self_awareness,,0,0.385865821739,0.666666666667,0,
+WOR_06,Workplace / Organizational,Evaluation W06,llama_3_1_8b_instruct_self_awareness,,0,0.0243902439024,-0.333333333333,0,
+WOR_07,Workplace / Organizational,Program W07,llama_3_1_8b_instruct_self_awareness,,0,-0.141826923077,-0.666666666667,0,
+WOR_08,Workplace / Organizational,Launch Review W08,llama_3_1_8b_instruct_self_awareness,,0,0.009423880307,0,0,
+WOR_09,Workplace / Organizational,Change W09,llama_3_1_8b_instruct_self_awareness,,0,0.0759615384615,0,0,
+WOR_10,Workplace / Organizational,Update W10,llama_3_1_8b_instruct_self_awareness,,0,-0.131220619225,0,0,
+WOR_11,Workplace / Organizational,Hybrid Work Policy W11,llama_3_1_8b_instruct_self_awareness,,0,-0.239202657807,-1.66666666667,0,
+WOR_12,Workplace / Organizational,Performance Improvement Plan W12,llama_3_1_8b_instruct_self_awareness,,0,0.0388349514563,-1,0,
+WOR_13,Workplace / Organizational,Pay Transparency Update W13,llama_3_1_8b_instruct_self_awareness,,0,-0.162091274698,0.333333333333,0,
+WOR_14,Workplace / Organizational,Four-Day Week Pilot W14,llama_3_1_8b_instruct_self_awareness,,0,-0.0905844155844,0.166666666667,,
+WOR_15,Workplace / Organizational,Mentorship Program W15,llama_3_1_8b_instruct_self_awareness,,0,0.156642992116,7.16666666667,,
+WOR_16,Workplace / Organizational,Incident Reporting Tool W16,llama_3_1_8b_instruct_self_awareness,,0.333333333333,0.866392801252,-1.33333333333,,
+WOR_17,Workplace / Organizational,Reorganization Plan W17,llama_3_1_8b_instruct_self_awareness,,0,-0.108948918192,0.666666666667,0,
+WOR_18,Workplace / Organizational,Wellness Benefit W18,llama_3_1_8b_instruct_self_awareness,,0,0.12619192534,-8.881784197e-16,,
+WOR_19,Workplace / Organizational,Postmortem W19,llama_3_1_8b_instruct_self_awareness,,0,-0.0917778011131,0.666666666667,0,
+WOR_20,Workplace / Organizational,Candidate Process W20,llama_3_1_8b_instruct_self_awareness,,0,0.223378658161,0,,

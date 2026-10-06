@@ -1,0 +1,2 @@
+n_models,model_delta_pearson,model_delta_spearman,direction_agreement_models,direction_agreement_rate,non_qwen_original_mean_delta,non_qwen_alternate_mean_delta
+2,1.0,0.9999999999999998,2,1.0,0.2342467851796895,0.31473275396988637

@@ -40,6 +40,8 @@ def judge_file(
     dtype: str = "auto",
     trust_remote_code: bool = False,
     qwen_thinking: bool = False,
+    load_in_4bit: bool = False,
+    load_in_8bit: bool = False,
     dataset_path: str | Path = DEFAULT_DATASET_PATH,
     limit: int | None = None,
     resume: bool = True,
@@ -81,6 +83,8 @@ def judge_file(
                     dtype=dtype,
                     trust_remote_code=trust_remote_code,
                     qwen_thinking=qwen_thinking,
+                    load_in_4bit=load_in_4bit,
+                    load_in_8bit=load_in_8bit,
                 )
             except Exception as exc:
                 stats["errors"] += len(pending)
@@ -137,26 +141,31 @@ def judge_pairs(
     dtype: str,
     trust_remote_code: bool,
     qwen_thinking: bool,
+    load_in_4bit: bool,
+    load_in_8bit: bool,
 ) -> list[dict[str, Any]]:
     """Judge a batch of sentence/fact pairs."""
 
-    requests = [
-        {
+    requests = []
+    for pair in pairs:
+        request: dict[str, Any] = {
             "model": model,
             "messages": [
                 {"role": "user", "content": build_framing_prompt(pair)},
             ],
             "max_new_tokens": max_new_tokens,
             "temperature": 0,
-            "chat_template_kwargs": {"enable_thinking": qwen_thinking},
         }
-        for pair in pairs
-    ]
+        if "qwen" in model.lower():
+            request["chat_template_kwargs"] = {"enable_thinking": qwen_thinking}
+        requests.append(request)
     raw_responses = call_local_transformers_batch(
         requests,
         device_map=device_map,
         dtype=dtype,
         trust_remote_code=trust_remote_code,
+        load_in_4bit=load_in_4bit,
+        load_in_8bit=load_in_8bit,
     )
 
     records: list[dict[str, Any]] = []
@@ -417,6 +426,8 @@ def main() -> None:
     parser.add_argument("--device-map", default="auto")
     parser.add_argument("--dtype", default="auto")
     parser.add_argument("--trust-remote-code", action="store_true")
+    parser.add_argument("--load-in-4bit", action="store_true")
+    parser.add_argument("--load-in-8bit", action="store_true")
     parser.add_argument("--qwen-thinking", type=parse_bool, default=False)
     parser.add_argument("--dataset", default=str(DEFAULT_DATASET_PATH))
     parser.add_argument("--limit", type=int)
@@ -435,6 +446,8 @@ def main() -> None:
         dtype=args.dtype,
         trust_remote_code=args.trust_remote_code,
         qwen_thinking=args.qwen_thinking,
+        load_in_4bit=args.load_in_4bit,
+        load_in_8bit=args.load_in_8bit,
         dataset_path=args.dataset,
         limit=args.limit,
         resume=not args.no_resume,

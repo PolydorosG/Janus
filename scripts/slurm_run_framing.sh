@@ -42,12 +42,18 @@ DEVICE_MAP="${DEVICE_MAP:-auto}"
 DTYPE="${DTYPE:-auto}"
 QWEN_THINKING="${QWEN_THINKING:-0}"
 TRUST_REMOTE_CODE="${TRUST_REMOTE_CODE:-0}"
+LOAD_IN_4BIT="${LOAD_IN_4BIT:-0}"
+LOAD_IN_8BIT="${LOAD_IN_8BIT:-0}"
 BATCH_SIZE="${BATCH_SIZE:-8}"
 LIMIT="${LIMIT:-}"
 NO_RESUME="${NO_RESUME:-0}"
 DATASET="${DATASET:-data/janus.csv}"
+OUTPUT_TAG="${OUTPUT_TAG:-framing}"
+OUTPUT_DIR="${OUTPUT_DIR:-}"
 
-if [[ -n "${MATCHED_FILES:-}" ]]; then
+if [[ -n "${MATCHED_MANIFEST:-}" ]]; then
+  mapfile -t matched_files < "$MATCHED_MANIFEST"
+elif [[ -n "${MATCHED_FILES:-}" ]]; then
   read -r -a matched_files <<< "$MATCHED_FILES"
 else
   mapfile -t matched_files < <(
@@ -79,7 +85,13 @@ for matched_path in "${matched_files[@]}"; do
   fi
 
   raw_path="${matched_path%_matched.jsonl}.jsonl"
-  output_path="${matched_path%_matched.jsonl}_framing.jsonl"
+  output_name="$(basename "${matched_path%_matched.jsonl}")_${OUTPUT_TAG}.jsonl"
+  if [[ -n "$OUTPUT_DIR" ]]; then
+    mkdir -p "$OUTPUT_DIR"
+    output_path="$OUTPUT_DIR/$output_name"
+  else
+    output_path="$(dirname "$matched_path")/$output_name"
+  fi
   if [[ ! -f "$raw_path" ]]; then
     echo "Skipping $matched_path because raw result file is missing: $raw_path"
     continue
@@ -99,6 +111,12 @@ for matched_path in "${matched_files[@]}"; do
 
   if [[ "$TRUST_REMOTE_CODE" == "1" || "$TRUST_REMOTE_CODE" == "true" ]]; then
     command+=(--trust-remote-code)
+  fi
+  if [[ "$LOAD_IN_4BIT" == "1" || "$LOAD_IN_4BIT" == "true" ]]; then
+    command+=(--load-in-4bit)
+  fi
+  if [[ "$LOAD_IN_8BIT" == "1" || "$LOAD_IN_8BIT" == "true" ]]; then
+    command+=(--load-in-8bit)
   fi
   if [[ -n "$LIMIT" ]]; then
     command+=(--limit "$LIMIT")

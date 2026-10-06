@@ -1,0 +1,2 @@
+Framing judging complete: 1240 completed, 1258 skipped, 0 matched rows without raw input, 0 errors. Output: results/arr_grounding_ablation_2026_09/qwen3_8b_no_thinking_framing.jsonl
+qwen3_8b_no_thinking: verified 320 outputs and 2498 framing judgments

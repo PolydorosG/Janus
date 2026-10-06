@@ -1,0 +1,6 @@
+Running framing evaluation with judge model: meta-llama/Llama-3.1-70B-Instruct
+Found 1 matched file(s).
+Batch size: 4
+Evaluating framing results/llama_3_1_8b_instruct_matched.jsonl -> analysis/framing_llama70_subset/llama_3_1_8b_instruct_framing_llama70.jsonl
+Framing judging complete: 2810 completed, 0 skipped, 0 matched rows without raw input, 0 errors. Output: analysis/framing_llama70_subset/llama_3_1_8b_instruct_framing_llama70.jsonl
+Framing evaluation complete.

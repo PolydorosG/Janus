@@ -1,0 +1,9 @@
+condition,mechanism,output_count,rate
+goal,unsupported_inference,50,1.0
+goal,amplification,47,0.94
+goal,softening,37,0.74
+goal,false_certainty,19,0.38
+neutral,amplification,24,0.48
+neutral,unsupported_inference,23,0.46
+neutral,none,21,0.42
+neutral,false_certainty,1,0.02

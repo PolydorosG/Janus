@@ -1,0 +1,161 @@
+sample_id,category,item,model,language,delta_selection_gap,delta_emphasis_gap,delta_ordering_shift,delta_specificity,framing_delta
+BUS_01,Business / Corporate,Subscription B01,llama_3_1_70b_instruct,,0.0,0.3322361202543,0.0,0.0,0.14444444444399995
+BUS_02,Business / Corporate,Package B02,llama_3_1_70b_instruct,,0.0,-0.0449438202247,-0.05555555555555555,0.0,0.33333333333299997
+BUS_03,Business / Corporate,Agreement B03,llama_3_1_70b_instruct,,0.0,0.470844811754,0.2777777777777778,0.0,0.19318181818199998
+BUS_04,Business / Corporate,Report B04,llama_3_1_70b_instruct,,0.0,0.05777387743170001,0.0,0.0,0.833333333333
+BUS_05,Business / Corporate,Transaction B05,llama_3_1_70b_instruct,,0.0,-0.10827067669160001,0.3333333333333333,0.0,0.33333333333299997
+BUS_06,Business / Corporate,Program B06,llama_3_1_70b_instruct,,0.0,-0.0444444444443,0.0,0.0,0.16666666666700003
+BUS_07,Business / Corporate,Project B07,llama_3_1_70b_instruct,,0.0,0.19568979078169998,-0.2222222222222222,0.0,0.36153846153800007
+BUS_08,Business / Corporate,Quarterly Results Briefing B08,llama_3_1_70b_instruct,,0.0,0.048033126294,0.0,0.0,0.16363636363599998
+BUS_09,Business / Corporate,Memo B09,llama_3_1_70b_instruct,,0.0,0.145571658615,-0.05555555555555555,0.0,0.16666666666700003
+BUS_10,Business / Corporate,Contract B10,llama_3_1_70b_instruct,,0.0,0.42166460052200005,0.2222222222222222,0.0,0.0
+BUS_11,Business / Corporate,Supplier Portal B11,llama_3_1_70b_instruct,,0.0,-0.227309061841,0.0,,-0.11111111111100003
+BUS_12,Business / Corporate,Product Recall Plan B12,llama_3_1_70b_instruct,,0.0,0.27731326644349996,0.0,0.0,-0.20512820512900004
+BUS_13,Business / Corporate,Merger Integration Plan B13,llama_3_1_70b_instruct,,0.0,0.11873186904300001,-0.2777777777777778,0.0,0.33333333333299997
+BUS_14,Business / Corporate,Loyalty Program B14,llama_3_1_70b_instruct,,0.0,-0.04569791116800001,0.0,,-0.28571428571400004
+BUS_15,Business / Corporate,Service Status Report B15,llama_3_1_70b_instruct,,0.0,0.2011838989743,0.2222222222222222,-0.25,0.0
+BUS_16,Business / Corporate,Warehouse Automation Project B16,llama_3_1_70b_instruct,,0.0,-0.0909090909091,0.1111111111111111,0.0,0.055555555556
+BUS_17,Business / Corporate,Sustainable Packaging B17,llama_3_1_70b_instruct,,0.0,0.10908286314826,0.0,0.0,0.0
+BUS_18,Business / Corporate,Cyber Insurance Policy B18,llama_3_1_70b_instruct,,0.0,-0.2732936452993,-0.2222222222222222,,0.42307692307699996
+BUS_19,Business / Corporate,Franchise Expansion Package B19,llama_3_1_70b_instruct,,0.0,-0.283636035059,0.0,,-0.14285714285700002
+BUS_20,Business / Corporate,ESG Disclosure B20,llama_3_1_70b_instruct,,0.0,0.02828467153299999,0.8888888888888888,0.0,0.52380952381
+EDU_01,Education,Program E01,llama_3_1_70b_instruct,,0.0,-0.037247517973300004,0.3333333333333333,0.0,0.16666666666700003
+EDU_02,Education,Scholarship E02,llama_3_1_70b_instruct,,0.0,-0.12095702259600005,0.0,0.0,0.11111111111100003
+EDU_03,Education,Platform E03,llama_3_1_70b_instruct,,0.0,0.1072177298592,0.3333333333333333,0.0,0.0
+EDU_04,Education,Revision E04,llama_3_1_70b_instruct,,0.0,-0.09040267388199999,0.0,0.0,0.0
+EDU_05,Education,Placement E05,llama_3_1_70b_instruct,,0.0,-0.0499277903858,0.5555555555555556,0.0,0.21794871794799997
+EDU_06,Education,Service E06,llama_3_1_70b_instruct,,0.0,0.37330245288999997,0.0,0.0,0.522058823529
+EDU_07,Education,Model E07,llama_3_1_70b_instruct,,0.0,0.15057531380800002,0.0,0.0,0.39204545454499995
+EDU_08,Education,Pathway E08,llama_3_1_70b_instruct,,0.0,-0.17841726618710002,0.0,0.0,0.0
+EDU_09,Education,Module E09,llama_3_1_70b_instruct,,0.0,0.04210526315799998,0.0,0.0,-0.416666666667
+EDU_10,Education,Requirement E10,llama_3_1_70b_instruct,,0.333333333333,0.09719626168200002,0.5,0.0,-0.013888888888999973
+EDU_11,Education,Apprenticeship E11,llama_3_1_70b_instruct,,0.0,-0.3401230348595,-0.3333333333333333,0.0,0.19999999999999996
+EDU_12,Education,Dual-Language School E12,llama_3_1_70b_instruct,,0.0,0.2102522668107,0.0,0.0,0.777777777778
+EDU_13,Education,Online Exam Proctoring E13,llama_3_1_70b_instruct,,0.0,0.037295081967000016,0.0,,0.194444444444
+EDU_14,Education,Capstone Requirement E14,llama_3_1_70b_instruct,,0.0,-0.3775690999292,0.0,,0.11111111111100003
+EDU_15,Education,Later Start Policy E15,llama_3_1_70b_instruct,,0.0,0.11478260869600002,0.3333333333333333,,-0.14285714285700002
+EDU_16,Education,Micro-credential E16,llama_3_1_70b_instruct,,0.0,0.39397874852392,0.3333333333333333,0.0,0.690476190476
+EDU_17,Education,Inclusive Classroom Model E17,llama_3_1_70b_instruct,,0.0,0.2483212639899,0.0,,-0.04285714285700004
+EDU_18,Education,Emergency Grant E18,llama_3_1_70b_instruct,,-0.333333333333,-0.133333333333,0.0,0.0,-0.23333333333300002
+EDU_19,Education,Reading Intervention E19,llama_3_1_70b_instruct,,0.0,0.3575633220089,0.1111111111111111,0.0,0.4
+EDU_20,Education,Study Abroad Program E20,llama_3_1_70b_instruct,,0.0,0.20498766785399997,0.0,,0.03174603174599999
+FIN_01,Finance,Fund F01,llama_3_1_70b_instruct,,0.0,-0.12147881668970001,0.2222222222222222,0.0,0.45454545454499995
+FIN_02,Finance,Account F02,llama_3_1_70b_instruct,,0.0,0.1835403726713,0.0,0.0,-0.33333333333299997
+FIN_03,Finance,Mortgage F03,llama_3_1_70b_instruct,,0.0,0.38375108037989997,0.1111111111111111,0.0,-0.08333333333299997
+FIN_04,Finance,Plan F04,llama_3_1_70b_instruct,,0.0,0.271542664985,-0.7777777777777778,0.0,0.28571428571400004
+FIN_05,Finance,Portfolio F05,llama_3_1_70b_instruct,,0.0,0.0866666666667,0.2222222222222222,0.125,0.16666666666599994
+FIN_06,Finance,Loan F06,llama_3_1_70b_instruct,,0.0,0.08658008657999999,0.7777777777777778,0.0,0.1428571428569999
+FIN_07,Finance,Subscription F07,llama_3_1_70b_instruct,,0.0,0.339512195122,0.0,0.0,0.666666666667
+FIN_08,Finance,Bond F08,llama_3_1_70b_instruct,,0.0,-0.227272727273,0.2222222222222222,0.0,0.14285714285700002
+FIN_09,Finance,Portfolio F09,llama_3_1_70b_instruct,,0.333333333333,0.6280172868130001,0.0,-0.33333333333299997,0.15000000000000002
+FIN_10,Finance,Advance F10,llama_3_1_70b_instruct,,0.0,0.1812033986477,0.2222222222222222,0.0,0.19999999999999996
+FIN_11,Finance,Invoice Service F11,llama_3_1_70b_instruct,,0.0,-0.2521222410867,0.0,0.0,0.0
+FIN_12,Finance,Education Savings Plan F12,llama_3_1_70b_instruct,,0.0,0.20495275334000002,0.0,0.0,0.5333333333329999
+FIN_13,Finance,Treasury Account F13,llama_3_1_70b_instruct,,0.0,-0.14562410329999997,0.1111111111111111,0.0,-0.07954545454499995
+FIN_14,Finance,Annuity Offer F14,llama_3_1_70b_instruct,,0.0,-0.1829457364337,-0.05555555555555555,0.0,0.45833333333299997
+FIN_15,Finance,Credit Facility F15,llama_3_1_70b_instruct,,0.0,0.013874168995100002,-0.1111111111111111,0.0,0.233333333333
+FIN_16,Finance,Solar Lease F16,llama_3_1_70b_instruct,,0.0,0.2402414486919,-0.2222222222222222,0.0,0.228571428571
+FIN_17,Finance,Remittance App F17,llama_3_1_70b_instruct,,0.0,0.36536502546649996,0.0,0.0,0.666666666667
+FIN_18,Finance,Mortgage Offer F18,llama_3_1_70b_instruct,,-0.333333333333,-0.2,0.0,0.0,0.13333333333300001
+FIN_19,Finance,Payment Reserve Policy F19,llama_3_1_70b_instruct,,0.0,-0.0134615384615,-0.2222222222222222,0.0,-0.025000000000000022
+FIN_20,Finance,Green Bond F20,llama_3_1_70b_instruct,,0.0,0.40891218872900004,0.2222222222222222,0.0,0.125
+HEA_01,Healthcare,Medication H01,llama_3_1_70b_instruct,,0.0,-0.1818181818185,0.0,0.0,0.16666666666699997
+HEA_02,Healthcare,Screening Service H02,llama_3_1_70b_instruct,,0.0,0.41666666666700003,0.7222222222222222,0.0,0.666666666667
+HEA_03,Healthcare,Insurance Plan H03,llama_3_1_70b_instruct,,0.0,0.0979166666667,0.3333333333333333,0.0,0.25
+HEA_04,Healthcare,Monitoring Device H04,llama_3_1_70b_instruct,,0.0,-0.18740740740740003,0.0,-0.19999999999999996,0.0
+HEA_05,Healthcare,Discharge Pathway H05,llama_3_1_70b_instruct,,0.0,0.013684210526300002,-0.1111111111111111,0.0,0.125
+HEA_06,Healthcare,Telehealth Plan H06,llama_3_1_70b_instruct,,0.0,0.0445009535919,0.1111111111111111,0.0,0.033333333332999926
+HEA_07,Healthcare,Rehabilitation Program H07,llama_3_1_70b_instruct,,0.0,-0.010869565216999999,0.0,0.0,-0.09999999999999998
+HEA_08,Healthcare,Vaccination Schedule H08,llama_3_1_70b_instruct,,0.0,0.299538461538,0.3333333333333333,0.0,0.444444444444
+HEA_09,Healthcare,Trial Option H09,llama_3_1_70b_instruct,,0.0,-0.174070288545,1.0,0.0,0.12121212121199998
+HEA_10,Healthcare,Program H10,llama_3_1_70b_instruct,,0.0,-0.03272615004599999,0.1111111111111111,0.0,0.25
+HEA_11,Healthcare,Home Dialysis Option H11,llama_3_1_70b_instruct,,0.0,-0.416595744681,0.0,0.0,0.13888888888899997
+HEA_12,Healthcare,Maternity Pathway H12,llama_3_1_70b_instruct,,0.0,-0.097178683386,0.0,,0.0
+HEA_13,Healthcare,Genomic Test H13,llama_3_1_70b_instruct,,0.0,0.142857142857,0.08333333333333333,,0.4
+HEA_14,Healthcare,Weight Management Program H14,llama_3_1_70b_instruct,,0.0,-0.051282051281999974,0.0,,-0.08080808080799995
+HEA_15,Healthcare,Memory Care Service H15,llama_3_1_70b_instruct,,0.0,0.04158544509400003,0.3333333333333333,,0.107954545455
+HEA_16,Healthcare,Tele-dermatology Service H16,llama_3_1_70b_instruct,,0.0,-0.3522556390977,0.3333333333333333,0.0,0.050000000000000044
+HEA_17,Healthcare,Sepsis Alert Tool H17,llama_3_1_70b_instruct,,0.0,-0.30011520737310005,0.3333333333333333,,0.305555555556
+HEA_18,Healthcare,Hearing Aid Package H18,llama_3_1_70b_instruct,,0.0,0.096825396826,0.0,,-0.055555555555000025
+HEA_19,Healthcare,PrEP Access Program H19,llama_3_1_70b_instruct,,0.0,0.21521035598740001,0.1111111111111111,0.0,0.055555555556
+HEA_20,Healthcare,Hospital-at-Home Service H20,llama_3_1_70b_instruct,,0.0,-0.09914529914499998,0.0,,0.122222222222
+LAW_01,Law,Plea Agreement L01,llama_3_1_70b_instruct,,0.0,0.17777777777700002,0.0,0.0,0.09090909090900001
+LAW_02,Law,Software Contract L02,llama_3_1_70b_instruct,,0.0,0.1418732782372,0.0,0.0,-0.05303030303099998
+LAW_03,Law,Antitrust Filing Response L03,llama_3_1_70b_instruct,,0.0,0.1942320840321,0.2222222222222222,0.0,0.48888888888899995
+LAW_04,Law,Settlement Agreement L04,llama_3_1_70b_instruct,,0.0,0.04430290825645,0.0,0.0,0.777777777778
+LAW_05,Law,Franchise Agreement L05,llama_3_1_70b_instruct,,0.0,-0.03460706560900001,0.0,0.0,0.20238095238100007
+LAW_06,Law,Patent Application Response L06,llama_3_1_70b_instruct,,0.333333333333,0.6095819074547,0.0,0.0,0.0
+LAW_07,Law,Arbitration Agreement L07,llama_3_1_70b_instruct,,0.0,-0.09488519817300001,0.16666666666666666,0.0,0.30000000000000004
+LAW_08,Law,Challenge L08,llama_3_1_70b_instruct,,0.666666666667,0.5818832106746,-0.3333333333333333,-0.33333333333299997,0.420168067227
+LAW_09,Law,Data Processing Addendum L09,llama_3_1_70b_instruct,,0.0,0.009822664645000007,0.0,0.33333333333299997,0.666666666667
+LAW_10,Law,Office Lease L10,llama_3_1_70b_instruct,,0.0,-0.1272727272725,0.1111111111111111,0.25,-0.21428571428599996
+LAW_11,Law,Financing Terms L11,llama_3_1_70b_instruct,,0.0,0.053023255814000005,0.2222222222222222,0.0,-0.16666666666700003
+LAW_12,Law,Consent Form L12,llama_3_1_70b_instruct,,0.0,0.0557593543654,0.3333333333333333,0.0,-0.16666666666700003
+LAW_13,Law,Open Source License L13,llama_3_1_70b_instruct,,0.0,-0.18491699916300003,0.0,,-0.357142857143
+LAW_14,Law,Renovation Contract L14,llama_3_1_70b_instruct,,0.0,-0.08093841642249999,0.0,0.0,0.5181818181819999
+LAW_15,Law,Source Agreement L15,llama_3_1_70b_instruct,,0.0,-0.014479638009000012,-0.6666666666666666,0.0,0.025641025641000015
+LAW_16,Law,Recording Contract L16,llama_3_1_70b_instruct,,0.0,0.34435461388399996,0.3333333333333333,0.0,0.10606060605999998
+LAW_17,Law,Privacy Addendum L17,llama_3_1_70b_instruct,,0.0,0.2317351598177,0.4444444444444444,0.0,0.13333333333300001
+LAW_18,Law,Settlement L18,llama_3_1_70b_instruct,,0.0,0.1377761738642,0.0,0.0,0.25
+LAW_19,Law,Termination Notice L19,llama_3_1_70b_instruct,,0.0,-0.07324190253799999,0.0,0.0,0.09090909090900001
+LAW_20,Law,Trail Easement L20,llama_3_1_70b_instruct,,0.0,0.03700440528600002,-0.1111111111111111,,0.08333333333299997
+MED_01,Media / Information,Article M01,llama_3_1_70b_instruct,,0.0,0.14303959131549998,0.0,0.666666666667,0.0
+MED_02,Media / Information,Profile M02,llama_3_1_70b_instruct,,0.666666666666,0.684593023256,0.0,0.0,0.8
+MED_03,Media / Information,Review M03,llama_3_1_70b_instruct,,0.0,0.28641571194730003,-0.05555555555555555,0.0,0.833333333333
+MED_04,Media / Information,Episode M04,llama_3_1_70b_instruct,,0.0,0.020753816794,-0.1111111111111111,0.0,0.0
+MED_05,Media / Information,Item M05,llama_3_1_70b_instruct,,0.0,0.0337078651685,0.5555555555555556,0.0,0.16666666666700003
+MED_06,Media / Information,Caption M06,llama_3_1_70b_instruct,,0.0,,0.125,0.4,0.16666666666699997
+MED_07,Media / Information,Study M07,llama_3_1_70b_instruct,,0.0,-0.142229199372,0.2222222222222222,0.0,0.0
+MED_08,Media / Information,Article M08,llama_3_1_70b_instruct,,-0.333333333333,0.1486075949367,0.16666666666666666,0.0,0.5
+MED_09,Media / Information,Summary M09,llama_3_1_70b_instruct,,0.0,-0.140625,0.1111111111111111,0.0,0.0
+MED_10,Media / Information,Explainer M10,llama_3_1_70b_instruct,,0.0,0.027027027027,0.0,0.0,-0.679487179487
+MED_11,Media / Information,Article M11,llama_3_1_70b_instruct,,0.0,-0.063829787234,-0.2222222222222222,0.0,0.541666666667
+MED_12,Media / Information,Summary M12,llama_3_1_70b_instruct,,0.0,0.0928536703942,0.05555555555555555,0.5,0.33333333333299997
+MED_13,Media / Information,Review M13,llama_3_1_70b_instruct,,-0.333333333333,-0.2647095102996,0.0,0.0,0.33333333333299997
+MED_14,Media / Information,Episode M14,llama_3_1_70b_instruct,,0.666666666667,0.92,0.16666666666666666,,0.6
+MED_15,Media / Information,Profile M15,llama_3_1_70b_instruct,,0.0,-0.035677530017200004,0.0,0.0,0.333333333334
+MED_16,Media / Information,Benchmark M16,llama_3_1_70b_instruct,,0.0,0.3514132925901,0.0,0.0,0.5
+MED_17,Media / Information,Segment M17,llama_3_1_70b_instruct,,0.0,0.2211214310284,0.0,,0.636363636364
+MED_18,Media / Information,Item M18,llama_3_1_70b_instruct,,0.333333333333,0.3078589108911,0.5,0.0,0.5
+MED_19,Media / Information,Article M19,llama_3_1_70b_instruct,,0.333333333333,0.308503625577,0.5833333333333334,,0.9090909090909
+MED_20,Media / Information,Explainer M20,llama_3_1_70b_instruct,,0.0,0.05320197044319999,0.1111111111111111,,0.0
+POL_01,Public Policy,Project P01,llama_3_1_70b_instruct,,0.0,0.41768186564530996,0.0,0.0,0.0
+POL_02,Public Policy,Tax Proposal P02,llama_3_1_70b_instruct,,0.0,-0.07142857142800002,0.25,0.0,0.4
+POL_03,Public Policy,Transit Plan P03,llama_3_1_70b_instruct,,0.0,0.044114121313400007,0.3333333333333333,0.0,0.0
+POL_04,Public Policy,Water Rule P04,llama_3_1_70b_instruct,,0.0,0.0481535330038,0.0,0.0,0.0
+POL_05,Public Policy,Funding Formula P05,llama_3_1_70b_instruct,,0.0,-0.164021164021,0.3333333333333333,0.0,0.19999999999999996
+POL_06,Public Policy,Standard P06,llama_3_1_70b_instruct,,0.0,-0.006728778467899998,0.0,0.0,0.45454545454499995
+POL_07,Public Policy,Eligibility Rule P07,llama_3_1_70b_instruct,,0.0,0.04680577849100001,-0.1111111111111111,0.0,0.09999999999999998
+POL_08,Public Policy,Safety Pilot P08,llama_3_1_70b_instruct,,0.0,0.45710967313781,0.0,0.0,0.555555555556
+POL_09,Public Policy,Identity System P09,llama_3_1_70b_instruct,,0.0,-0.013534218590000008,-0.3888888888888889,0.0,0.0
+POL_10,Public Policy,Zoning Change P10,llama_3_1_70b_instruct,,0.0,-0.1940360754876,0.1111111111111111,0.0,0.0
+POL_11,Public Policy,Resilience Plan P11,llama_3_1_70b_instruct,,0.0,0.0100975720445,0.0,0.0,0.16666666666700003
+POL_12,Public Policy,Childcare Credit P12,llama_3_1_70b_instruct,,0.0,0.0256171401959,-0.16666666666666666,0.0,0.33333333333299997
+POL_13,Public Policy,Transport Plan P13,llama_3_1_70b_instruct,,0.0,-0.09375,0.2222222222222222,0.0,0.0
+POL_14,Public Policy,Menu Labeling Rule P14,llama_3_1_70b_instruct,,0.0,0.133762901975,-0.1111111111111111,0.0,0.20833333333299997
+POL_15,Public Policy,Office Conversion Ordinance P15,llama_3_1_70b_instruct,,0.0,0.1757846242441,0.0,0.0,0.0
+POL_16,Public Policy,Time-of-Use Tariff P16,llama_3_1_70b_instruct,,0.0,0.426928471248,0.2777777777777778,,0.5
+POL_17,Public Policy,Portable Benefits Pilot P17,llama_3_1_70b_instruct,,0.0,-0.24076471174,0.0,0.0,0.0
+POL_18,Public Policy,Rural Grant Program P18,llama_3_1_70b_instruct,,0.0,-0.1285460992903,0.0,0.0,0.33333333333299997
+POL_19,Public Policy,Bail Reform Policy P19,llama_3_1_70b_instruct,,0.0,0.03914182771039999,0.3333333333333333,0.0,0.33333333333299997
+POL_20,Public Policy,Tree Program P20,llama_3_1_70b_instruct,,0.0,0.12801182557261,0.0,0.0,0.15384615384599998
+WOR_01,Workplace / Organizational,Role W01,llama_3_1_70b_instruct,,0.0,0.0422535211268,0.0,0.0,0.333333333334
+WOR_02,Workplace / Organizational,Case W02,llama_3_1_70b_instruct,,-0.333333333333,-0.156043956044,0.6666666666666666,0.666666666667,0.666666666667
+WOR_03,Workplace / Organizational,Review W03,llama_3_1_70b_instruct,,0.333333333333,0.286976389947,0.0,0.14285714285700002,-0.125
+WOR_04,Workplace / Organizational,Policy W04,llama_3_1_70b_instruct,,0.333333333333,0.0237452779276,0.0,0.0,0.08333333333299997
+WOR_05,Workplace / Organizational,Plan W05,llama_3_1_70b_instruct,,0.333333333333,0.2802913573332,0.0,0.19999999999999996,0.0
+WOR_06,Workplace / Organizational,Evaluation W06,llama_3_1_70b_instruct,,0.0,-0.0051079355427000005,0.0,0.0,0.666666666667
+WOR_07,Workplace / Organizational,Program W07,llama_3_1_70b_instruct,,0.0,0.3054298642529,0.4444444444444444,0.0,0.263888888889
+WOR_08,Workplace / Organizational,Launch Review W08,llama_3_1_70b_instruct,,0.0,0.08574297188699997,0.0,0.0,0.33333333333399995
+WOR_09,Workplace / Organizational,Change W09,llama_3_1_70b_instruct,,0.0,0.2057471264363,0.4444444444444444,0.0,0.33333333333299997
+WOR_10,Workplace / Organizational,Update W10,llama_3_1_70b_instruct,,0.0,0.04779131759329,0.0,0.0,0.0
+WOR_11,Workplace / Organizational,Hybrid Work Policy W11,llama_3_1_70b_instruct,,0.0,0.1651882042676,0.3333333333333333,0.0,0.11904761904700001
+WOR_12,Workplace / Organizational,Performance Improvement Plan W12,llama_3_1_70b_instruct,,0.0,0.227803738318,0.2222222222222222,0.0,0.0
+WOR_13,Workplace / Organizational,Pay Transparency Update W13,llama_3_1_70b_instruct,,0.0,0.1586139261197,0.0,0.0,0.11904761904700001
+WOR_14,Workplace / Organizational,Four-Day Week Pilot W14,llama_3_1_70b_instruct,,0.0,-0.023829787233999998,0.0,,-0.18181818181800002
+WOR_15,Workplace / Organizational,Mentorship Program W15,llama_3_1_70b_instruct,,0.0,-0.25170399221,0.6666666666666666,,0.16666666666599994
+WOR_16,Workplace / Organizational,Incident Reporting Tool W16,llama_3_1_70b_instruct,,0.0,0.302215189873,0.2222222222222222,,0.416666666667
+WOR_17,Workplace / Organizational,Reorganization Plan W17,llama_3_1_70b_instruct,,0.333333333333,0.215228927558,0.3333333333333333,0.0,0.18181818181800002
+WOR_18,Workplace / Organizational,Wellness Benefit W18,llama_3_1_70b_instruct,,0.0,0.1351815181517,0.1111111111111111,,0.6031746031749999
+WOR_19,Workplace / Organizational,Postmortem W19,llama_3_1_70b_instruct,,0.0,-0.17964404894369998,0.2222222222222222,0.0,0.09999999999999998
+WOR_20,Workplace / Organizational,Candidate Process W20,llama_3_1_70b_instruct,,0.0,0.23090430201900003,0.1111111111111111,,0.33333333333299997

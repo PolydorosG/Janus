@@ -1,0 +1,3 @@
+fact_type,n,mean_words,population_sd_words,percent_with_numerical,percent_with_hedge
+Favorable,480,9.527083333333334,1.8628203956337002,16.666666666666664,
+Adverse,480,9.985416666666667,2.317010428631881,26.666666666666668,

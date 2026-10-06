@@ -1,0 +1,9 @@
+{
+  "seed": 20260710,
+  "n": 50,
+  "population_n": 1920,
+  "low_quartile_cutoff": 4.6182768051275005,
+  "high_quartile_cutoff": 23.565732684505,
+  "low_n": 25,
+  "high_n": 25
+}

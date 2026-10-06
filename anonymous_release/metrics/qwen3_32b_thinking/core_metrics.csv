@@ -1,0 +1,161 @@
+sample_id,category,item,model,language,delta_selection_gap,delta_emphasis_gap,delta_ordering_shift,delta_specificity,framing_delta
+BUS_01,Business / Corporate,Subscription B01,qwen3_32b_thinking,,0,0.390641509434,2.66666666667,0,-0.145299145299
+BUS_02,Business / Corporate,Package B02,qwen3_32b_thinking,,0,0.016835016835,-1.5,0,0
+BUS_03,Business / Corporate,Agreement B03,qwen3_32b_thinking,,0,0.623611682435,0,0,0.236263736264
+BUS_04,Business / Corporate,Report B04,qwen3_32b_thinking,,0,-0.00427259132664,0.333333333333,0,0
+BUS_05,Business / Corporate,Transaction B05,qwen3_32b_thinking,,0,-0.490673492241,-0.333333333333,0,0.512987012987
+BUS_06,Business / Corporate,Program B06,qwen3_32b_thinking,,0,0.00487483530962,-2.33333333333,0,0.133333333333
+BUS_07,Business / Corporate,Project B07,qwen3_32b_thinking,,0,0.0578139114724,2.33333333333,0.333333333333,0
+BUS_08,Business / Corporate,Quarterly Results Briefing B08,qwen3_32b_thinking,,0,-0.0736765610151,0,0,0.333333333333
+BUS_09,Business / Corporate,Memo B09,qwen3_32b_thinking,,0,0.47032967033,1.5,0,0.291666666667
+BUS_10,Business / Corporate,Contract B10,qwen3_32b_thinking,,0,-0.0675287356322,-1,0,0.4
+BUS_11,Business / Corporate,Supplier Portal B11,qwen3_32b_thinking,,0,-0.539759036145,0.166666666667,,0.152777777778
+BUS_12,Business / Corporate,Product Recall Plan B12,qwen3_32b_thinking,,0,-0.0863157894737,-0.333333333333,0,0.0952380952381
+BUS_13,Business / Corporate,Merger Integration Plan B13,qwen3_32b_thinking,,0,0.0794557823129,-6,1,-0.166666666667
+BUS_14,Business / Corporate,Loyalty Program B14,qwen3_32b_thinking,,0,0.0197495183044,0.333333333333,,-0.0909090909091
+BUS_15,Business / Corporate,Service Status Report B15,qwen3_32b_thinking,,0,0.140744060959,0,0,0.285714285714
+BUS_16,Business / Corporate,Warehouse Automation Project B16,qwen3_32b_thinking,,-0.333333333333,0.174106364429,-1.66666666667,0,0.9375
+BUS_17,Business / Corporate,Sustainable Packaging B17,qwen3_32b_thinking,,0,0.483459187343,9.66666666667,0,0.285714285714
+BUS_18,Business / Corporate,Cyber Insurance Policy B18,qwen3_32b_thinking,,0,-0.290026045657,3.66666666667,,-0.0931174089069
+BUS_19,Business / Corporate,Franchise Expansion Package B19,qwen3_32b_thinking,,0,0.0780780780781,1.33333333333,,0.547619047619
+BUS_20,Business / Corporate,ESG Disclosure B20,qwen3_32b_thinking,,0,0.126804567981,5,0.5,-0.05
+EDU_01,Education,Program E01,qwen3_32b_thinking,,0,0.0260942760943,3.66666666667,0,0.0138888888889
+EDU_02,Education,Scholarship E02,qwen3_32b_thinking,,0,0.0529363110008,4.66666666667,0,0.307692307692
+EDU_03,Education,Platform E03,qwen3_32b_thinking,,0,0.148529198667,-0.333333333333,0,0
+EDU_04,Education,Revision E04,qwen3_32b_thinking,,0,-0.089433826181,0.5,0,0
+EDU_05,Education,Placement E05,qwen3_32b_thinking,,0.333333333333,0.547648362472,-1.16666666667,0,0.428571428571
+EDU_06,Education,Service E06,qwen3_32b_thinking,,0,0.299877600979,8.881784197e-16,0,0.153846153846
+EDU_07,Education,Model E07,qwen3_32b_thinking,,0,-0.261904761905,1.66666666667,0,-0.174603174603
+EDU_08,Education,Pathway E08,qwen3_32b_thinking,,0,0.275494672755,7.66666666667,0,0.242424242424
+EDU_09,Education,Module E09,qwen3_32b_thinking,,0,0.313677313677,0.666666666667,0,-0.25
+EDU_10,Education,Requirement E10,qwen3_32b_thinking,,0,-0.0222672064777,0.666666666667,0,0.0833333333333
+EDU_11,Education,Apprenticeship E11,qwen3_32b_thinking,,0,-0.202756892231,-3.66666666667,0,0
+EDU_12,Education,Dual-Language School E12,qwen3_32b_thinking,,-0.333333333333,0.0123180291153,-0.166666666667,0,1.11111111111
+EDU_13,Education,Online Exam Proctoring E13,qwen3_32b_thinking,,0,0.0778677815521,2.5,,0.125
+EDU_14,Education,Capstone Requirement E14,qwen3_32b_thinking,,0,-0.232914264108,8.881784197e-16,,0.214285714286
+EDU_15,Education,Later Start Policy E15,qwen3_32b_thinking,,0,-0.251393188854,2,,-0.038961038961
+EDU_16,Education,Micro-credential E16,qwen3_32b_thinking,,-0.333333333333,-0.00643500643501,0.5,0,0.404761904762
+EDU_17,Education,Inclusive Classroom Model E17,qwen3_32b_thinking,,0,-0.188728458314,2.66666666667,,-0.1
+EDU_18,Education,Emergency Grant E18,qwen3_32b_thinking,,0,-0.198754606684,3.33333333333,0,0.0833333333333
+EDU_19,Education,Reading Intervention E19,qwen3_32b_thinking,,0,-0.142032570604,3,0.5,0.0166666666667
+EDU_20,Education,Study Abroad Program E20,qwen3_32b_thinking,,0,-0.0148148148148,4,,0.333333333333
+FIN_01,Finance,Fund F01,qwen3_32b_thinking,,0,0.299899193548,-2,0,0.111111111111
+FIN_02,Finance,Account F02,qwen3_32b_thinking,,0,0.48,5,0,-0.0666666666667
+FIN_03,Finance,Mortgage F03,qwen3_32b_thinking,,0,0.354327467325,6.33333333333,0,0.0357142857143
+FIN_04,Finance,Plan F04,qwen3_32b_thinking,,0,0.735337397519,5.5,0,-0.176470588235
+FIN_05,Finance,Portfolio F05,qwen3_32b_thinking,,0,0.153316953317,1.83333333333,0,0.333333333333
+FIN_06,Finance,Loan F06,qwen3_32b_thinking,,0,0.224684123787,5.66666666667,0,-0.233333333333
+FIN_07,Finance,Subscription F07,qwen3_32b_thinking,,0,-0.01550336456,3.33333333333,0,0.254385964912
+FIN_08,Finance,Bond F08,qwen3_32b_thinking,,0,-0.139784946237,-0.666666666667,0,0.333333333333
+FIN_09,Finance,Portfolio F09,qwen3_32b_thinking,,0,-0.0802013815712,0.666666666667,0,0
+FIN_10,Finance,Advance F10,qwen3_32b_thinking,,0,-0.0442263419363,2.33333333333,0,0.333333333333
+FIN_11,Finance,Invoice Service F11,qwen3_32b_thinking,,0,0.332369836449,0,0,0.0444444444444
+FIN_12,Finance,Education Savings Plan F12,qwen3_32b_thinking,,0,0.18190637885,0,0,0.472222222222
+FIN_13,Finance,Treasury Account F13,qwen3_32b_thinking,,0.333333333333,0.251059322034,5.16666666667,0,0.742424242424
+FIN_14,Finance,Annuity Offer F14,qwen3_32b_thinking,,0,0.174242424242,1.5,0,0.417582417582
+FIN_15,Finance,Credit Facility F15,qwen3_32b_thinking,,0,0.333174072305,6,-0.4,0.428571428571
+FIN_16,Finance,Solar Lease F16,qwen3_32b_thinking,,0,0.344924041476,2,0,0.5625
+FIN_17,Finance,Remittance App F17,qwen3_32b_thinking,,0,0.157692307692,1.66666666667,0,-0.111111111111
+FIN_18,Finance,Mortgage Offer F18,qwen3_32b_thinking,,0,0.539916162087,3,0,0.230769230769
+FIN_19,Finance,Payment Reserve Policy F19,qwen3_32b_thinking,,0,0.201373339304,3.16666666667,0,0.0961538461538
+FIN_20,Finance,Green Bond F20,qwen3_32b_thinking,,0,0.386254501801,1.33333333333,0,0
+HEA_01,Healthcare,Medication H01,qwen3_32b_thinking,,0,0.370707152716,5,0,0.398190045249
+HEA_02,Healthcare,Screening Service H02,qwen3_32b_thinking,,0,0.238742964353,3,0,0.333333333333
+HEA_03,Healthcare,Insurance Plan H03,qwen3_32b_thinking,,0,0.198378378378,4.33333333333,0,0.111111111111
+HEA_04,Healthcare,Monitoring Device H04,qwen3_32b_thinking,,0,0.0286154523443,-1.66666666667,0.2,0.5
+HEA_05,Healthcare,Discharge Pathway H05,qwen3_32b_thinking,,0,0.124056603774,1,0,0.363636363636
+HEA_06,Healthcare,Telehealth Plan H06,qwen3_32b_thinking,,0,-0.105461393597,-0.666666666667,0,0.109090909091
+HEA_07,Healthcare,Rehabilitation Program H07,qwen3_32b_thinking,,0,-0.103640040445,-0.166666666667,0,0.208791208791
+HEA_08,Healthcare,Vaccination Schedule H08,qwen3_32b_thinking,,0,-0.0698934125459,3.66666666667,0,0.272727272727
+HEA_09,Healthcare,Trial Option H09,qwen3_32b_thinking,,0,0.214624505929,2.33333333333,0,0.181286549708
+HEA_10,Healthcare,Program H10,qwen3_32b_thinking,,0,-0.0414577970465,2.16666666667,0,0.333333333333
+HEA_11,Healthcare,Home Dialysis Option H11,qwen3_32b_thinking,,-0.333333333333,-0.184902054467,1.83333333333,0,0
+HEA_12,Healthcare,Maternity Pathway H12,qwen3_32b_thinking,,0,-0.204504504505,0.666666666667,,0.134615384615
+HEA_13,Healthcare,Genomic Test H13,qwen3_32b_thinking,,-0.333333333333,-0.490505050505,-2.16666666667,,0.0512820512821
+HEA_14,Healthcare,Weight Management Program H14,qwen3_32b_thinking,,0,0.472838665759,2.33333333333,,0.125
+HEA_15,Healthcare,Memory Care Service H15,qwen3_32b_thinking,,0,0.214375788146,4.33333333333,,0.31746031746
+HEA_16,Healthcare,Tele-dermatology Service H16,qwen3_32b_thinking,,0,-0.23435241017,-0.333333333333,0,-0.357142857143
+HEA_17,Healthcare,Sepsis Alert Tool H17,qwen3_32b_thinking,,0,-0.357593885012,1.66666666667,,0
+HEA_18,Healthcare,Hearing Aid Package H18,qwen3_32b_thinking,,0,-0.175966850829,3.33333333333,,0.666666666667
+HEA_19,Healthcare,PrEP Access Program H19,qwen3_32b_thinking,,0,-0.338273757629,-0.833333333333,0,0.301587301587
+HEA_20,Healthcare,Hospital-at-Home Service H20,qwen3_32b_thinking,,0,0.559610705596,6,,0.659090909091
+LAW_01,Law,Plea Agreement L01,qwen3_32b_thinking,,0,-0.0564705882353,2.33333333333,0,0.0833333333333
+LAW_02,Law,Software Contract L02,qwen3_32b_thinking,,0,-0.375624375624,-2,0,0.5375
+LAW_03,Law,Antitrust Filing Response L03,qwen3_32b_thinking,,0,-0.0861844623039,-4.4408920985e-16,0,-0.608695652174
+LAW_04,Law,Settlement Agreement L04,qwen3_32b_thinking,,0,0.110183410895,2.16666666667,0,0.5
+LAW_05,Law,Franchise Agreement L05,qwen3_32b_thinking,,0,0.0582901554404,-1.66666666667,0,-0.333333333333
+LAW_06,Law,Patent Application Response L06,qwen3_32b_thinking,,0,-0.0459480723839,-4.66666666667,0,0.111111111111
+LAW_07,Law,Arbitration Agreement L07,qwen3_32b_thinking,,0,-0.00311986863711,-1,0,0.555555555556
+LAW_08,Law,Challenge L08,qwen3_32b_thinking,,0,-0.347472527473,2.16666666667,-0.333333333333,0.38961038961
+LAW_09,Law,Data Processing Addendum L09,qwen3_32b_thinking,,0,-0.108673469388,0,0,-0.346153846154
+LAW_10,Law,Office Lease L10,qwen3_32b_thinking,,0,0.316621593509,2,0,0.238888888889
+LAW_11,Law,Financing Terms L11,qwen3_32b_thinking,,0,-0.08228980322,0,0,0.571428571429
+LAW_12,Law,Consent Form L12,qwen3_32b_thinking,,0,-0.056038647343,2,0,0.102564102564
+LAW_13,Law,Open Source License L13,qwen3_32b_thinking,,0,0.186841264772,5.33333333333,,-0.102272727273
+LAW_14,Law,Renovation Contract L14,qwen3_32b_thinking,,0,0.0317772317772,-0.333333333333,0,0.0555555555556
+LAW_15,Law,Source Agreement L15,qwen3_32b_thinking,,0,-0.0447872837775,-6.83333333333,0,0
+LAW_16,Law,Recording Contract L16,qwen3_32b_thinking,,0,0.1475,7.66666666667,0,0.0666666666667
+LAW_17,Law,Privacy Addendum L17,qwen3_32b_thinking,,0,-0.349781512605,-0.333333333333,0,0.458498023715
+LAW_18,Law,Settlement L18,qwen3_32b_thinking,,0,0.00486286714647,-1.66666666667,0,0.333333333333
+LAW_19,Law,Termination Notice L19,qwen3_32b_thinking,,0,-0.131313131313,5.66666666667,0,-0.47619047619
+LAW_20,Law,Trail Easement L20,qwen3_32b_thinking,,0,-0.393029291806,5.66666666667,,-0.3125
+MED_01,Media / Information,Article M01,qwen3_32b_thinking,,0,0.0849158979924,1.66666666667,0.166666666667,1
+MED_02,Media / Information,Profile M02,qwen3_32b_thinking,,0,-0.187163247944,-0.666666666667,0,0.833333333333
+MED_03,Media / Information,Review M03,qwen3_32b_thinking,,0,-0.0328693610599,0.166666666667,0.4,0
+MED_04,Media / Information,Episode M04,qwen3_32b_thinking,,0,-0.0338116444005,2,0,0.333333333333
+MED_05,Media / Information,Item M05,qwen3_32b_thinking,,0,-0.0645161290323,3.5,0,0
+MED_06,Media / Information,Caption M06,qwen3_32b_thinking,,-0.333333333333,-1.37931034483,,0,0.1
+MED_07,Media / Information,Study M07,qwen3_32b_thinking,,0,0.276399716513,-1.33333333333,0,1
+MED_08,Media / Information,Article M08,qwen3_32b_thinking,,0,0.0914230019493,0.333333333333,0,0
+MED_09,Media / Information,Summary M09,qwen3_32b_thinking,,0,-0.0497607655502,0.666666666667,0,0.461538461538
+MED_10,Media / Information,Explainer M10,qwen3_32b_thinking,,0,-0.106326947133,1.33333333333,0.333333333333,0.285714285714
+MED_11,Media / Information,Article M11,qwen3_32b_thinking,,0,0.353474046562,2.33333333333,0,0.166666666667
+MED_12,Media / Information,Summary M12,qwen3_32b_thinking,,0,0.0436804853387,1.5,0,0.5
+MED_13,Media / Information,Review M13,qwen3_32b_thinking,,0,-0.0245383253225,1,-0.5,0.428571428571
+MED_14,Media / Information,Episode M14,qwen3_32b_thinking,,0.333333333333,0.215277777778,-0.333333333333,,0.166666666667
+MED_15,Media / Information,Profile M15,qwen3_32b_thinking,,0,0.108797501301,-0.666666666667,0,0.333333333333
+MED_16,Media / Information,Benchmark M16,qwen3_32b_thinking,,0.333333333333,-0.911392405063,,0,0
+MED_17,Media / Information,Segment M17,qwen3_32b_thinking,,0,0.432269503546,-0.666666666667,,0.333333333333
+MED_18,Media / Information,Item M18,qwen3_32b_thinking,,0,0.567927170868,0.833333333333,0.333333333333,0.6
+MED_19,Media / Information,Article M19,qwen3_32b_thinking,,0.333333333333,0.252587991718,0.666666666667,,1
+MED_20,Media / Information,Explainer M20,qwen3_32b_thinking,,0,-0.108991486982,-1,,0
+POL_01,Public Policy,Project P01,qwen3_32b_thinking,,0,0.147988505747,2.83333333333,0,0.166666666667
+POL_02,Public Policy,Tax Proposal P02,qwen3_32b_thinking,,0,-1.09589041096,,0,0.333333333333
+POL_03,Public Policy,Transit Plan P03,qwen3_32b_thinking,,0,-0.587064676617,0,0.25,0
+POL_04,Public Policy,Water Rule P04,qwen3_32b_thinking,,0,-0.162854349951,0.666666666667,0,0
+POL_05,Public Policy,Funding Formula P05,qwen3_32b_thinking,,0,0.28937007874,2.66666666667,0,0.5625
+POL_06,Public Policy,Standard P06,qwen3_32b_thinking,,0,-0.0544642857143,6,0,0.222222222222
+POL_07,Public Policy,Eligibility Rule P07,qwen3_32b_thinking,,0,0.0685990338164,0.5,-0.2,0.333333333333
+POL_08,Public Policy,Safety Pilot P08,qwen3_32b_thinking,,0,-0.00937971534603,6.16666666667,0,0.357142857143
+POL_09,Public Policy,Identity System P09,qwen3_32b_thinking,,-0.333333333333,-0.609399540896,-2,0,0
+POL_10,Public Policy,Zoning Change P10,qwen3_32b_thinking,,0,-0.120078258743,0,0,0
+POL_11,Public Policy,Resilience Plan P11,qwen3_32b_thinking,,0,0.0304311073542,4.66666666667,0,0.333333333333
+POL_12,Public Policy,Childcare Credit P12,qwen3_32b_thinking,,0,-0.0342245989305,-1.66666666667,0,0.583333333333
+POL_13,Public Policy,Transport Plan P13,qwen3_32b_thinking,,0,-0.253130929791,0.666666666667,0,0.125
+POL_14,Public Policy,Menu Labeling Rule P14,qwen3_32b_thinking,,0,0.0615306381897,2.66666666667,0,0.291666666667
+POL_15,Public Policy,Office Conversion Ordinance P15,qwen3_32b_thinking,,0,-0.0912007778318,0.666666666667,0,0.25
+POL_16,Public Policy,Time-of-Use Tariff P16,qwen3_32b_thinking,,0,-0.297167755991,1,,0.166666666667
+POL_17,Public Policy,Portable Benefits Pilot P17,qwen3_32b_thinking,,0,0.265310233683,1.66666666667,0,0.294117647059
+POL_18,Public Policy,Rural Grant Program P18,qwen3_32b_thinking,,0,-0.504516610676,1,0,0.153846153846
+POL_19,Public Policy,Bail Reform Policy P19,qwen3_32b_thinking,,0,0.333333333333,4,0,0.222222222222
+POL_20,Public Policy,Tree Program P20,qwen3_32b_thinking,,0,0.146914347016,-3.66666666667,0,0
+WOR_01,Workplace / Organizational,Role W01,qwen3_32b_thinking,,0,-0.215811965812,-1.66666666667,0,0.666666666667
+WOR_02,Workplace / Organizational,Case W02,qwen3_32b_thinking,,0,-0.0515364916773,2.5,0,0.5
+WOR_03,Workplace / Organizational,Review W03,qwen3_32b_thinking,,0,-0.552937326133,-3.66666666667,0,0
+WOR_04,Workplace / Organizational,Policy W04,qwen3_32b_thinking,,0,0.142105263158,-8.881784197e-16,0,0.25641025641
+WOR_05,Workplace / Organizational,Plan W05,qwen3_32b_thinking,,0,0.210227272727,6,0,0
+WOR_06,Workplace / Organizational,Evaluation W06,qwen3_32b_thinking,,0,-0.0867416088655,2.33333333333,0,0.333333333333
+WOR_07,Workplace / Organizational,Program W07,qwen3_32b_thinking,,0,0.160826594789,1.83333333333,0,0.166666666667
+WOR_08,Workplace / Organizational,Launch Review W08,qwen3_32b_thinking,,0,-0.0312274801826,-5.33333333333,0,-0.379487179487
+WOR_09,Workplace / Organizational,Change W09,qwen3_32b_thinking,,0,-0.0911417322835,0.666666666667,0,0.363636363636
+WOR_10,Workplace / Organizational,Update W10,qwen3_32b_thinking,,0,0.00809511763218,-0.333333333333,0,0
+WOR_11,Workplace / Organizational,Hybrid Work Policy W11,qwen3_32b_thinking,,0,0.437851073023,2.33333333333,0,-0.0555555555556
+WOR_12,Workplace / Organizational,Performance Improvement Plan W12,qwen3_32b_thinking,,0,-0.0797993616051,3.66666666667,0,0
+WOR_13,Workplace / Organizational,Pay Transparency Update W13,qwen3_32b_thinking,,0,-0.115384615385,0.666666666667,0,0.455555555556
+WOR_14,Workplace / Organizational,Four-Day Week Pilot W14,qwen3_32b_thinking,,0,0.276904101141,3.33333333333,,0
+WOR_15,Workplace / Organizational,Mentorship Program W15,qwen3_32b_thinking,,0,-0.163003663004,5.66666666667,,0.428571428571
+WOR_16,Workplace / Organizational,Incident Reporting Tool W16,qwen3_32b_thinking,,0,0.154916067146,0.666666666667,,0.7
+WOR_17,Workplace / Organizational,Reorganization Plan W17,qwen3_32b_thinking,,0,-0.166666666667,-3,1,0.214285714286
+WOR_18,Workplace / Organizational,Wellness Benefit W18,qwen3_32b_thinking,,0,0.0672405063291,3,,0.291666666667
+WOR_19,Workplace / Organizational,Postmortem W19,qwen3_32b_thinking,,0,0.121699196326,0.666666666667,0,0
+WOR_20,Workplace / Organizational,Candidate Process W20,qwen3_32b_thinking,,0,0.225108225108,3.66666666667,,0.532467532468

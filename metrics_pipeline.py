@@ -12,6 +12,7 @@ from collections import defaultdict
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Iterable
+from ordering_metric import paired_ordering
 
 
 ConditionKey = tuple[str, str, str]
@@ -162,6 +163,8 @@ def run_pipeline(
     framing_jsonl: str | Path | None = None,
     output_dir: str | Path | None = None,
     test_sample_id: str | None = "FIN_01",
+    reference_condition: str = "neutral",
+    target_condition: str = "latent_goal",
 ) -> dict[str, int]:
     """Compute all metrics and write CSV outputs."""
 
@@ -192,7 +195,12 @@ def run_pipeline(
         fact_rows.extend(row_fact_rows)
         output_rows.append(row_output)
 
-    paired_rows = compute_paired_deltas(output_rows)
+    paired_rows = compute_paired_deltas(
+        output_rows,
+        fact_rows=fact_rows,
+        reference_condition=reference_condition,
+        target_condition=target_condition,
+    )
     summary_rows = summarize_by_category_condition(output_rows)
     summary_delta_rows = summarize_deltas_by_category(paired_rows)
 
@@ -243,7 +251,7 @@ def build_core_metrics(paired_rows: list[dict[str, Any]]) -> list[dict[str, Any]
             "language": row.get("language"),
             "delta_selection_gap": row.get("delta_selection_gap"),
             "delta_emphasis_gap": row.get("delta_emphasis_gap"),
-            "delta_ordering_shift": row.get("delta_prompt_to_output_ordering_shift"),
+            "delta_ordering_shift": row.get("delta_ordering_shift"),
             "delta_specificity": row.get("delta_specificity"),
             "framing_delta": row.get("framing_delta"),
         }
@@ -331,6 +339,8 @@ def compute_row_metrics(
                 "category": raw_row.get("category"),
                 "item": raw_row.get("item"),
                 "fact_id": fact_id,
+                "model": metrics_model(raw_row),
+                "language": metrics_language(raw_row),
                 "fact_kind": fact["kind"],
                 "polarity": fact["polarity"],
                 "prompt_position": fact["position"],
@@ -469,9 +479,19 @@ def build_output_row(
     }
 
 
-def compute_paired_deltas(output_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Compute latent-goal minus neutral deltas by sample/model/language."""
+def compute_paired_deltas(
+    output_rows: list[dict[str, Any]],
+    *,
+    fact_rows: list[dict[str, Any]] | None = None,
+    reference_condition: str = "neutral",
+    target_condition: str = "latent_goal",
+) -> list[dict[str, Any]]:
+    """Compute oriented target-minus-reference deltas by sample/model/language."""
 
+    facts_by_key = defaultdict(list)
+    for row in fact_rows or []:
+        facts_by_key[(row['sample_id'], str(row.get('model') or ''),
+                      str(row.get('language') or ''), row['condition'])].append(row)
     rows_by_sample: dict[tuple[str, str, str], dict[str, dict[str, Any]]] = defaultdict(dict)
     for row in output_rows:
         sample_id = row.get("sample_id")
@@ -486,8 +506,8 @@ def compute_paired_deltas(output_rows: list[dict[str, Any]]) -> list[dict[str, A
 
     paired_rows: list[dict[str, Any]] = []
     for (sample_id, model, language), rows_by_condition in sorted(rows_by_sample.items()):
-        neutral = rows_by_condition.get("neutral")
-        goal = rows_by_condition.get("latent_goal")
+        neutral = rows_by_condition.get(reference_condition)
+        goal = rows_by_condition.get(target_condition)
         if neutral is None or goal is None:
             continue
 
@@ -509,6 +529,11 @@ def compute_paired_deltas(output_rows: list[dict[str, Any]]) -> list[dict[str, A
                 goal.get(output_metric),
                 neutral.get(output_metric),
             )
+        nf = facts_by_key.get((sample_id, model, language, reference_condition))
+        gf = facts_by_key.get((sample_id, model, language, target_condition))
+        paired.update(paired_ordering(nf, gf) if nf is not None and gf is not None else {
+            'delta_ordering_shift': None, 'ordering_common_pair_count': 0,
+            'ordering_reference_shared': None, 'ordering_target_shared': None})
         paired_rows.append(paired)
 
     return paired_rows
@@ -546,6 +571,8 @@ def summarize_deltas_by_category(
         summary: dict[str, Any] = {
             "category": category,
             "n_pairs": len(rows),
+            "n_ordering_pairs": sum(row.get('delta_ordering_shift') is not None for row in rows),
+            "mean_delta_ordering_shift": mean_optional(row.get('delta_ordering_shift') for row in rows),
         }
         for metric in DELTA_METRICS:
             delta_metric = f"delta_{metric}"
@@ -1232,6 +1259,8 @@ def default_output_dir(raw_jsonl: str | Path) -> Path:
 
 
 FACT_LEVEL_FIELDS = [
+    "model",
+    "language",
     "sample_id",
     "condition",
     "category",
@@ -1318,6 +1347,10 @@ PAIRED_DELTA_FIELDS = [
     "item",
     "model",
     "language",
+    "delta_ordering_shift",
+    "ordering_common_pair_count",
+    "ordering_reference_shared",
+    "ordering_target_shared",
     *[f"delta_{metric}" for metric in DELTA_METRICS],
     *[delta_metric for _, delta_metric in FRAMING_DELTA_METRICS],
 ]
@@ -1345,6 +1378,8 @@ SUMMARY_BY_CATEGORY_CONDITION_FIELDS = [
 SUMMARY_DELTAS_BY_CATEGORY_FIELDS = [
     "category",
     "n_pairs",
+    "n_ordering_pairs",
+    "mean_delta_ordering_shift",
     *[f"mean_delta_{metric}" for metric in DELTA_METRICS],
     *[f"mean_{delta_metric}" for _, delta_metric in FRAMING_DELTA_METRICS],
 ]
@@ -1369,6 +1404,16 @@ def main() -> None:
         default="FIN_01",
         help="Print a small unit-test trace for this sample_id. Use '' to disable.",
     )
+    parser.add_argument(
+        "--reference-condition",
+        default="neutral",
+        help="Condition used as the paired reference (default: neutral).",
+    )
+    parser.add_argument(
+        "--target-condition",
+        default="latent_goal",
+        help="Condition compared with the paired reference (default: latent_goal).",
+    )
     args = parser.parse_args()
 
     stats = run_pipeline(
@@ -1377,6 +1422,8 @@ def main() -> None:
         framing_jsonl=args.framing_jsonl,
         output_dir=args.output_dir,
         test_sample_id=args.test_sample_id or None,
+        reference_condition=args.reference_condition,
+        target_condition=args.target_condition,
     )
     print(
         "\nMetrics complete: "

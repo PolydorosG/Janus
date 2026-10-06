@@ -1,0 +1,4 @@
+stratum,n,mean_distortion_score,goal_persuasive_wins,persuasive_ties,goal_persuasive_win_rate_ties_half,persuasive_win_rate_ci95_low,persuasive_win_rate_ci95_high,goal_misleading_wins,misleading_ties,goal_misleading_win_rate_ties_half,misleading_win_rate_ci95_low,misleading_win_rate_ci95_high
+low,25,1.5699418796221218,23,2,0.96,0.8045552759497747,0.9929039496133008,19,6,0.88,0.7004380781662651,0.9583325864293191
+high,25,28.855717396601204,25,0,1.0,0.8668035060468213,1.0,22,3,0.94,0.7767656348117198,0.9860214505094829
+ALL,50,15.212829638111659,48,2,0.98,0.8950431352816304,0.9964608319110235,41,9,0.91,0.7988970151234345,0.9625959568536242

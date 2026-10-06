@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/mnt/iusers01/nactem01/e81040pg/codes/Janus/experiments/run_self_awareness_mitigation.py", line 256, in <module>
+    main()
+  File "/mnt/iusers01/nactem01/e81040pg/codes/Janus/experiments/run_self_awareness_mitigation.py", line 231, in main
+    stats = run(
+            ^^^^
+  File "/mnt/iusers01/nactem01/e81040pg/codes/Janus/experiments/run_self_awareness_mitigation.py", line 126, in run
+    with output_file_lock(output_path):
+  File "/mnt/iusers01/nactem01/e81040pg/.conda/envs/reasoning/lib/python3.11/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/mnt/iusers01/nactem01/e81040pg/codes/Janus/judge_fact_units.py", line 415, in output_file_lock
+    fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+OSError: [Errno 37] No locks available
