@@ -12,6 +12,7 @@ from collections import defaultdict
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Iterable
+from ordering_metric import paired_ordering
 
 
 ConditionKey = tuple[str, str, str]
@@ -29,7 +30,6 @@ DELTA_METRICS = (
     "adverse_inclusion_rate",
     "favorable_token_share",
     "emphasis_gap",
-    "prompt_to_output_ordering_shift",
     "first_adverse_relative_position",
     "first_favorable_relative_position",
     "numeric_preservation_rate",
@@ -57,9 +57,6 @@ OUTPUT_NUMERIC_METRICS = (
     "favorable_token_share",
     "adverse_token_share",
     "emphasis_gap",
-    "prompt_ordering_gap",
-    "output_ordering_gap",
-    "prompt_to_output_ordering_shift",
     "first_favorable_relative_position",
     "first_adverse_relative_position",
     "fact_number_count",
@@ -196,6 +193,7 @@ def run_pipeline(
 
     paired_rows = compute_paired_deltas(
         output_rows,
+        fact_rows=fact_rows,
         reference_condition=reference_condition,
         target_condition=target_condition,
     )
@@ -249,7 +247,7 @@ def build_core_metrics(paired_rows: list[dict[str, Any]]) -> list[dict[str, Any]
             "language": row.get("language"),
             "delta_selection_gap": row.get("delta_selection_gap"),
             "delta_emphasis_gap": row.get("delta_emphasis_gap"),
-            "delta_ordering_shift": row.get("delta_prompt_to_output_ordering_shift"),
+            "delta_ordering_shift": row.get("delta_ordering_shift"),
             "delta_specificity": row.get("delta_specificity"),
             "framing_delta": row.get("framing_delta"),
         }
@@ -337,6 +335,8 @@ def compute_row_metrics(
                 "category": raw_row.get("category"),
                 "item": raw_row.get("item"),
                 "fact_id": fact_id,
+                "model": metrics_model(raw_row),
+                "language": metrics_language(raw_row),
                 "fact_kind": fact["kind"],
                 "polarity": fact["polarity"],
                 "prompt_position": fact["position"],
@@ -410,12 +410,6 @@ def build_output_row(
     favorable_token_share = safe_divide(favorable_tokens, total_allocated_tokens)
     adverse_token_share = safe_divide(adverse_tokens, total_allocated_tokens)
 
-    prompt_ordering_gap = ordering_gap_by_key(facts, "position")
-    output_ordering_gap = ordering_gap_by_key(fact_rows, "first_output_unit_id")
-    prompt_to_output_ordering_shift = subtract_optional(
-        output_ordering_gap,
-        prompt_ordering_gap,
-    )
 
     first_favorable_unit_id = first_unit_id(favorable_rows)
     first_adverse_unit_id = first_unit_id(adverse_rows)
@@ -455,9 +449,6 @@ def build_output_row(
             position_key="first_output_unit_id",
             skip_missing=True,
         ),
-        "prompt_ordering_gap": prompt_ordering_gap,
-        "output_ordering_gap": output_ordering_gap,
-        "prompt_to_output_ordering_shift": prompt_to_output_ordering_shift,
         "first_favorable_unit_id": first_favorable_unit_id,
         "first_adverse_unit_id": first_adverse_unit_id,
         "first_favorable_relative_position": relative_position(
@@ -478,11 +469,16 @@ def build_output_row(
 def compute_paired_deltas(
     output_rows: list[dict[str, Any]],
     *,
+    fact_rows: list[dict[str, Any]],
     reference_condition: str = "neutral",
     target_condition: str = "latent_goal",
 ) -> list[dict[str, Any]]:
-    """Compute oriented target-minus-reference deltas by sample/model/language."""
+    """Compute paired deltas; Ordering requires shared fact-level first mentions."""
 
+    facts_by_key = defaultdict(list)
+    for row in fact_rows or []:
+        facts_by_key[(row['sample_id'], str(row.get('model') or ''),
+                      str(row.get('language') or ''), row['condition'])].append(row)
     rows_by_sample: dict[tuple[str, str, str], dict[str, dict[str, Any]]] = defaultdict(dict)
     for row in output_rows:
         sample_id = row.get("sample_id")
@@ -520,6 +516,11 @@ def compute_paired_deltas(
                 goal.get(output_metric),
                 neutral.get(output_metric),
             )
+        nf = facts_by_key.get((sample_id, model, language, reference_condition))
+        gf = facts_by_key.get((sample_id, model, language, target_condition))
+        paired.update(paired_ordering(nf, gf) if nf is not None and gf is not None else {
+            'delta_ordering_shift': None, 'ordering_common_pair_count': 0,
+            'ordering_reference_shared': None, 'ordering_target_shared': None})
         paired_rows.append(paired)
 
     return paired_rows
@@ -557,6 +558,8 @@ def summarize_deltas_by_category(
         summary: dict[str, Any] = {
             "category": category,
             "n_pairs": len(rows),
+            "n_ordering_pairs": sum(row.get('delta_ordering_shift') is not None for row in rows),
+            "mean_delta_ordering_shift": mean_optional(row.get('delta_ordering_shift') for row in rows),
         }
         for metric in DELTA_METRICS:
             delta_metric = f"delta_{metric}"
@@ -1041,18 +1044,6 @@ def count_tokens(text: str) -> int:
     return len(re.findall(r"\w+(?:[-']\w+)*|[^\w\s]", text, flags=re.UNICODE))
 
 
-def ordering_gap_by_key(rows: list[dict[str, Any]], key: str) -> float | None:
-    favorable_positions = [
-        row[key] for row in rows if row.get("polarity") == "F" and row.get(key) is not None
-    ]
-    adverse_positions = [
-        row[key] for row in rows if row.get("polarity") == "A" and row.get(key) is not None
-    ]
-    if not favorable_positions or not adverse_positions:
-        return None
-    return mean(adverse_positions) - mean(favorable_positions)
-
-
 def polarity_sequence(
     rows: list[dict[str, Any]],
     *,
@@ -1146,7 +1137,7 @@ def print_mixed_unit(
         f"{fact_id}:{fact_by_id[fact_id]['polarity']}" for fact_id in matched_fact_ids
     ]
     print(
-        "Mixed-polarity unit excluded from metric calculations: "
+        "Mixed-polarity unit excluded from token allocation, retained for inclusion and Ordering: "
         f"{row.get('sample_id')} {row.get('condition')} "
         f"unit_id={unit['unit_id']} facts={json.dumps(fact_labels)} "
         f"text={json.dumps(unit['text'], ensure_ascii=False)}"
@@ -1191,10 +1182,6 @@ def print_unit_test(
         print(
             f"{row['condition']} token allocation by favorable/adverse: "
             f"{row['favorable_tokens']} / {row['adverse_tokens']}"
-        )
-        print(
-            f"{row['condition']} ordering shift: "
-            f"{format_csv_value(row['prompt_to_output_ordering_shift'])}"
         )
         print(
             f"{row['condition']} specificity: "
@@ -1243,6 +1230,8 @@ def default_output_dir(raw_jsonl: str | Path) -> Path:
 
 
 FACT_LEVEL_FIELDS = [
+    "model",
+    "language",
     "sample_id",
     "condition",
     "category",
@@ -1288,9 +1277,6 @@ OUTPUT_LEVEL_FIELDS = [
     "emphasis_gap",
     "prompt_polarity_order",
     "output_polarity_order",
-    "prompt_ordering_gap",
-    "output_ordering_gap",
-    "prompt_to_output_ordering_shift",
     "first_favorable_unit_id",
     "first_adverse_unit_id",
     "first_favorable_relative_position",
@@ -1329,6 +1315,10 @@ PAIRED_DELTA_FIELDS = [
     "item",
     "model",
     "language",
+    "delta_ordering_shift",
+    "ordering_common_pair_count",
+    "ordering_reference_shared",
+    "ordering_target_shared",
     *[f"delta_{metric}" for metric in DELTA_METRICS],
     *[delta_metric for _, delta_metric in FRAMING_DELTA_METRICS],
 ]
@@ -1356,6 +1346,8 @@ SUMMARY_BY_CATEGORY_CONDITION_FIELDS = [
 SUMMARY_DELTAS_BY_CATEGORY_FIELDS = [
     "category",
     "n_pairs",
+    "n_ordering_pairs",
+    "mean_delta_ordering_shift",
     *[f"mean_delta_{metric}" for metric in DELTA_METRICS],
     *[f"mean_{delta_metric}" for _, delta_metric in FRAMING_DELTA_METRICS],
 ]

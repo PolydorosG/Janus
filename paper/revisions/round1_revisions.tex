@@ -1,0 +1,289 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  urlcolor=blue!60!black,
+}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.6em}{}
+\setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=2pt}
+
+% Custom column types for the table
+\newcolumntype{R}{>{\raggedright\arraybackslash}p{0.42\textwidth}}
+\newcolumntype{C}{>{\raggedright\arraybackslash}p{0.46\textwidth}}
+
+\title{\vspace{-2em}\textbf{Explanation of Revisions}\\
+\large JANUS: Evaluating Goal-Conditioned Distortion in Factually Grounded LLM Communication}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\vspace{-3em}
+
+\section*{Overview}
+
+We thank the reviewers for their detailed and constructive feedback in the previous review cycle. The revised manuscript addresses reviewer concerns with substantive changes to the introduction, methodology, results and appendices. Major revisions include: (i) a rewritten title, abstract, and introduction to highlight the research question and increase clarity; (ii) a redesigned Figure 1 that presents a complete paired JANUS instance and the five measured dimensions; (iii) a clearer definition of a JANUS scenario and the neutral versus goal-conditioned comparison, including the actual system-message templates and an explicit account of what is held constant; (iv) a plain-language summary of selection, emphasis, ordering, specificity, and framing, alongside clearer interpretation of the metric scales; (v) expanded dataset-construction documentation; (vi) a new valence-recoverability and ambiguity robustness analysis; (vii) expanded validation of sentence-fact matching and framing, together with a cross-family judge analysis addressing possible Qwen-family bias; (viii) a new condition-hidden human construct validation separating persuasive effect from perceived misleadingness; (ix) a new prompt-level mitigation experiment; and (x) expanded related work, model and inference details, full prompts and paired outputs, limitations, qualitative examples, and risk considerations. The table below maps the principal concerns from the previous cycle to the corresponding revisions in the manuscript.
+
+\section*{Summary of Changes}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{@{}p{0.06\textwidth} R C@{}}
+\toprule
+\textbf{Rev.} & \textbf{Reviewer Comment (Summary)} & \textbf{Changes in the Revised Manuscript} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{Continued from previous page}} \\
+\toprule
+\textbf{Rev.} & \textbf{Reviewer Comment (Summary)} & \textbf{Changes in the Revised Manuscript} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{Continued on next page}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+
+qNBU & 
+\textbf{Fact valence subjectivity.} The distinction between favorable and adverse facts depends on the authors’ judgment, and in many scenarios a fact may have ambiguous or context-dependent valence. 
+& 
+Sections 2.1 (L148-L151) and 2.4 (L339–L349) now explain that valence is recipient- and objective-relative rather than intrinsic. The revision provides four human-review criteria and cross-review procedures (L380–L410). It also adds a label-hidden valence test: Llama-3.1-70B recovered 95.0\% of labels and marked 9 of 960 statements as ambiguous. Removing the affected scenarios left rankings essentially unchanged (L426–L435).
+\\
+
+qNBU & 
+\textbf{judge reliability and potential model-family bias.} Since framing is one  of the paper’s most central findings but also the most subjective dimension, errors or  biases in the judge could affect the conclusions. This concern is further amplified by the fact  that Qwen3-8B is used as the judge while several Qwen models are also included among the  evaluated systems, raising the possibility of model-family or style-related bias. 
+&
+Appendix D.3 reports the manually audited sample design and evaluation criteria (L1009-L1034), sentence-matching agreement (L1035–L1045; Tables 6–7), and framing 
+agreement, including 79\% exact agreement and $\kappa=0.69$ (L1046–L1057; Tables 8–9). We have additionally added a cross-family judge experiment (L1058-L1082) using Llama-3.1-70B in place of Qwen3-8b on 5,129 matched sentence-fact instances and find no evidence that replacing the judge affects Qwen-generated outputs differently from Llama-generated outputs. 
+
+\\
+
+qNBU & 
+\textbf{JANUS as a means of evaluating mitigation methodologies.} 
+The paper lacks mitigation or robustness experiments. While it shows that goal-conditioned  prompts can induce distortion, it does not test whether simple interventions, such as explicit  balance instructions, risk-first ordering, numerical-detail preservation, or structured output  formats, can reduce such distortion. 
+&
+Appendix F now demonstrates how JANUS can be used to evaluate a
+prompt-level safeguard (L1183--L1214; Table~11). We
+present this experiment as an initial demonstration of JANUS's use for
+mitigation evaluation. As stated in the conclusion (L571--L574), a broader
+evaluation of mitigation strategies across models, interventions, and
+deployment settings is left to future work.
+
+\\
+
+qNBU & 
+\textbf{The interpretation of statistical significance and effect size could be clearer.} Some reported  distortion scores are relatively small, so the paper should better explain what these deltas  mean in actual generated text and whether they correspond to meaningful changes in  human-perceived misleadingness. 
+
+&
+We have added intuitive explanations of JANUS score dimensions in the revised manuscript. Table 2 and the accompanying definitions now provide intuitive interpretations for all five dimensions (L224–L308). We additionally provide numerical interpretations for three of the five dimensions—the three that are more mathematically involved: Selection (L251–L254), Ordering (L274–L276), and Specificity (L277–L285). We also added a human interpretation experiment relating higher scores with perceived misleadingness (L1083–L1127). Appendix E clarifies that statistical significance is assessed using paired sign-flip randomization tests at the dataset-item level, with Benjamini–Hochberg correction (L1128–L1182).\\
+
+
+
+foxd & 
+\textbf{Dataset-design criteria require explanation.} The paper does not clearly explain how the domains, recipient profiles, decision subjects, institutional actors, and objectives were selected, or provide representative values for these dimensions.
+&
+
+
+The domain-selection rationale and variation across recipient, decision, and institutional relationships are explained at L319–L338. The scenario schema and recipient profile are defined at L339–L349, and the inclusion and exclusion criteria for scenarios and objectives are specified at L350–L361.
+\\
+
+foxd & 
+\textbf{Missing fact-generation prompt and unclear definition of facts.}
+The prompt used to generate favorable and adverse facts is not provided. The paper should also clarify that these are synthetic statements stipulated as true within hypothetical scenarios rather than externally verified real-world facts.
+&
+The paper now clearly states that the evidence is stipulated as true within each hypothetical scenario (L140–L151). Candidate generation and the favorable/adverse definitions are explained at L362–L374, and the evidence is explicitly identified as synthetic and not necessarily externally verifiable at L375–L379. Appendix B.1 introduces the full generation prompt at L882–L888; Figure 5.
+\\
+
+foxd & 
+\textbf{Insufficient detail on manual verification and dataset revisions.}
+The paper does not explain whether unusable facts were revised, replaced, or caused an entire scenario to be discarded. It should also report the quality of the calibration scenarios and the differences between the initially generated and final evidence sets across domains.
+&
+The calibration subset is corrected to 40 scenarios and its agreement is reported at L393–L400. Aggregate amendment rates are reported at L402–L404, and unusable statements were revised or replaced without discarding a complete scenario (L405–L410). 
+\\
+
+foxd & 
+\textbf{Insufficient explanation of superficial-artifact measurements.}
+The paper reports numerical-detail and hedging frequencies but does not explain precisely how these measures were calculated.
+&
+The purpose of the artifact checks and the measured properties are now explained at L411–L425, with results in Table 4. The exact tokenizer, digit-detection rule, hedge lexicon, and calculation procedure are not specified in the manuscript due to space concerns (lexicon is necessarily too extensive to reproduce in the manuscript) and are deferred to the code release.
+\\
+
+foxd & 
+\textbf{Framing effects may follow directly from the prompt.}
+Because the model is given a goal-oriented instruction, a shift away from neutral framing may be expected. The paper should better explain why such changes constitute distortion rather than ordinary compliance with the assigned objective.
+&
+The manuscript clarifies that the objective does not instruct the model to use any particular distortion strategy and can be pursued through a transparent recommendation (L203–L210). Framing is defined as a specific change in the characterization of matched evidence (L286–L299). The human evaluation distinguishes legitimate persuasion from unwarranted impression management (L1090–L1127).
+\\
+
+foxd & 
+\textbf{Unclear interpretation of the framing judge.}
+The framing judge appears to evaluate only how a supplied fact is presented, making it unclear whether the underlying fact itself has been distorted or whether only its linguistic framing has changed.
+
+&
+The manuscript now explicitly states that framing measures presentation rather than factual falsification and illustrates this with “just \$8,900” (L294–L299). The worked example also notes that unsupported additions are outside what the framing score alone can establish (L949–L960).
+\\
+
+foxd & 
+\textbf{Related work in the main paper.}
+A comprehensive related-work section is necessary to contextualize the contribution and should not be placed almost entirely in the appendix.
+&
+The introduction now contextualizes JANUS against factuality, hallucination, and deception evaluations (L48–L61). The comprehensive discussion remains in Appendix A (L792–L879) and is significantly lengthened to cover all datasets from Table 1 along with the Introduction. Justification: the revision prioritized the benchmark definition, dataset validation, and main experimental evidence within the main-paper page limit.\\
+
+foxd & 
+\textbf{Related-work coverage and benchmark citations are incomplete.}
+The appendix does not sufficiently cover the relevant literature, and the benchmarks listed in Table~1 are not clearly connected to their corresponding source papers.
+
+&
+Appendix A now covers factuality and deception (L792–L839), persuasion and goal-directed communication (L840–L861), and truthful-but-misleading communication (L862–L879). The relevant works are included in the bibliography.
+\\
+
+
+foxd & 
+\textbf{The main paper is not sufficiently self-contained.}
+Important information required to understand and evaluate the benchmark is located in the appendix, requiring reviewers to consult supplementary material to assess the main claims.
+&
+The paired prompts and their rationale are in the main text (L187–L223), as are the dimensions (L224–L308) and dataset construction and validation (L309–L435). Figure 1 is replaced with a version that more clearly contextualizes JANUS. The first two sections are also changed significantly to ensure main claims are understandable from the main text. Full prompts, outputs, judge instructions, and extended validation remain in the appendix because of space constraints.
+\\
+
+foxd & 
+\textbf{More dataset details, examples, and quality evidence are needed.}
+The paper should include concrete benchmark examples and provide a clearer account of how the quality and reliability of the constructed scenarios were ensured.
+&
+The construction and quality-control procedure is detailed at L309–L435. Appendix B introduces the generation prompt and annotation instructions (L880–L894; Figures 5–6), while Appendix C.3 supplies a complete prompt-and-output example (L943–L960; Figures 11–12).
+\\
+
+foxd &
+\textbf{Figure text is difficult to read.}
+The font size used inside several figures is smaller than the main paper text and is difficult to read when viewed on A4 pages.
+&
+Figures~1 and 2 were redesigned with larger text, simplified internal
+labels, and reduced visual density.
+\\
+
+
+
+Raq4 &
+\textbf{Clarity of the task definition and paired prompting.}
+The reviewer initially interpreted JANUS as a function that scores an isolated model output and questioned why two prompt conditions were necessary. After the rebuttal, the reviewer understood the paired design but questioned whether the goal-conditioned prompt already asks for biased communication, making it unreasonable to expect models to preserve and present the evidence faithfully.
+&
+The single-output interpretation does not match the intended formulation, but both comments indicated that the original task definition required clarification. JANUS measures how the same model changes its communication of the same fixed evidence when an institutional objective is introduced. The revision explicitly defines this paired design (L63--L81), states what is held constant across conditions (L164--L173), reproduces both prompt conditions (L187--L210), and explains the paired generations (L212--L223). We also clarify that the institutional objective does not prescribe omission, reframing, or other distortion: a model can pursue the objective through a transparent recommendation while still presenting the material evidence faithfully (L203--L210).
+
+\\
+
+Raq4 &
+\textbf{Need for a complete worked example.}
+The paper does not provide a sufficiently concrete example showing the complete scenario, evidence pool, neutral and goal-conditioned prompts, and corresponding model outputs.
+&
+The original manuscript included prompt templates, a rendered neutral prompt, and separate paired output examples. We further added an illustrative paired example to Figure~1, (explanation at L82--L100). Appendix~C.3 now provides one complete JANUS instance containing system prompts, the user prompt, evidence pool, and the corresponding outputs (L943--L960; Figures~11--12). 
+\\
+
+
+
+Raq4 &
+\textbf{Insufficient explanation of notation.}
+The paper introduces many symbols and equations without first defining the underlying concepts. Terms such as recipient profile and institutional objective are not sufficiently explained before they are used in the formal task definition.
+
+&
+The JANUS instance and all variables are now defined before the generation equation. The recipient context is explicitly described as the recipient’s needs, constraints, risks, or vulnerabilities (L175–L186). The two condition variables and the interpretation of the paired generations are then explained at L212–L223. Finally Table 2 now provides an intuitive explanation of the five distortion dimensions.
+\\
+
+Raq4 &
+
+\textbf{Reliability and human validation of the evaluation framework.}
+Based on the assumption that JANUS was a FActScore-like function, the reviewer requested evidence that the proposed scores were reliable, including human evaluation beyond the dataset annotation analysis.
+&
+The FActScore-like premise does not match the intended task, since JANUS evaluates paired behavioral changes across five dimensions rather than factuality of a single output (L67--L81; L164--L223). Nevertheless, we strengthened validation substantially: manual sentence--fact and framing audits are reported at L1009-L1057, cross-family judge robustness at L1058-L1082, and condition-hidden human evaluation of perceived misleadingness at L1083-L1127 and Table~10.
+\\
+
+
+Raq4 &
+\textbf{Quantified evidence of novelty.}
+The reviewer requested a numerical demonstration of novelty beyond the qualitative benchmark comparison in Table~1, based on the interpretation of JANUS as a newly proposed scoring function.
+&
+We did not adopt this request because its premise does not match the contribution. JANUS's novelty lies in its benchmark and task design: fixed evidence, paired neutral and goal-conditioned prompts, and evaluation of true-only pragmatic distortion. There is no established or meaningful scalar measure of methodological novelty. We instead clarify the operational distinctions from factuality, hallucination, deception, and persuasion benchmarks in the introduction (L48--L81), Related Work (L792--L879), and Table~1.
+\\
+
+Raq4 &
+\textbf{Benchmark scale and evidence of item quality (including post-rebuttal).}
+The reviewer initially considered 160 instances across eight domains limited in scale and questioned whether the items were sufficiently reliable for model evaluation. After the rebuttal, the reviewer clarified that a bigger dataset was not required, but questioned the interchangeable use of ``scenarios'' and ``items,'', and requested stronger evidence that the 160 benchmark scenarios were carefully constructed.
+
+&
+From the Abstract onward, we make clear that each scenario is one
+benchmark unit containing a fixed evidence pool and paired neutral and
+goal-conditioned prompts (L13--L18). We report JANUS as 160
+independently constructed scenarios, with 20 scenarios in each of eight
+domains (L309--L322). Thus, each scenario corresponds to one
+benchmark item; ``scenario'' describes the hypothetical decision context
+and does not denote an additional level of data or a larger number of
+evaluation instances. 
+We strengthened the evidence for construction quality. All 160 scenarios and 960 evidence statements were manually reviewed; 40 scenarios underwent independent calibration with quadratic-weighted Cohen's $\kappa=0.87$; explicit materiality, plausibility, valence, and non-redundancy criteria were applied; and amendment and replacement procedures are reported (L380--L410). We additionally include a label-hidden valence test and show that excluding the ambiguous items leaves model rankings essentially unchanged (L426--L435).
+
+\\
+
+
+Raq4 &
+\textbf{Main-paper self-containment and appendix.}
+The reviewer argued that essential task definitions, examples, and methodological details were placed in the appendix without sufficient references from the main text, making it difficult to understand the paper without reading the appendix extensively.
+&
+
+We made the main paper more self-contained by adding the paired prompt excerpts (L187--L210), providing a clearer plain-language introduction to the five evaluation dimensions (L224--L235; Table~2), expanding the dataset construction and validation procedure (L309--L435), and more clearly connecting the principal findings to the supporting qualitative and human-validation analyses (L461--L521). We also reorganized the appendix into a more intuitive structure and added explicit pointers from the main text to the complete prompts and worked example (L209--L210), evaluation and judge-validation details (L241--L244), candidate-generation prompt (L378--L379), annotation instructions (L408--L410), and qualitative and human-validation results (L472--L476).
+\\
+
+
+
+
+
+\end{longtable}
+
+\section*{Response to Area Chair Comments in Meta Review}
+
+The meta-review recognized JANUS as addressing a valuable and
+under-explored research question, with evaluation across multiple model
+architectures and sizes. It also indicated that several concerns had already
+been substantively addressed during rebuttal, leaving the main revision
+priority as incorporating those analyses and clarifications into the paper
+itself. The revised manuscript therefore focuses on three areas.
+
+\textbf{Additional experiments incorporated.}
+We incorporated the experiments introduced during rebuttal into the revised
+manuscript. These include a cross-family judge-robustness analysis using
+Llama-3.1-70B in place of Qwen3-8B (L1058--L1082), a condition-hidden
+human evaluation of perceived misleadingness (L1083--L1127; Table~10),
+and an initial prompt-level mitigation experiment (L1183--L1214;
+Table~11).
+
+\textbf{Practical interpretation of the metrics.}
+We now explain the distortion dimensions in intuitive units. Selection is
+interpreted in terms of individual evidence statements (L251--L254),
+ordering in terms of favorable--adverse fact pairs (L274--L276), and
+specificity in terms of omitted numerical values (L277--L285). We also
+provide a concrete framing example (L294--L299) and a complete paired
+prompt-and-output example connecting the scores to observable differences
+in wording, ordering, and presentation (L943--L960; Figures~11--12).
+We additionally added a human construct-validation study connecting JANUS
+scores to effects on readers (L1083--L1127; Table~10).
+
+\textbf{Clarifications integrated into the manuscript.}
+The revised version now foregrounds the central research question and paired
+benchmark design (L63--L100), reproduces both prompt conditions in the main
+text (L187--L210), defines the task variables before the formal equations
+(L175--L223), expands the dataset construction and quality-control
+procedure (L309--L435), and adds a complete worked example together with
+expanded validation material in the appendices (L943--L1127). 
+
+
+\end{document}

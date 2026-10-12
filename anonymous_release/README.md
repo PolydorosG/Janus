@@ -12,10 +12,13 @@ request files, reasoning traces, drafts, and reviewer correspondence.
 
 ## Provenance notes
 
-The twelve primary result pipelines reproduce exactly from the packaged files.
-The paper's Qwen mitigation framing cell used 94 completed judgments, while
-  the current file has all 160 (see `analysis/mitigation/README.md`); and
-the current complete rerun is provided alongside the reported snapshot.
+The twelve primary pipelines reproduce from the packaged files. All Ordering
+results use the shared-pair, first-mention, half-credit-for-ties definition in
+`ORDERING.md`. There is no alternative Ordering implementation or historical
+Ordering snapshot in this release.
+
+Mitigation summaries use the packaged judgments: all 160 Qwen scenarios and
+54 Llama framing scenarios. See `analysis/mitigation/README.md` for scope.
 
 ## Contents
 
@@ -32,6 +35,8 @@ the current complete rerun is provided alongside the reported snapshot.
   model-judge stages and their exact prompts.
 - `metrics_pipeline.py`: deterministic computation of selection, emphasis,
   ordering, specificity, and framing metrics.
+- `ordering_metric.py` and `ORDERING.md`: the authoritative paired Ordering
+  implementation and mathematical definition.
 - `scripts/`: one-command reproduction, significance testing, plotting, and
   release-integrity checks.
 - `analysis/`: paper supplements for cross-family judge robustness, prompt
@@ -47,8 +52,12 @@ Python 3.10 or newer is recommended.
 ```bash
 python -m venv .venv
 source .venv/bin/activate
+export PYTHONDONTWRITEBYTECODE=1
 python -m pip install -r requirements.txt
 ```
+
+For offline metric/figure reproduction only, install
+`requirements-reproduce.txt` instead; model inference libraries are not needed.
 
 Local generation and judge runs download model checkpoints unless they are
 already cached. API runs read credentials from environment variables:
@@ -73,6 +82,8 @@ python scripts/analyze_significance.py
 
 The paper uses 200,000 Monte Carlo draws. For a quick smoke test, pass
 `--draws 1000`.
+The default seed is 160; 95% intervals are percentile intervals from 20,000
+paired-scenario bootstrap resamples. The 60 main tests share one BH correction.
 
 ## Run a new benchmark
 
@@ -118,6 +129,16 @@ scenario, so neutral and goal-conditioned prompts receive the same fact order.
 - Llama-3.1-70B alternate framing judgments for the cross-family robustness
   comparison;
 - two prompt-guardrail runs and their direct/residual metrics.
+- absolute favorable/adverse inclusion and the all-six-facts Ordering subset;
+- the two-model grounding ablation, including normalized generations and
+  judgments, all five dimensions, and a ten-test BH correction.
+
+```bash
+python scripts/reproduce_supplements.py
+```
+
+This command refreshes the packaged supplemental metrics and summaries in
+`analysis/`. It makes no model/API calls and does not modify raw generations.
 
 ## Integrity check
 
@@ -128,7 +149,16 @@ python scripts/validate_release.py
 ```
 
 The check verifies dataset balance, expected row counts, required artifacts,
-and the absence of common private or machine-specific material.
+paired Ordering consistency, and the absence of common private or
+machine-specific material. Run the metric tests with:
+
+```bash
+python -m unittest experiments.test_ordering_metric experiments.test_release_results
+```
+
+Upload only this directory, not its parent repository or Git history. Hosting
+account names and upload metadata must also be anonymous; local checks cannot
+verify those. See `RELEASE_CHECK.md` for validation scope and remaining decisions.
 
 ## License
 

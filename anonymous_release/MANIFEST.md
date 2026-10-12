@@ -11,7 +11,10 @@
 | Framing judgments | `results/<model>_framing.jsonl` | `judge_framing.py` |
 | Five JANUS dimensions | `metrics/<model>/` | `metrics_pipeline.py` |
 | Main model table and domain figures | `metrics/radar_charts/` | `scripts/make_model_radar_charts.py` |
-| Paired sign-flip tests and BH correction | generated on demand | `scripts/analyze_significance.py` |
+| Paired sign-flip tests, bootstrap intervals and BH correction | `analysis/significance.csv` | `scripts/analyze_significance.py` |
+| Shared-pair Ordering definition | `ORDERING.md`, `ordering_metric.py` | `python -m unittest experiments.test_ordering_metric` |
+| Absolute inclusion and complete-six Ordering | `analysis/metric_checks/` | `python scripts/analyze_metric_checks.py` |
+| Grounding-instruction ablation, all five dimensions | `analysis/grounding/` | `python scripts/reproduce_supplements.py` |
 
 The twelve model stems are `gpt_5_4`, `gpt_5_4_mini`, `deepseek_chat`,
 `deepseek_reasoner`, `llama_3_1_8b_instruct`, `llama_3_1_70b_instruct`, and the
@@ -60,9 +63,30 @@ python experiments/analyze_mitigation.py \
   --output-dir reproduced_analysis/mitigation
 ```
 
-The Qwen framing file was completed after the paper snapshot was calculated,
-so its latest rerun intentionally differs from the reported framing cell. See
-`analysis/mitigation/README.md` for exact counts and both values.
+The summary uses the current packaged judgments and the shared-pair Ordering
+metric. Qwen framing has 160 scenarios; Llama framing has 54. See
+`analysis/mitigation/README.md`. `python scripts/reproduce_supplements.py`
+also rebuilds the underlying mitigation metrics from the raw files.
+
+### Grounding and metric checks
+
+`analysis/grounding/results/` contains 160 new neutral responses per model and
+the original goal responses, with sentence matches and framing judgments.
+Only the sentence restricting neutral responses to the provided facts was
+removed. `experiments/analyze_grounding_ablation.py` checks prompt differences,
+fact order, reused goal text, match alignment, and judgment completeness.
+The ten goal-minus-new-neutral tests (five dimensions by two models) share a
+BH correction. This is not an objective-only control: roles and audiences remain.
+
+`analysis/metric_checks/` reports per-model inclusion of both fact classes and
+Ordering restricted to scenarios with all six facts in both responses. The
+latter uses a separate twelve-test BH family.
+
+The full supplemental reproduction command is:
+
+```bash
+python scripts/reproduce_supplements.py
+```
 
 ## Deliberate exclusions
 

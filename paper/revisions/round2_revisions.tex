@@ -1,0 +1,223 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\hypersetup{colorlinks=true,linkcolor=blue!60!black,urlcolor=blue!60!black}
+\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.6em}{}
+\setlist[itemize]{leftmargin=*,itemsep=2pt,topsep=2pt}
+\newcolumntype{R}{>{\raggedright\arraybackslash}p{0.36\textwidth}}
+\newcolumntype{C}{>{\raggedright\arraybackslash}p{0.52\textwidth}}
+\title{\vspace{-2em}\textbf{Explanation of Revisions: Round 2}\\
+\large JANUS: Evaluating Goal-Conditioned Distortion in Factually Grounded LLM Communication}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\vspace{-3em}
+
+\section*{Overview}
+
+We thank reviewers Vvyc, K6Zq, and GTaK for their constructive feedback and
+positive reassessments following the rebuttal. This revision incorporates
+the completed rebuttal analyses into the manuscript rather than leaving
+them as response-only evidence. The main changes are: (i) a revised
+shared-pair ordering metric with symmetric treatment of same-sentence ties;
+(ii) recalculated model-level, domain-level, mitigation, and human-validation
+results and regenerated data figures; (iii) full per-model absolute fact
+inclusion statistics; (iv) an ordering robustness analysis restricted to
+responses retaining all six facts; (v) the complete five-dimensional,
+two-model grounding-instruction ablation; and (vi) clearer limits on causal
+attribution and numerical-specificity interpretation. We preserve the
+existing figure designs, generated responses, and human annotation sample.
+The previous-round revision letter is retained separately.
+
+\section*{Summary of Changes}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{@{}p{0.06\textwidth} R C@{}}
+\toprule
+\textbf{Rev.} & \textbf{Reviewer Comment (Summary)} & \textbf{Changes in the Revised Manuscript} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\textit{Continued from previous page}} \\
+\toprule
+\textbf{Rev.} & \textbf{Reviewer Comment (Summary)} & \textbf{Changes in the Revised Manuscript} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\textit{Continued on next page}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+
+Vvyc &
+\textbf{Ordering can conflate omission with reordering.} Missing pairs
+remain in the original denominator and can increase the oriented score.
+&
+The Evaluation section replaces the original formula with a direct paired
+effect over favorable--adverse pairs whose two facts appear in both
+responses. First mentions use all matched sentences; favorable-first is 1,
+adverse-first is 0, and a same-sentence tie is 0.5. We average pairs within
+each scenario and then scenarios equally. The new appendix ``Ordering
+Robustness and Eligible Comparisons'' reports every model, interval, and
+eligible count. Effects remain positive for all 12 models and significant
+for 11 after the paper's 60-test adjustment; GPT-5.4 Mini is the exception.
+\\
+
+Vvyc &
+\textbf{Asymmetric grounding instruction.} The neutral prompt alone requires
+using only the provided facts and avoiding outside information.
+&
+The Paired Design and Main Results sections now link to ``Neutral
+Grounding-Instruction Ablation.'' We removed only the neutral grounding
+sentence, generated 160 new neutral outputs each for Qwen3-8B and
+Llama-3.1-8B, and reused the original goal outputs. The appendix reports all
+five dimensions with a ten-test BH family. Selection, emphasis, ordering,
+and framing remain significant for both models; numerical specificity loss
+does not. Revised ordering changes from 0.0922 to 0.0707 for Qwen and
+0.0851 to 0.0545 for Llama. We distinguish nonzero post-ablation effects
+from tests of before/after differences or equivalence.
+\\
+
+Vvyc &
+\textbf{Dimension-name styling.} Prefer consistent lowercase and italics in
+running text.
+&
+The evaluation and results narrative uses lowercase italicized dimension
+names. Conventional capitalization is retained in headings, tables and
+the existing image labels; ``Specificity'' in the images is explicitly
+defined as numerical specificity loss in the text and caption.
+\\
+
+K6Zq &
+\textbf{Near-zero selection does not establish absolute retention.}
+Balanced omissions can leave the favorable--adverse imbalance unchanged.
+&
+The Selection definition and Main Results now explicitly separate imbalance
+from absolute inclusion and link to ``Absolute Fact Inclusion and Selection
+Interpretation.'' Its table covers all 12 models and both conditions.
+Favorable inclusion is 99.31\% versus 98.85\%; adverse inclusion is
+99.60\% versus 98.52\%. Complete-six-fact responses are 96.77\% versus
+92.86\%. We report the larger adverse-fact decline and model variation,
+and remove the inference that a small selection effect proves evidence
+retention or absence of selective omission.
+\\
+
+K6Zq &
+\textbf{Condition ordering on retained facts.} A robustness analysis should
+exclude pairs whose order cannot be observed.
+&
+The shared-pair metric is now the primary definition. The ordering appendix
+also reports the stricter all-six-facts subset: 132--154 scenarios per model,
+positive effects for all 12 (0.0241--0.1734), and 11 significant after a
+separate 12-test adjustment. GPT-5.4 Mini remains uncertain (0.0241;
+95\% interval [$-0.0157$, 0.0636]). The manuscript states that these are
+conditional estimates, not measurements of omitted evidence.
+\\
+
+GTaK &
+\textbf{The contrast bundles grounding, role, audience, and objective.}
+Changes should not be attributed to the objective sentence alone or
+equated automatically with misleading persuasion.
+&
+The abstract, introduction, Paired Design, conclusions and limitations now
+describe institutional role-and-objective conditioning relative to neutral
+decision support, not an objective-only causal intervention. The audience
+context is supplied in both user messages; the goal system message restates
+it. We explain that roles can imply an institutional interest and are
+therefore omitted from the neutral baseline. The grounding ablation
+addresses that specific asymmetry while preserving this contrast. We
+retain the distinction between faithful persuasion and misleading
+impression management and avoid claiming that fixed source evidence
+guarantees all generated claims are grounded.
+\\
+
+GTaK &
+\textbf{Ordering credits absent pairs.}
+&
+The revised shared-pair definition, complete-six-fact robustness table,
+and updated main results address the same omission concern raised by Vvyc
+and K6Zq. Only one scenario each for DeepSeek v4 Thinking and Llama-3.1-8B
+has no shared pair; these models use 159 scenarios and all others use 160.
+Undefined effects are excluded, never scored as zero or favorable-first.
+\\
+
+GTaK &
+\textbf{Specificity measures numerical retention, not all qualifications,
+and is not inherently goal-favoring.}
+&
+The dimension is now called numerical specificity, with the reported
+loss score explicitly described as a nondirectional fidelity diagnostic.
+The dimension table, paired-effect interpretation, results and limitations
+are updated. ``Numerical Specificity and Descriptive Aggregation'' explains
+the 132-scenario denominator, numerical-only scope, semantic-attribution
+limitation, and appropriate rounding/compression caveat. Losing a number
+can downplay a cost or exaggerate a benefit; directional characterization
+is assessed separately through framing. The composite is described as
+descriptive, not a calibrated misleadingness score.
+\\
+\end{longtable}
+
+\section*{Consistency of Results, Figures, and Interpretation}
+
+\textbf{Main results and uncertainty.}
+All ordering effects, the descriptive Average, and significance shading
+were recomputed. DeepSeek v4 Thinking now has the largest table Average
+(0.114), followed by Llama-3.1-8B (0.105). We clarify the pre-existing
+aggregation convention: the table averages positive parts of raw dimension
+means, whereas category figures use normalized positive-part composites.
+The statistical appendix specifies percentile bootstrap intervals from
+20,000 scenario resamples, separate 200,000-draw sign-flip tests, and the
+60-, 12-, and 10-test correction families for main, complete-subset, and
+grounding analyses, respectively.
+
+\textbf{Figures.}
+The category radar and neutral/goal dumbbell plot were regenerated using
+the original plotting functions, model order, colors, labels, sizes and
+scaling rules. The supplied auxiliary radar grid was also regenerated.
+Only ordering inputs and quantities derived from ordering were changed.
+The condition-profile caption clarifies that ordering coordinates are arm
+scores conditioned on shared pairs, not independent absolute output scores.
+
+\textbf{Downstream analyses.}
+The mitigation appendix now uses shared-pair ordering: goal/guardrail
+effects relative to neutral are 0.0922/$-0.0266$ for Qwen and
+0.0851/0.0431 for Llama. Direct guardrail-minus-goal contrasts are computed
+independently rather than inferred by subtracting means over different
+shared-pair sets. The ambiguity-exclusion rank-correlation range is updated
+to 0.952--0.993. The fixed human-validation sample and its annotation counts
+are unchanged, but the continuous-score association was recomputed:
+Spearman $\rho=0.508$, pair-level permutation $p=0.00018$. We also correct
+the sample description to upper/lower-quartile stratified sampling under
+the original score implementation, not a newly selected set of extrema.
+The two qualitative examples retain their original text; their revised
+ordering effects are now stated explicitly.
+
+\section*{Revised Files and Reproducibility}
+
+\begin{itemize}
+\item Main manuscript: \texttt{paper/acl\_latex.tex}.
+\item Added appendix text: \texttt{paper/appendices/reviewer\_analyses.tex}.
+\item Generated tables: \texttt{paper/tables/} (main metrics, absolute
+inclusion, ordering robustness, and all five grounding-ablation dimensions).
+\item Regenerated assets: \texttt{paper/images/category\_radar.png},
+\texttt{image.png}, and \texttt{all\_radars.png}.
+\item Analysis and generation code: \texttt{experiments/prepare\_round2\_manuscript.py},
+\texttt{analyze\_shared\_pair\_ordering.py}, and
+\texttt{analyze\_grounding\_ablation.py}; shared metric in
+\texttt{ordering\_metric.py}.
+\end{itemize}
+
+Original generation and annotation caches are preserved. The revision
+uses the completed experiments reported in rebuttal; no new generation
+experiment or annotation sample was introduced.
+
+\end{document}

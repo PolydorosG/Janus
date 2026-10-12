@@ -1,0 +1,4 @@
+# No model downloads or API access required for released-data reproduction.
+numpy
+matplotlib
+nltk

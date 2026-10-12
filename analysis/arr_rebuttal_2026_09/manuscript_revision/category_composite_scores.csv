@@ -1,0 +1,97 @@
+model,display_model,family,category,composite_distortion_0_100
+gpt_5_4,GPT-5.4,OpenAI,Business / Corporate,3.95266129188
+gpt_5_4,GPT-5.4,OpenAI,Education,4.53592119847
+gpt_5_4,GPT-5.4,OpenAI,Finance,3.40582543145
+gpt_5_4,GPT-5.4,OpenAI,Healthcare,5.05738059788
+gpt_5_4,GPT-5.4,OpenAI,Law,0.03444902661
+gpt_5_4,GPT-5.4,OpenAI,Media / Information,5.33015873016
+gpt_5_4,GPT-5.4,OpenAI,Public Policy,4.89415315157
+gpt_5_4,GPT-5.4,OpenAI,Workplace / Organizational,6.28534846534
+gpt_5_4_mini,GPT-5.4 Mini,OpenAI,Business / Corporate,2.02226684135
+gpt_5_4_mini,GPT-5.4 Mini,OpenAI,Education,2.07446781375
+gpt_5_4_mini,GPT-5.4 Mini,OpenAI,Finance,4.26724193153
+gpt_5_4_mini,GPT-5.4 Mini,OpenAI,Healthcare,4.06994092509
+gpt_5_4_mini,GPT-5.4 Mini,OpenAI,Law,1.94425928091
+gpt_5_4_mini,GPT-5.4 Mini,OpenAI,Media / Information,4.97059260963
+gpt_5_4_mini,GPT-5.4 Mini,OpenAI,Public Policy,3.19979802061
+gpt_5_4_mini,GPT-5.4 Mini,OpenAI,Workplace / Organizational,3.77504834347
+deepseek_chat,DeepSeek Chat,DeepSeek,Business / Corporate,5.91222309974
+deepseek_chat,DeepSeek Chat,DeepSeek,Education,6.93821426995
+deepseek_chat,DeepSeek Chat,DeepSeek,Finance,5.60603424353
+deepseek_chat,DeepSeek Chat,DeepSeek,Healthcare,3.03648440931
+deepseek_chat,DeepSeek Chat,DeepSeek,Law,2.60739452541
+deepseek_chat,DeepSeek Chat,DeepSeek,Media / Information,8.33056257813
+deepseek_chat,DeepSeek Chat,DeepSeek,Public Policy,5.65818917924
+deepseek_chat,DeepSeek Chat,DeepSeek,Workplace / Organizational,5.45285841609
+deepseek_reasoner,DeepSeek Reasoner,DeepSeek,Business / Corporate,6.72659562659
+deepseek_reasoner,DeepSeek Reasoner,DeepSeek,Education,8.70576424714
+deepseek_reasoner,DeepSeek Reasoner,DeepSeek,Finance,9.34204243839
+deepseek_reasoner,DeepSeek Reasoner,DeepSeek,Healthcare,10.1367488545
+deepseek_reasoner,DeepSeek Reasoner,DeepSeek,Law,2.43553133027
+deepseek_reasoner,DeepSeek Reasoner,DeepSeek,Media / Information,9.29084301018
+deepseek_reasoner,DeepSeek Reasoner,DeepSeek,Public Policy,8.16847116843
+deepseek_reasoner,DeepSeek Reasoner,DeepSeek,Workplace / Organizational,8.77739888114
+llama_3_1_70b_instruct,Llama 3.1 70B Instruct,Llama,Business / Corporate,3.50972466285
+llama_3_1_70b_instruct,Llama 3.1 70B Instruct,Llama,Education,4.15435836509
+llama_3_1_70b_instruct,Llama 3.1 70B Instruct,Llama,Finance,3.88118264248
+llama_3_1_70b_instruct,Llama 3.1 70B Instruct,Llama,Healthcare,5.19501262626
+llama_3_1_70b_instruct,Llama 3.1 70B Instruct,Llama,Law,4.10262164522
+llama_3_1_70b_instruct,Llama 3.1 70B Instruct,Llama,Media / Information,9.62418184322
+llama_3_1_70b_instruct,Llama 3.1 70B Instruct,Llama,Public Policy,3.47300677309
+llama_3_1_70b_instruct,Llama 3.1 70B Instruct,Llama,Workplace / Organizational,8.87894751198
+llama_3_1_8b_instruct,Llama 3.1 8B Instruct,Llama,Business / Corporate,5.07934952914
+llama_3_1_8b_instruct,Llama 3.1 8B Instruct,Llama,Education,7.87935641898
+llama_3_1_8b_instruct,Llama 3.1 8B Instruct,Llama,Finance,7.07074643676
+llama_3_1_8b_instruct,Llama 3.1 8B Instruct,Llama,Healthcare,3.64660557418
+llama_3_1_8b_instruct,Llama 3.1 8B Instruct,Llama,Law,2.84777989221
+llama_3_1_8b_instruct,Llama 3.1 8B Instruct,Llama,Media / Information,11.2926519311
+llama_3_1_8b_instruct,Llama 3.1 8B Instruct,Llama,Public Policy,6.32315086097
+llama_3_1_8b_instruct,Llama 3.1 8B Instruct,Llama,Workplace / Organizational,8.46688902379
+qwen3_14b_no_thinking,Qwen3 14B No Thinking,Qwen,Business / Corporate,3.56948365063
+qwen3_14b_no_thinking,Qwen3 14B No Thinking,Qwen,Education,6.08995967182
+qwen3_14b_no_thinking,Qwen3 14B No Thinking,Qwen,Finance,9.1953431677
+qwen3_14b_no_thinking,Qwen3 14B No Thinking,Qwen,Healthcare,6.25127822686
+qwen3_14b_no_thinking,Qwen3 14B No Thinking,Qwen,Law,0
+qwen3_14b_no_thinking,Qwen3 14B No Thinking,Qwen,Media / Information,8.51428953049
+qwen3_14b_no_thinking,Qwen3 14B No Thinking,Qwen,Public Policy,3.65362260325
+qwen3_14b_no_thinking,Qwen3 14B No Thinking,Qwen,Workplace / Organizational,7.32876081526
+qwen3_14b_thinking,Qwen3 14B Thinking,Qwen,Business / Corporate,6.0685633363
+qwen3_14b_thinking,Qwen3 14B Thinking,Qwen,Education,8.35936024838
+qwen3_14b_thinking,Qwen3 14B Thinking,Qwen,Finance,9.3322197525
+qwen3_14b_thinking,Qwen3 14B Thinking,Qwen,Healthcare,5.71480435932
+qwen3_14b_thinking,Qwen3 14B Thinking,Qwen,Law,0.0227872669987
+qwen3_14b_thinking,Qwen3 14B Thinking,Qwen,Media / Information,8.58421510158
+qwen3_14b_thinking,Qwen3 14B Thinking,Qwen,Public Policy,8.27844682248
+qwen3_14b_thinking,Qwen3 14B Thinking,Qwen,Workplace / Organizational,4.70040012244
+qwen3_32b_no_thinking,Qwen3 32B No Thinking,Qwen,Business / Corporate,5.58071738097
+qwen3_32b_no_thinking,Qwen3 32B No Thinking,Qwen,Education,4.62827147266
+qwen3_32b_no_thinking,Qwen3 32B No Thinking,Qwen,Finance,8.91583984054
+qwen3_32b_no_thinking,Qwen3 32B No Thinking,Qwen,Healthcare,6.9367797497
+qwen3_32b_no_thinking,Qwen3 32B No Thinking,Qwen,Law,2.30444282278
+qwen3_32b_no_thinking,Qwen3 32B No Thinking,Qwen,Media / Information,9.6120438408
+qwen3_32b_no_thinking,Qwen3 32B No Thinking,Qwen,Public Policy,1.47015900766
+qwen3_32b_no_thinking,Qwen3 32B No Thinking,Qwen,Workplace / Organizational,5.8625231394
+qwen3_32b_thinking,Qwen3 32B Thinking,Qwen,Business / Corporate,5.73742582052
+qwen3_32b_thinking,Qwen3 32B Thinking,Qwen,Education,5.13217941053
+qwen3_32b_thinking,Qwen3 32B Thinking,Qwen,Finance,8.36730726877
+qwen3_32b_thinking,Qwen3 32B Thinking,Qwen,Healthcare,5.52597734364
+qwen3_32b_thinking,Qwen3 32B Thinking,Qwen,Law,0.912449748319
+qwen3_32b_thinking,Qwen3 32B Thinking,Qwen,Media / Information,5.96568986569
+qwen3_32b_thinking,Qwen3 32B Thinking,Qwen,Public Policy,4.00032379686
+qwen3_32b_thinking,Qwen3 32B Thinking,Qwen,Workplace / Organizational,5.08469219971
+qwen3_8b_no_thinking,Qwen3 8B No Thinking,Qwen,Business / Corporate,4.76990937336
+qwen3_8b_no_thinking,Qwen3 8B No Thinking,Qwen,Education,5.16961676422
+qwen3_8b_no_thinking,Qwen3 8B No Thinking,Qwen,Finance,6.12510835419
+qwen3_8b_no_thinking,Qwen3 8B No Thinking,Qwen,Healthcare,5.07103120782
+qwen3_8b_no_thinking,Qwen3 8B No Thinking,Qwen,Law,0.227061802102
+qwen3_8b_no_thinking,Qwen3 8B No Thinking,Qwen,Media / Information,6.5572831622
+qwen3_8b_no_thinking,Qwen3 8B No Thinking,Qwen,Public Policy,6.03587473818
+qwen3_8b_no_thinking,Qwen3 8B No Thinking,Qwen,Workplace / Organizational,4.44866522366
+qwen3_8b_thinking,Qwen3 8B Thinking,Qwen,Business / Corporate,5.4861930402
+qwen3_8b_thinking,Qwen3 8B Thinking,Qwen,Education,7.95301358528
+qwen3_8b_thinking,Qwen3 8B Thinking,Qwen,Finance,6.8502918439
+qwen3_8b_thinking,Qwen3 8B Thinking,Qwen,Healthcare,5.42002111451
+qwen3_8b_thinking,Qwen3 8B Thinking,Qwen,Law,0.348214557951
+qwen3_8b_thinking,Qwen3 8B Thinking,Qwen,Media / Information,9.64109213792
+qwen3_8b_thinking,Qwen3 8B Thinking,Qwen,Public Policy,4.86508774164
+qwen3_8b_thinking,Qwen3 8B Thinking,Qwen,Workplace / Organizational,5.36210894003

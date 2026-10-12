@@ -2,6 +2,8 @@
 
 ## Status
 
+October 12 update: implemented in `paper/acl_latex.tex`, `paper/appendices/reviewer_analyses.tex`, the four `paper/tables/` inputs, and the supplied data figures. The round-two revision letter is `paper/revisions/round2_revisions.tex`. The checklist below records the pre-revision audit; its former pending-status statements are historical. The current grounding correction uses TEN tests, superseding the four-test values below. See `../manuscript_revision/README.md` for the completed audit and reproduction commands.
+
 The rebuttal and paper's Ordering definition, paired-distortion definition, and statistical denominator explanation have been updated. The paper's numerical tables, figures and downstream narrative have NOT yet been replaced. This checklist gives the replacements. Published caches remain intact; revised metrics and figures live in this directory. Historical denominator-only notes elsewhere are superseded by `results.md` here.
 
 ## Definition and interpretation

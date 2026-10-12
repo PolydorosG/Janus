@@ -6,9 +6,14 @@ from __future__ import annotations
 import argparse
 import csv
 import random
+import numpy as np
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Iterable
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from ordering_metric import paired_ordering
 
 
 METRICS = (
@@ -25,10 +30,11 @@ def mean(values: Iterable[float]) -> float:
     return sum(numbers) / len(numbers)
 
 
-def bootstrap_ci(values: list[float], seed: int, iterations: int = 10000) -> tuple[float, float]:
-    rng = random.Random(seed)
-    estimates = sorted(mean(rng.choice(values) for _ in values) for _ in range(iterations))
-    return estimates[int(0.025 * iterations)], estimates[int(0.975 * iterations)]
+def bootstrap_ci(values: list[float], seed: int, iterations: int = 20000) -> tuple[float, float]:
+    rng = np.random.default_rng(seed)
+    values = np.asarray(values, dtype=float)
+    estimates = values[rng.integers(0, len(values), (iterations, len(values)))].mean(axis=1)
+    return tuple(np.quantile(estimates, [.025, .975]))
 
 
 def read_core(path: Path) -> dict[str, dict[str, str]]:
@@ -50,26 +56,15 @@ def pairwise_ordering_deltas(
         for row in csv.DictReader(input_file):
             grouped[(str(row["sample_id"]), str(row["condition"]))].append(row)
 
-    def adverse_first_rate(rows: list[dict[str, str]]) -> float:
-        favorable = [
-            float(row["first_output_unit_id"])
-            for row in rows
-            if row.get("polarity") == "F" and row.get("first_output_unit_id") not in {None, ""}
-        ]
-        adverse = [
-            float(row["first_output_unit_id"])
-            for row in rows
-            if row.get("polarity") == "A" and row.get("first_output_unit_id") not in {None, ""}
-        ]
-        return sum(a < f for f in favorable for a in adverse) / 9.0
-
     sample_ids = {sample_id for sample_id, _ in grouped}
     deltas: dict[str, float] = {}
     for sample_id in sample_ids:
         reference = grouped.get((sample_id, reference_condition))
         target = grouped.get((sample_id, target_condition))
         if reference is not None and target is not None:
-            deltas[sample_id] = adverse_first_rate(reference) - adverse_first_rate(target)
+            value = paired_ordering(reference, target)['delta_ordering_shift']
+            if value is not None:
+                deltas[sample_id] = value
     return deltas
 
 
@@ -97,8 +92,8 @@ def analyze(runs: list[list[str]], output_dir: Path, seed: int) -> None:
         )
         for metric_index, metric in enumerate(METRICS):
             if metric == "delta_ordering_shift":
-                direct_values = [direct_ordering[sample_id] for sample_id in sample_ids]
-                residual_values = [residual_ordering[sample_id] for sample_id in sample_ids]
+                direct_values = [direct_ordering[sample_id] for sample_id in sample_ids if sample_id in direct_ordering]
+                residual_values = [residual_ordering[sample_id] for sample_id in sample_ids if sample_id in residual_ordering]
             else:
                 direct_values = [
                     value
@@ -110,12 +105,13 @@ def analyze(runs: list[list[str]], output_dir: Path, seed: int) -> None:
                     for sample_id in sample_ids
                     if (value := optional_float(residual[sample_id].get(metric))) is not None
                 ]
-            low, high = bootstrap_ci(direct_values, seed + 10 * run_index + metric_index)
+            low, high = bootstrap_ci(direct_values, seed)
             summary.append(
                 {
                     "model": label,
                     "metric": metric,
                     "n_scenarios": len(direct_values),
+                    "n_residual_scenarios": len(residual_values),
                     "mean_mitigated_minus_original_goal": mean(direct_values),
                     "direct_paired_bootstrap_ci95_low": low,
                     "direct_paired_bootstrap_ci95_high": high,
@@ -125,7 +121,7 @@ def analyze(runs: list[list[str]], output_dir: Path, seed: int) -> None:
             )
         for sample_id in sample_ids:
             changes = [
-                direct_ordering[sample_id]
+                direct_ordering.get(sample_id)
                 if metric == "delta_ordering_shift"
                 else optional_float(direct[sample_id].get(metric))
                 for metric in METRICS
@@ -150,6 +146,7 @@ def analyze(runs: list[list[str]], output_dir: Path, seed: int) -> None:
                 "model": label,
                 "metric": "MAJORITY_COMPONENTS_IMPROVED",
                 "n_scenarios": len(model_scenarios),
+                "n_residual_scenarios": "",
                 "mean_mitigated_minus_original_goal": "",
                 "direct_paired_bootstrap_ci95_low": "",
                 "direct_paired_bootstrap_ci95_high": "",
@@ -174,7 +171,7 @@ def main() -> None:
         required=True,
     )
     parser.add_argument("--output-dir", default="analysis/mitigation")
-    parser.add_argument("--seed", type=int, default=20260710)
+    parser.add_argument("--seed", type=int, default=160)
     args = parser.parse_args()
     analyze(args.run, Path(args.output_dir), args.seed)
 

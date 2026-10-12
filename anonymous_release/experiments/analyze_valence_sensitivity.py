@@ -43,7 +43,7 @@ def pearson(left: Iterable[float], right: Iterable[float]) -> float | None:
 
 
 def ranks(values: Iterable[float]) -> list[float]:
-    numbers = list(values)
+    numbers = [round(value, 10) for value in values]
     ordered = sorted(range(len(numbers)), key=numbers.__getitem__)
     result = [0.0] * len(numbers)
     start = 0

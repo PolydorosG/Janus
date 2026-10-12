@@ -1,0 +1,20 @@
+{
+  "n_pairs": 50,
+  "old_rho": 0.5028004940535021,
+  "new_rho": 0.5084943198943853,
+  "permutation_p": 0.00017999910000449998,
+  "draws": 200000,
+  "unit": "one response pair, with its two annotator votes aggregated",
+  "score": "historical clipped positive-part normalized five-dimension composite; replace only Ordering",
+  "selection": "frozen original high/low quartile-stratified sample; no reselection",
+  "counts": {
+    "high": {
+      "support_goal_votes": 40,
+      "misleading_goal_votes": 28
+    },
+    "low": {
+      "support_goal_votes": 25,
+      "misleading_goal_votes": 7
+    }
+  }
+}

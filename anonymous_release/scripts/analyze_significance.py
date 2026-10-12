@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Iterable
@@ -13,6 +14,8 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from ordering_metric import paired_ordering
 MODELS = (
     "gpt_5_4",
     "gpt_5_4_mini",
@@ -41,23 +44,6 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(input_file))
 
 
-def adverse_first_rate(rows: Iterable[dict[str, str]]) -> float:
-    rows = list(rows)
-    favorable = [
-        float(row["first_output_unit_id"])
-        for row in rows
-        if row.get("polarity") == "F" and row.get("first_output_unit_id")
-    ]
-    adverse = [
-        float(row["first_output_unit_id"])
-        for row in rows
-        if row.get("polarity") == "A" and row.get("first_output_unit_id")
-    ]
-    # Every JANUS item has three favorable and three adverse facts. Missing
-    # facts contribute zero to the nine possible adverse-before-favorable pairs.
-    return sum(a < f for f in favorable for a in adverse) / 9.0
-
-
 def ordering_deltas(path: Path) -> dict[str, float]:
     grouped: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
     for row in read_csv(path):
@@ -67,7 +53,9 @@ def ordering_deltas(path: Path) -> dict[str, float]:
         neutral = grouped.get((sample_id, "neutral"))
         goal = grouped.get((sample_id, "latent_goal"))
         if neutral is not None and goal is not None:
-            deltas[sample_id] = adverse_first_rate(neutral) - adverse_first_rate(goal)
+            value = paired_ordering(neutral, goal)['delta_ordering_shift']
+            if value is not None:
+                deltas[sample_id] = value
     return deltas
 
 
@@ -76,20 +64,22 @@ def sign_flip_p_value(
     *,
     draws: int,
     seed: int,
-    batch_size: int = 10_000,
-) -> float:
+    batch_size: int = 2_000,
+) -> tuple[float, float, float]:
     observed = abs(float(values.mean()))
     rng = np.random.default_rng(seed)
+    boots = values[rng.integers(0, len(values), (20000, len(values)))].mean(axis=1)
     extreme = 0
     completed = 0
     while completed < draws:
         size = min(batch_size, draws - completed)
-        signs = rng.integers(0, 2, size=(size, len(values)), dtype=np.int8)
+        signs = rng.integers(0, 2, size=(size, len(values)))
         signs = signs * 2 - 1
-        randomized = np.abs(signs @ values / len(values))
-        extreme += int(np.count_nonzero(randomized >= observed - 1e-15))
+        randomized = np.abs((signs * values).mean(axis=1))
+        extreme += int(np.count_nonzero(randomized >= observed - 1e-12))
         completed += size
-    return (extreme + 1) / (draws + 1)
+    low, high = np.quantile(boots, [.025, .975])
+    return (extreme + 1) / (draws + 1), float(low), float(high)
 
 
 def benjamini_hochberg(p_values: list[float]) -> list[float]:
@@ -109,7 +99,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--metrics-root", type=Path, default=ROOT / "metrics")
     parser.add_argument("--draws", type=int, default=200_000)
-    parser.add_argument("--seed", type=int, default=20260710)
+    parser.add_argument("--seed", type=int, default=160)
     parser.add_argument(
         "--output",
         type=Path,
@@ -124,7 +114,7 @@ def main() -> None:
     test_index = 0
     for model in MODELS:
         model_root = args.metrics_root / model
-        core_rows = read_csv(model_root / "core_metrics.csv")
+        core_rows = sorted(read_csv(model_root / "core_metrics.csv"), key=lambda r: r['sample_id'])
         ordering = ordering_deltas(model_root / "fact_level_metrics.csv")
         for metric in METRICS:
             if metric == "delta_ordering_shift":
@@ -137,10 +127,10 @@ def main() -> None:
                     [float(row[metric]) for row in core_rows if row.get(metric) not in {None, ""}],
                     dtype=np.float64,
                 )
-            p_value = sign_flip_p_value(
+            p_value, ci_low, ci_high = sign_flip_p_value(
                 values,
                 draws=args.draws,
-                seed=args.seed + test_index,
+                seed=args.seed,
             )
             output_rows.append(
                 {
@@ -148,6 +138,8 @@ def main() -> None:
                     "metric": metric,
                     "n_items": len(values),
                     "mean_delta": float(values.mean()),
+                    "ci_low": ci_low,
+                    "ci_high": ci_high,
                     "p_value": p_value,
                 }
             )

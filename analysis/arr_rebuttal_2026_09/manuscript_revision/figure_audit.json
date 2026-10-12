@@ -1,0 +1,9 @@
+{
+  "changed_pixel_x_min": 640,
+  "changed_pixel_x_max": 752,
+  "nonordering_pixels_identical": true,
+  "note": "Comparison to same-style legacy rendering; only Ordering lane should change.",
+  "supplied_dumbbell_reproduced_exactly": true,
+  "category_radar.png_legacy_pixels_identical": true,
+  "all_radars.png_legacy_pixels_identical": true
+}

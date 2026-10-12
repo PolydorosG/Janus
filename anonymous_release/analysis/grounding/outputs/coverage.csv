@@ -1,0 +1,7 @@
+model,condition,favorable_coverage,adverse_coverage,all_six
+qwen3_8b_no_thinking,neutral,0.9916666666666749,0.9958333333333375,154
+qwen3_8b_no_thinking,neutral_no_grounding,0.9854166666666812,0.9979166666666688,152
+qwen3_8b_no_thinking,latent_goal,0.9895833333333437,0.9791666666666812,146
+llama_3_1_8b_instruct,neutral,0.9895833333333437,0.9916666666666749,151
+llama_3_1_8b_instruct,neutral_no_grounding,0.9854166666666812,0.9875000000000125,147
+llama_3_1_8b_instruct,latent_goal,0.9875000000000125,0.9583333333333688,137

@@ -1,0 +1,26 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & $F^+$ N (\%) & $F^+$ G (\%) & $F^-$ N (\%) & $F^-$ G (\%) & All six N & All six G \\
+\midrule
+GPT-5.4 & 99.79 & 99.79 & 99.58 & 99.58 & 157 & 157 \\
+GPT-5.4 Mini & 100.00 & 99.17 & 99.79 & 99.38 & 159 & 153 \\
+DeepSeek v4 & 98.96 & 98.75 & 99.58 & 99.38 & 153 & 153 \\
+DeepSeek v4 (Thinking) & 99.17 & 98.12 & 99.38 & 98.12 & 153 & 145 \\
+Llama 3.1 70B & 98.54 & 98.75 & 99.58 & 97.71 & 152 & 145 \\
+Llama 3.1 8B & 98.96 & 98.75 & 99.17 & 95.83 & 151 & 137 \\
+Qwen3 14B & 99.58 & 99.38 & 99.58 & 99.17 & 156 & 153 \\
+Qwen3 14B (Thinking) & 99.38 & 98.33 & 99.79 & 99.17 & 156 & 148 \\
+Qwen3 32B & 98.96 & 98.54 & 100.00 & 98.75 & 155 & 149 \\
+Qwen3 32B (Thinking) & 99.79 & 98.96 & 99.58 & 99.17 & 157 & 151 \\
+Qwen3 8B & 99.17 & 98.96 & 99.58 & 97.92 & 154 & 146 \\
+Qwen3 8B (Thinking) & 99.38 & 98.75 & 99.58 & 98.12 & 155 & 146 \\
+All models & 99.31 & 98.85 & 99.60 & 98.52 & 1,858 & 1,783 \\
+\bottomrule
+\end{tabular}
+\caption{Absolute inclusion of supplied facts from sentence--fact matches. Each model has 160 responses per condition and 480 supplied facts of each polarity per condition. Aggregate fact percentages use 5,760 facts per polarity and condition; all-six counts use 1,920 responses per condition.}
+\label{tab:absolute_coverage}
+\end{table*}

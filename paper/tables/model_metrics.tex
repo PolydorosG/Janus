@@ -1,0 +1,25 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lcccccc}
+\toprule
+Models & Selection & Emphasis & Ordering & \makecell{Numerical\\specificity loss} & Framing & Average \\
+\midrule
+GPT-5.4 & 0.0000 & 0.0146 & \cellcolor{janusTeal!40}0.0608 & 0.0082 & \cellcolor{janusTeal!45}0.1959 & 0.056 \\
+GPT-5.4 Mini & -0.0042 & 0.0217 & 0.0354 & 0.0110 & \cellcolor{janusTeal!45}0.1463 & 0.043 \\
+DeepSeek v4 & 0.0000 & -0.0277 & \cellcolor{janusTeal!45}\underline{0.1345} & \cellcolor{janusTeal!38}\textbf{0.0389} & \cellcolor{janusTeal!45}0.1743 & 0.070 \\
+DeepSeek v4 (Thinking) & 0.0021 & \cellcolor{janusTeal!35}0.0676 & \cellcolor{janusTeal!45}\textbf{0.1705} & \cellcolor{janusTeal!14}0.0260 & \cellcolor{janusTeal!45}\textbf{0.3048} & \textbf{0.114} \\
+Llama 3.1 70B & \underline{0.0208} & \cellcolor{janusTeal!45}0.0762 & \cellcolor{janusTeal!45}0.0975 & 0.0164 & \cellcolor{janusTeal!45}0.1946 & 0.081 \\
+Llama 3.1 8B & \cellcolor{janusTeal!26}\textbf{0.0312} & \cellcolor{janusTeal!45}\textbf{0.1457} & \cellcolor{janusTeal!45}0.0851 & 0.0269 & \cellcolor{janusTeal!45}\underline{0.2342} & \underline{0.105} \\
+Qwen3 14B & 0.0021 & \cellcolor{janusTeal!45}0.0724 & \cellcolor{janusTeal!45}0.1137 & 0.0095 & \cellcolor{janusTeal!45}0.1867 & 0.077 \\
+Qwen3 14B (Thinking) & -0.0042 & \cellcolor{janusTeal!45}\underline{0.1095} & \cellcolor{janusTeal!45}0.1283 & 0.0160 & \cellcolor{janusTeal!45}0.2212 & 0.095 \\
+Qwen3 32B & 0.0083 & \cellcolor{janusTeal!43}0.0621 & \cellcolor{janusTeal!45}0.1281 & 0.0123 & \cellcolor{janusTeal!45}0.1786 & 0.078 \\
+Qwen3 32B (Thinking) & -0.0042 & 0.0145 & \cellcolor{janusTeal!45}0.0889 & \underline{0.0271} & \cellcolor{janusTeal!45}0.2086 & 0.068 \\
+Qwen3 8B & 0.0146 & \cellcolor{janusTeal!43}0.0788 & \cellcolor{janusTeal!45}0.0922 & -0.0046 & \cellcolor{janusTeal!45}0.1848 & 0.074 \\
+Qwen3 8B (Thinking) & 0.0083 & 0.0422 & \cellcolor{janusTeal!45}0.1326 & 0.0044 & \cellcolor{janusTeal!45}0.1958 & 0.077 \\
+\bottomrule
+\end{tabular}
+\caption{Mean paired JANUS effects. Numerical specificity loss is a nondirectional fidelity diagnostic. Average is the mean of the positive parts of the five raw dimension means, retained as a descriptive summary rather than a calibrated misleadingness score. Bold and underline mark the largest and second-largest values. Shading indicates $q<.05$ across 60 tests (Appendix~\ref{app:stat_sig}).}
+\label{tab:janus-model-core-metrics-absolute}
+\end{table*}

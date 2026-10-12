@@ -1,0 +1,23 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llrrlrr}
+\toprule
+Model & Dimension & Original & Sentence removed & 95\% CI (removed) & $n$ & BH $q$ \\
+\midrule
+Qwen3-8B & Selection & 0.0146 & 0.0229 & [0.0062, 0.0417] & 160 & 0.0242 \\
+Qwen3-8B & Emphasis & 0.0788 & 0.0736 & [0.0292, 0.1195] & 158 & 0.0033 \\
+Qwen3-8B & Ordering & 0.0922 & 0.0707 & [0.0267, 0.1165] & 160 & 0.0034 \\
+Qwen3-8B & Numerical specificity loss & -0.0046 & -0.0055 & [-0.0335, 0.0204] & 132 & 0.7029 \\
+Qwen3-8B & Framing & 0.1848 & 0.1799 & [0.1356, 0.2254] & 160 & $<0.0001$ \\
+Llama-3.1-8B & Selection & 0.0312 & 0.0312 & [0.0104, 0.0542] & 160 & 0.0147 \\
+Llama-3.1-8B & Emphasis & 0.1457 & 0.1499 & [0.1095, 0.1902] & 160 & $<0.0001$ \\
+Llama-3.1-8B & Ordering & 0.0851 & 0.0545 & [0.0203, 0.0882] & 159 & 0.0034 \\
+Llama-3.1-8B & Numerical specificity loss & 0.0269 & 0.0243 & [-0.0031, 0.0526] & 132 & 0.0990 \\
+Llama-3.1-8B & Framing & 0.2342 & 0.2373 & [0.1883, 0.2865] & 160 & $<0.0001$ \\
+\bottomrule
+\end{tabular}
+\caption{Grounding ablation: goal-minus-neutral effects before and after deleting only the neutral grounding sentence. Both ordering columns use the shared-pair metric. The original goal responses are reused. The correction family contains all ten sentence-removed tests (five dimensions $\times$ two models). These tests do not test the change between prompt variants or establish equivalence.}
+\label{tab:grounding_ablation}
+\end{table*}

@@ -6,11 +6,15 @@ from __future__ import annotations
 import csv
 import json
 import re
+import sys
 from collections import Counter
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from ordering_metric import paired_ordering
+from judge_fact_units import split_sentence_like_units
 MODELS = (
     "gpt_5_4",
     "gpt_5_4_mini",
@@ -32,7 +36,7 @@ PRIVATE_PATTERNS = {
     "absolute user path": re.compile(r"/(?:home|Users|mnt/iusers\d*)/"),
     "OpenAI-style secret": re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b"),
 }
-TEXT_SUFFIXES = {".csv", ".json", ".jsonl", ".md", ".py", ".txt"}
+TEXT_SUFFIXES = {".csv", ".json", ".jsonl", ".md", ".py", ".txt", ".tex"}
 
 
 def nonempty_jsonl_count(path: Path) -> int:
@@ -95,6 +99,54 @@ def main() -> None:
             require(nonempty_jsonl_count(framing) > 0, f"{framing.name} is empty", errors)
         if core.is_file():
             require(csv_count(core) == 160, f"{core} does not have 160 rows", errors)
+        if raw.is_file() and matched.is_file() and core.is_file():
+            with raw.open() as handle:
+                raw_rows = [json.loads(line) for line in handle if line.strip()]
+            with matched.open() as handle:
+                matched_rows = [json.loads(line) for line in handle if line.strip()]
+            expected = {(r['sample_id'], c) for r in dataset for c in ('neutral', 'latent_goal')}
+            for label, rows in [('raw', raw_rows), ('matched', matched_rows)]:
+                keys = [(r['sample_id'], r['condition']) for r in rows]
+                require(len(set(keys)) == len(keys) and set(keys) == expected,
+                        f'{model}: duplicate or missing {label} scenario/condition', errors)
+            by_key = {(r['sample_id'], r['condition']): r for r in raw_rows}
+            expected_framing = set()
+            for row in matched_rows:
+                key = row['sample_id'], row['condition']
+                source = by_key[key]
+                ids = {f['fact_id'] for f in source['presented_facts']}
+                require(len(ids) == 6, f'{model}/{key}: expected six source facts', errors)
+                units = split_sentence_like_units(source['response_text'])
+                require([(u['unit_id'], u['text']) for u in units] ==
+                        [(u['unit_id'], u['text']) for u in row['units']],
+                        f'{model}/{key}: matched sentences differ from raw response', errors)
+                for unit in row['units']:
+                    require(set(unit['matched_fact_ids']) <= ids,
+                            f'{model}/{key}: unknown matched fact', errors)
+                    expected_framing.update((*key, unit['unit_id'], fid)
+                                            for fid in unit['matched_fact_ids'])
+            if framing.is_file():
+                with framing.open() as handle:
+                    judgments = [json.loads(line) for line in handle if line.strip()]
+                actual = {(r['sample_id'], r['condition'], r['unit_id'], r['fact_id'])
+                          for r in judgments}
+                require(actual == expected_framing and len(actual) == len(judgments),
+                        f'{model}: incomplete/duplicate framing judgments', errors)
+                require(all(r.get('score') in (-1, 0, 1) and not r.get('error') for r in judgments),
+                        f'{model}: invalid framing judgments', errors)
+            facts = {}
+            with (core.parent / 'fact_level_metrics.csv').open() as handle:
+                for row in csv.DictReader(handle):
+                    facts.setdefault((row['sample_id'], row['condition']), []).append(row)
+            with core.open() as handle:
+                for row in csv.DictReader(handle):
+                    sid = row['sample_id']
+                    result = paired_ordering(facts[sid, 'neutral'], facts[sid, 'latent_goal'])
+                    actual = float(row['delta_ordering_shift']) if row['delta_ordering_shift'] else None
+                    value = result['delta_ordering_shift']
+                    require((actual is None and value is None) or
+                            (actual is not None and value is not None and abs(actual-value)<1e-10),
+                            f'{model}/{sid}: Ordering disagrees with shared-pair definition', errors)
 
     required_supplements = (
         "analysis/judge_robustness/outputs/two_generator_family_bias.csv",
@@ -102,11 +154,25 @@ def main() -> None:
         "analysis/valence/meta_llama_llama_3_1_70b_instruct.jsonl",
         "analysis/valence/valence_sensitivity_summary.csv",
         "analysis/significance.csv",
+        "ORDERING.md",
+        "ordering_metric.py",
+        "analysis/metric_checks/absolute_coverage.csv",
+        "analysis/metric_checks/complete_both_ordering.csv",
+        "analysis/grounding/outputs/summary.csv",
     )
     for relative in required_supplements:
         require((ROOT / relative).is_file(), f"missing supplement: {relative}", errors)
 
+    for model in ('qwen3_8b_no_thinking', 'llama_3_1_8b_instruct'):
+        for suffix in ('', '_matched', '_framing'):
+            path = ROOT / 'analysis/grounding/results' / (model + suffix + '.jsonl')
+            require(path.is_file(), f'missing grounding artifact: {path.relative_to(ROOT)}', errors)
+
     for path in ROOT.rglob("*"):
+        if path.is_symlink():
+            errors.append(f'symlink included: {path.relative_to(ROOT)}')
+        if path.is_dir() and path.name in {'.git', '.venv', '.cache'}:
+            errors.append(f'private/generated directory included: {path.relative_to(ROOT)}')
         if path.is_dir() and path.name == "__pycache__":
             errors.append(f"cache directory included: {path.relative_to(ROOT)}")
         if not path.is_file():
@@ -123,6 +189,12 @@ def main() -> None:
         for label, pattern in PRIVATE_PATTERNS.items():
             if pattern.search(text):
                 errors.append(f"possible {label} in {path.relative_to(ROOT)}")
+        if path.suffix == '.csv':
+            header = text.splitlines()[0] if text else ''
+            obsolete = ('prompt_' + 'ordering_gap', 'output_' + 'ordering_gap',
+                        'prompt_to_output_' + 'ordering_shift')
+            if any(name in header for name in obsolete):
+                errors.append(f'obsolete Ordering field in {path.relative_to(ROOT)}')
 
     if errors:
         print("Release validation failed:")

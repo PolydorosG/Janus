@@ -112,17 +112,19 @@ def analyze():
             for metric in ("ordering", "framing", "selection", "emphasis", "numerical_loss"):
                 summaries.append(dict(model=model, contrast=contrast, metric=metric,
                     **stats([r[metric] for r in rows]), q_primary=None))
-    primary = [r for r in summaries if r["contrast"] == "goal_minus_unrestricted_neutral" and r["metric"] in ("ordering", "framing")]
+    # Report the complete five-dimensional ablation, with one ten-test family.
+    primary = [r for r in summaries if r["contrast"] == "goal_minus_unrestricted_neutral"]
+    assert len(primary) == 10
     bh(primary)
     for row in primary:
         row["q_primary"] = row.pop("q_within_variant")
     write_csv(target / "paired_scenarios.csv", details)
     write_csv(target / "summary.csv", summaries)
     write_csv(target / "coverage.csv", coverage)
-    text = ["# Grounding ablation results", "", "Original goal outputs/judgments reused. Only the original neutral grounding sentence was removed. Role/audience differences remain. This is not an objective-only control.", "", "| Model | Metric | Goal minus new neutral | 95% CI | n | BH q (4 primary tests) |", "|---|---|---:|---|---:|---:|"]
+    text = ["# Grounding ablation results", "", "Original goal outputs/judgments reused. Only the original neutral grounding sentence was removed. Role/audience differences remain. This is not an objective-only control.", "", "| Model | Metric | Goal minus new neutral | 95% CI | n | BH q (10 tests: 5 dimensions × 2 models) |", "|---|---|---:|---|---:|---:|"]
     for r in primary:
         text.append(f"| {r['model']} | {r['metric']} | {r['mean']:.4f} | [{r['ci_low']:.4f}, {r['ci_high']:.4f}] | {r['n']} | {r['q_primary']:.5g} |")
-    text += ["", "Ordering uses the same co-mentioned fact pairs in both outputs, with first mentions across all units and half credit for ties. Comparisons may have different eligible pair sets: do not subtract ordering contrasts as an additive decomposition. Bootstrap: 20,000 paired scenario resamples; two-sided sign flips: 200,000. Secondary contrasts and dimensions are descriptive/sensitivity analyses."]
+    text += ["", "Ordering uses the same co-mentioned fact pairs in both outputs, with first mentions across all units and half credit for ties. Comparisons may have different eligible pair sets: do not subtract ordering contrasts as an additive decomposition. Bootstrap: 20,000 paired scenario resamples; two-sided sign flips: 200,000. The ten tests assess goal-minus-new-neutral effects, not before/after changes. Other contrasts are descriptive/sensitivity analyses."]
     raw = [r for m in MODELS for r in jsonl(DEFAULT_OUTPUT / f"{m}.jsonl") if r["condition"] == "neutral_no_grounding"]
     text += ["", f"New outputs flagged at the token limit: {sum(r['hit_token_limit'] for r in raw)}/{len(raw)}. Historical outputs lack token-stop metadata; absence of truncation there is not established."]
     (target / "results.md").write_text("\n".join(text) + "\n")

@@ -1,23 +1,22 @@
 # Prompt-mitigation artifact note
 
-`outputs/mitigation_summary.csv` is the snapshot used for the paper's mitigation
-table. Selection, emphasis, ordering, and specificity use the expected available
-scenario counts and reproduce from the packaged metric files.
+The metrics and summaries are recomputed from the packaged generations and
+judgments. Ordering uses the shared-pair definition in `ORDERING.md` for
+both direct (guardrail minus goal) and residual (guardrail minus neutral)
+comparisons. Each comparison constructs its own shared pair set; do not obtain
+one Ordering contrast by subtracting two others.
 
-The framing judgments were incomplete when that snapshot was produced. The
-reported Llama-3.1-8B framing row uses 54 scenarios, and the reported Qwen3-8B
-framing row uses 94 scenarios. The working repository was subsequently updated
-with Qwen framing judgments for all 160 scenarios, while the published summary
-CSV was not regenerated. Running `experiments/analyze_mitigation.py` against
-the currently packaged metric files therefore gives the following Qwen changes:
+Qwen framing has judgments for all 160 scenarios. Llama framing has judgments
+for 54 scenarios; this limitation is retained explicitly rather than imputing
+the missing judgments. Non-framing metrics use their own eligible scenarios.
 
-| Quantity | Paper snapshot (n=94) | Current rerun (n=160) |
-|---|---:|---:|
-| Guardrail minus original goal, framing | -0.1316 | -0.1194 |
-| Guardrail minus neutral, framing | 0.0458 | 0.0654 |
+Current residual framing effects are 0.0654 for Qwen and 0.0963 for Llama.
+The Qwen direct framing effect is -0.1194. These are calculated from the
+current data, not an earlier partial-judgment snapshot.
 
-The qualitative conclusion is unchanged: the guardrail reduces Qwen framing
-distortion relative to the original goal-conditioned response. The release
-retains the paper snapshot under `outputs/` and the latest underlying data under
-`metrics/` and `results/`. This distinction should be resolved in the manuscript
-or camera-ready artifact rather than hidden in release code.
+Direct Ordering effects are -0.1155 (Qwen, n=160) and -0.0423 (Llama, n=159).
+Residual Ordering effects are -0.0266 (Qwen, n=160) and 0.0431 (Llama, n=160).
+Direct 95% intervals use 20,000 scenario bootstrap resamples and seed 160.
+
+Run `python scripts/reproduce_supplements.py` from the release root to
+rebuild the metrics and summaries without new generations or judgments.

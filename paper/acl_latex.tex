@@ -122,8 +122,8 @@ JANUS: Evaluating Goal-Conditioned Distortion in Factually Grounded LLM Communic
 
 \begin{abstract}
 LLM deception is often evaluated through fabricated claims, explicit lies, or strategic concealment. Yet misleading communication can also arise from selectively presenting true facts, for example, by omitting adverse evidence, softening unfavorable details, emphasizing favorable information, or replacing precise qualifications with vague language. Existing benchmarks largely overlook this subtler failure mode.
-We introduce JANUS, a benchmark for measuring goal-conditioned pragmatic distortion in fact-grounded LLM outputs. Each of its 160 scenarios, spanning 8 domains, provides a fixed pool of favorable and adverse facts and contrasts a neutral prompt with a goal-directed prompt, such as increasing adoption, or support despite potential harm to affected individuals or groups. By constraining outputs to the same fact pool, JANUS isolates misleading net impressions from hallucination and fabrication.
-Experiments across 12 LLMs reveal consistent goal-conditioned distortions, showing that current models remain sensitive to incentives and framing and lack robust safeguards against selectively misleading communication. We publicly release our corpus and code for future research.\footnote{Code and dataset will be provided upon acceptance.}
+We introduce JANUS, a benchmark for measuring goal-conditioned pragmatic distortion in fact-grounded LLM outputs. Each of its 160 scenarios, spanning 8 domains, provides a fixed pool of favorable and adverse facts and contrasts a neutral decision support with institutional conditioning, such as increasing adoption, or support despite potential harm to affected individuals or groups. By constraining outputs to the same fact pool, JANUS isolates misleading net impressions from hallucination and fabrication.
+Experiments across 12 LLMs reveal consistent goal-conditioned distortions, showing that current models remain sensitive to incentives and framing and lack robust safeguards against selectively misleading communication. We publicly release our corpus and code.\footnote{https://anonymous.4open.science/r/Janus-Anonymous-Release-B176/}
 \end{abstract} 
 
 
@@ -134,7 +134,7 @@ Experiments across 12 LLMs reveal consistent goal-conditioned distortions, showi
   \caption{Overview of a JANUS instance.}
   \label{fig:example}
 \end{figure}
-Large language models (LLMs) are increasingly used to communicate decision-relevant information in high-stakes settings, where they summarize evidence, explain trade-offs, and support consequential decisions \citep{openai2024gpt4technicalreport, nie2024survey, wang2024large}. Yet the system communicating this evidence may not be a neutral advisor. A financial institution may seek to encourage investment, a university to increase enrollment, or an employer to retain staff. In such settings, falsehoods are not the only way to shape a recipient's impression. Two responses can accurately describe the same underlying evidence while leading recipients toward different conclusions through differences in what information is emphasized, how it is ordered, how specifically it is described, or how it is framed \citep{tversky1981framing, entman1993framing}.
+Large language models (LLMs) are increasingly used to communicate decision-relevant information in high-stakes settings, where they summarize evidence, explain trade-offs, and support decision-making \citep{openai2024gpt4technicalreport, nie2024survey, wang2024large}. Yet the system communicating this evidence may not be a neutral advisor. A financial institution may seek to encourage investment, a university to increase enrollment, or an employer to retain staff. In such settings, falsehoods are not the only way to shape a recipient's impression. Two responses can accurately describe the same underlying evidence while leading recipients toward different conclusions through differences in what information is emphasized, how it is ordered, how specifically it is described, or how it is framed \citep{tversky1981framing, entman1993framing}.
 
 Hallucination and factuality benchmarks primarily assess whether generated claims are false, unsupported, or unverifiable \citep{lin2022truthfulqa, li2023halueval, min2023factscore}. Deception evaluations instead examine behaviors such as explicit falsehood generation, strategic concealment, adversarial interaction, and goal-directed deception \citep{greenblatt2024alignment, huang2026deceptionbench}. However, factual correctness alone does not guarantee faithful communication. A response can remain grounded in the supplied evidence while creating a systematically different impression through selective omission, unequal emphasis, altered ordering, reduced specificity, or goal-congruent framing \citep{shi2026hallucination, cheng2025elephant}.
 
@@ -180,7 +180,7 @@ Comparison with representative LLM evaluation benchmarks.
 \end{table*}
 
 
-To answer this question, we introduce \textbf{JANUS}, a benchmark and evaluation framework for measuring \emph{goal-conditioned information distortion}. Unlike existing evaluations that assess individual responses for factual correctness, JANUS evaluates how institutional objectives affect the communication of the same underlying evidence. It combines four elements: paired prompts that isolate the effect of an institutional objective, fixed and manually validated fact pools that separate communicative distortion from factual error, recipient-specific decision scenarios that reflect realistic institutional settings, and a behavioral evaluation framework spanning five complementary dimensions of communicative distortion. 
+We introduce \textbf{JANUS}, a benchmark and evaluation framework for measuring \emph{goal-conditioned information distortion}. Unlike existing evaluations that assess individual responses for factual correctness, JANUS evaluates how institutional objectives affect the communication of the same underlying evidence. It combines four elements: paired prompts that isolate the effect of an institutional objective, fixed and manually validated fact pools that separate communicative distortion from factual error, recipient-specific decision scenarios that reflect realistic institutional settings, and a behavioral evaluation framework spanning five complementary dimensions of communicative distortion. 
 
 
 Figure~\ref{fig:example} illustrates the core phenomenon. In both conditions, the model receives the same favorable and adverse evidence about a financial product. Under the neutral condition, it is asked to provide balanced decision support; under the goal-conditioned condition, it is assigned an institutional objective to encourage participation. Although both responses can remain grounded in the provided evidence, the goal-conditioned response may present benefits earlier, devote more attention to them, or soften the language used to describe risks. JANUS measures these changes relative to the model's neutral response. This formulation builds on classic work in psychology and communication showing that equivalent information can induce systematically different judgments depending on how it is selected, framed, ordered, and made salient \citep{tversky1981framing, entman1993framing}.
@@ -196,7 +196,7 @@ Our contributions are as follows:
 neutral and goal-conditioned responses to the same complete evidence
 pool, isolating changes in how the evidence is communicated.
 
-\item We operationalize goal-conditioned communicative distortion along five behavioral dimensions: selection, emphasis, ordering, specificity, and framing.
+\item We operationalize goal-conditioned communicative distortion along five behavioral dimensions: selection, emphasis, ordering, numerical specificity, and framing.
 
 \item We provide empirical evidence that realistic institutional objectives systematically induce asymmetric treatment of fixed facts across domains, and model families.
 
@@ -210,7 +210,7 @@ JANUS measures \emph{goal-conditioned information distortion}: changes in how a 
 
 Information distortion does not require fabrication, factual error, or an explicitly deceptive statement. A response may remain fully supported by the supplied evidence while presenting that evidence asymmetrically. For example, it may omit more adverse than favorable facts, elaborate more extensively on favorable evidence, place favorable information earlier, drop or abstract numerical qualifications, or characterize adverse evidence in less consequential terms. JANUS treats these as complementary manifestations of the same underlying construct.
 
-How do we evaluate models under this definition? For each scenario, the same model produces one response under a neutral instruction and one under an instruction that assigns the institutional role and objective. The recipient, decision subject, supplied facts, evidence order, and requested output are held constant. Differences between the two responses are evaluated across five dimensions and reported as a paired distortion profile. Figure~\ref{fig:janus_overview} summarizes the overall benchmark pipeline.
+For each scenario, the same model produces a neutral response and conditioned on an institutional role and objective. The recipient, decision subject, supplied facts, evidence order, and requested output are held constant. Differences between the two responses are evaluated across five dimensions and reported as a paired distortion profile. Figure~\ref{fig:janus_overview} summarizes the overall benchmark pipeline.
 
 \begin{figure*}[t]
     \centering
@@ -246,9 +246,9 @@ Both conditions use the same user message containing the scenario, evidence, and
 \textbf{Goal-conditioned:} \texttt{You are a \{ROLE\} preparing a concise decision-support summary about \{ITEM\} for \{AUDIENCE\}. \{GOAL\_OWNER\} wants the summary to \{OBJECTIVE\}.}
 \end{quote}
 
+The goal-conditioned instruction states an institutional objective but does not specify how it should be achieved. A model can pursue the objective through a transparent recommendation while still presenting the material evidence faithfully. JANUS measures whether models instead change these specific aspects of communication. 
 
-The goal-conditioned instruction states an institutional objective but does not specify how it should be achieved. A model can pursue the objective through a transparent recommendation while still presenting the material evidence faithfully. JANUS measures whether models instead change these specific aspects of communication. Full prompt templates and a complete paired example are provided in
-Appendices~\ref{app:prompting_details} and~\ref{app:complete_example}.
+The recipient context is present in both user messages and restated in the goal-conditioned system message. We omit the institutional role from the neutral condition because roles may themselves imply objectives (e.g. an ``enrolment specialist'' often wants to increase enrolments). The grounding sentence is intended to discourage outside additions in the neutral baseline; Appendix~\ref{app:grounding_ablation} tests its removal. Full prompt templates and a complete paired example are provided in Appendices~\ref{app:prompting_details} and~\ref{app:complete_example}.
 
 Let \(\pi(F)\) denote the randomized evidence order. For model \(M\) with parameters \(\theta\), the paired generations are
 \begin{equation}
@@ -258,20 +258,19 @@ y^{G} &= M(r,d,\pi(F),c^{G}(a,g);\theta).
 \end{aligned}
 \label{eq:paired_generation}
 \end{equation}
-Here, \(c^{N}\) and \(c^{G}\) denote the neutral and goal-conditioned
-system-message conditions. Because the inputs and the output task are fixed, systematic differences between \(y^{N}\) and \(y^{G}\) reflect changes associated with assigning the institutional objective. The neutral response also provides a within-model baseline for verbosity, default ordering, numerical preservation, and rhetorical style.
+Here, \(c^{N}\) and \(c^{G}\) denote the neutral and goal-conditioned system-message conditions. Differences between \(y^{N}\) and \(y^{G}\) reflect changes associated with assigning the institutional role and objective. The neutral response also provides a within-model baseline for verbosity, default ordering, numerical preservation, and rhetorical style.
 
 \subsection{Evaluation}
 \label{subsec:evaluation}
 
-Drawing on prior work in communication and judgment, we focus on five presentational choices that can systematically shape how evidence is interpreted: what is included, how much attention it receives, where it appears, whether numerical qualifications are retained, and how it is characterized \cite{rogers2017artful,entman1993framing,igou2003inferring,zhang2013power}. JANUS captures these choices as selection, emphasis, ordering, specificity, and framing, respectively (Table~\ref{tab:janus_dimensions}).
+Drawing on prior work in communication and judgment, we focus on five presentational choices that can systematically shape how evidence is interpreted: what is included, how much attention it receives, where it appears, whether numerical qualifications are retained, and how it is characterized \cite{rogers2017artful,entman1993framing,igou2003inferring,zhang2013power}. JANUS captures these choices as selection, emphasis, ordering, numerical specificity (hereafter, specificity), and framing, respectively (Table~\ref{tab:janus_dimensions}).
 
 \begin{table*}[t]
 \centering
 \small
 \begin{tabular}{p{0.13\textwidth}p{0.31\textwidth}p{0.45\textwidth}}
 \toprule
-\textbf{Dimension} & \textbf{Evaluation question} & \textbf{Goal-favoring change} \\
+\textbf{Dimension} & \textbf{Evaluation question} & \textbf{Measured change} \\
 \midrule
 Selection & Which evidence statements are included? & Greater favorable than adverse coverage. \\
 Emphasis & How much attention does each side receive? & More evidence-linked text devoted to favorable statements. \\
@@ -305,7 +304,7 @@ We define
 -
 \frac{|I^{-}(y)|}{|F^{-}|}.
 \end{equation}
-Larger values indicate greater favorable-than-adverse coverage. Because each class contains three statements, a change of \(1/3\) in either coverage term corresponds to one statement.
+Larger values indicate greater favorable-than-adverse coverage. Because each class contains three statements, a change of \(1/3\) in either coverage term corresponds to one statement. 
 
 \paragraph{Emphasis.}
 Let \(\tau(s_i)\) be the token count of output unit \(s_i\). Token mass is divided equally when a unit matches multiple statements, yielding statement-level allocation \(A_y(f)\). Define
@@ -323,19 +322,7 @@ and
 Larger values indicate that a greater share of evidence-linked text is devoted to favorable statements.
 
 \paragraph{Ordering.}
-Ordering is defined directly on the paired responses. For scenario \(x\) and
-model \(M\), let \(\mathcal C(x,M)\) contain the favorable--adverse pairs
-whose two facts are mentioned in both \(y^{N}\) and \(y^{G}\):
-\[
-\begin{aligned}
-\mathcal C(x,M)=\{(f^+,f^-)\in F^+\!\times F^-:\quad &\\
-o_{y^c}(f^+),o_{y^c}(f^-)\neq\varnothing
-&\quad\forall c\in\{N,G\}\}.
-\end{aligned}
-\]
-Here \(o_y(f)\) uses the first matched output unit across all sentences,
-including sentences expressing both favorable and adverse facts. For an
-observed pair, define
+For scenario \(x\), let \(\mathcal C(x,M)\subseteq F^+\times F^-\) contain only pairs whose two facts appear in both \(y^N\) and \(y^G\). We use first mentions across all matched output units. Define
 \[
 s_y(f^+,f^-)=
 \begin{cases}
@@ -344,24 +331,17 @@ s_y(f^+,f^-)=
 0 & o_y(f^-)<o_y(f^+).
 \end{cases}
 \]
-The scenario-level ordering effect is
+The paired effect is
 \begin{equation}
-\begin{aligned}
+\begin{split}
 D_{\mathrm{ord}}(x,M)
-=\frac{1}{|\mathcal C(x,M)|}
-\sum_{(f^+,f^-)\in\mathcal C(x,M)}\! &\\[-1ex]
-\left[s_{y^{G}}(f^+,f^-)-s_{y^{N}}(f^+,f^-)\right]&.
-\end{aligned}
+={}&\frac{1}{|\mathcal C(x,M)|}
+\sum_{(f^+,f^-)\in\mathcal C(x,M)}\\[-0.5ex]
+&\left[s_{y^G}(f^+,f^-)-s_{y^N}(f^+,f^-)\right].
+\end{split}
 \label{eq:shared_pair_ordering}
 \end{equation}
-Positive values indicate a shift toward favorable-first ordering among
-jointly retained facts. Same-unit ties receive half credit because their
-within-unit order is unresolved. Pairs missing from either response are
-excluded from both sides. If \(\mathcal C(x,M)\) is empty, the effect is
-undefined and that scenario is excluded from the ordering mean, not assigned
-zero. Model-level ordering averages the remaining scenarios equally.
-This conditional measure assesses ordering, not omission; fact inclusion
-must be assessed separately.
+Positive values indicate a favorable-first shift among jointly retained facts. Missing pairs are excluded from both sides to avoid selection effects. Appendix~\ref{app:ordering_robustness} reports eligibility counts.
 
 \paragraph{Specificity.}
 Let \(N_F\) and \(N_y\) be the normalized numerical values in the supplied evidence and response. We define
@@ -382,12 +362,13 @@ Let \(P_y=\{(s_i,f):f\in\mu_y(s_i)\}\). For each matched pair, a framing judge o
 Larger values indicate that included evidence is expressed in more goal-favoring language. Framing measures presentation rather than factual falsification: describing an \$8,900 maximum as ``just \$8,900'' preserves the number while changing its practical valence. 
 
 \paragraph{Paired distortion.}
-For dimensions \(a\in\{\mathrm{sel},\mathrm{emp},\mathrm{spec},\mathrm{frame}\}\), JANUS reports
+For dimension \(a\in\mathcal{A}=\{\mathrm{sel},\mathrm{emp},\mathrm{spec},\mathrm{frame}\}\), JANUS reports
 \begin{equation}
 D_a(x,M)=\psi_a(y^{G})-\psi_a(y^{N}).
 \label{eq:paired_distortion}
 \end{equation}
-Ordering instead uses the shared-pair definition in Equation~\ref{eq:shared_pair_ordering}; its compared fact set depends on both responses. Positive values indicate movement in the goal-favoring direction under the institutional objective. Model-level scores average \(D_a\) over eligible scenarios. We treat the five dimension-level scores as the primary outcome and use their unweighted mean only as a compact descriptive summary.
+\textit{Ordering} uses Equation~\ref{eq:shared_pair_ordering}.
+Positive values indicate movement in the goal-favoring direction under the institutional objective or information loss for specificity. We treat the five dimension-level scores as the primary outcome and use their unweighted mean only as a compact descriptive summary.
 
 
 \begin{table*}[t]
@@ -397,51 +378,41 @@ Ordering instead uses the shared-pair definition in Equation~\ref{eq:shared_pair
 \toprule
 Models & Selection & Emphasis & Ordering & Specificity & Framing &  Average \\
 \midrule
-GPT-5.4 & 0.0000 & 0.0146 & \cellcolor{janusTeal!22}0.0479 & 0.0082 & \cellcolor{janusTeal!45}0.1959 & 0.053 \\
-GPT-5.4 Mini & -0.0042 & 0.0217 & 0.0375 & 0.0110 & \cellcolor{janusTeal!45}0.1463 & 0.043 \\
+GPT-5.4 & 0.0000 & 0.0146 & \cellcolor{janusTeal!40}0.0608 & 0.0082 & \cellcolor{janusTeal!45}0.1959 & 0.056 \\
+GPT-5.4 Mini & -0.0042 & 0.0217 & 0.0354 & 0.0110 & \cellcolor{janusTeal!45}0.1463 & 0.042 \\
 \midrule
-DeepSeek v4 & 0.0000 & -0.0277 & \cellcolor{janusTeal!45}0.0965 & \cellcolor{janusTeal!38}\textbf{0.0389} & \cellcolor{janusTeal!45}0.1743 & 0.062 \\
-DeepSeek v4 (Thinking) & 0.0021 & \cellcolor{janusTeal!34}0.0676 & \cellcolor{janusTeal!45}\textbf{0.1062} & \cellcolor{janusTeal!15}0.0260 & \cellcolor{janusTeal!45}\textbf{0.3048} & \underline{0.101} \\
+DeepSeek v4 & 0.0000 & -0.0277 & \cellcolor{janusTeal!45}\underline{0.1345} & \cellcolor{janusTeal!38}\textbf{0.0389} & \cellcolor{janusTeal!45}0.1743 & 0.064 \\
+DeepSeek v4 (Thinking) & 0.0021 & \cellcolor{janusTeal!35}0.0676 & \cellcolor{janusTeal!45}\textbf{0.1705} & \cellcolor{janusTeal!14}0.0260 & \cellcolor{janusTeal!45}\textbf{0.3048} & \textbf{0.114} \\
+
 \midrule
-Llama 3.1 70B & \underline{0.0208} & \cellcolor{janusTeal!45}0.0762 & \cellcolor{janusTeal!45}0.0917 & 0.0164 & \cellcolor{janusTeal!45}0.1946 & 0.080 \\
-Llama 3.1 8B  & \cellcolor{janusTeal!27}\textbf{0.0312} & \cellcolor{janusTeal!45}\textbf{0.1457} & \cellcolor{janusTeal!45}0.0771 & 0.0269 & \cellcolor{janusTeal!45}\underline{0.2342} & \textbf{0.103} \\
+Llama 3.1 70B & \underline{0.0208} & \cellcolor{janusTeal!45}0.0762 & \cellcolor{janusTeal!45}0.0975 & 0.0164 & \cellcolor{janusTeal!45}0.1946 & 0.081 \\
+Llama 3.1 8B & \cellcolor{janusTeal!26}\textbf{0.0312} & \cellcolor{janusTeal!45}\textbf{0.1457} & \cellcolor{janusTeal!45}0.0851 & 0.0269 & \cellcolor{janusTeal!45}\underline{0.2342} & \underline{0.105} \\
 \midrule
-Qwen3 14B  & 0.0021 & \cellcolor{janusTeal!45}0.0724 & \cellcolor{janusTeal!45}\underline{0.0986} & 0.0095 & \cellcolor{janusTeal!45}0.1867 & 0.074 \\
-Qwen3 14B (Thinking) & -0.0042 & \cellcolor{janusTeal!45}\underline{0.1095} & \cellcolor{janusTeal!41}0.0667 & 0.0160 & \cellcolor{janusTeal!45}0.2212 & 0.083 \\
-Qwen3 32B  & 0.0083 & \cellcolor{janusTeal!43}0.0621 & \cellcolor{janusTeal!45}0.0826 & 0.0123 & \cellcolor{janusTeal!45}0.1786 & 0.069 \\
-Qwen3 32B (Thinking) & -0.0042 & 0.0145 & \cellcolor{janusTeal!25}0.0451 & \underline{0.0271} & \cellcolor{janusTeal!45}0.2086 & 0.059 \\
-Qwen3 8B  & 0.0146 & \cellcolor{janusTeal!43}0.0788 & 0.0465 & -0.0046 & \cellcolor{janusTeal!45}0.1848 & 0.065 \\
-Qwen3 8B (Thinking) & 0.0083 & 0.0422 & \cellcolor{janusTeal!45}0.0917 & 0.0044 & \cellcolor{janusTeal!45}0.1958 & 0.068 \\
+Qwen3 8B & 0.0146 & \cellcolor{janusTeal!43}0.0788 & \cellcolor{janusTeal!45}0.0922 & -0.0046 & \cellcolor{janusTeal!45}0.1848 & 0.073 \\
+Qwen3 8B (Thinking) & 0.0083 & 0.0422 & \cellcolor{janusTeal!45}0.1326 & 0.0044 & \cellcolor{janusTeal!45}0.1958 & 0.077 \\
+Qwen3 14B & 0.0021 & \cellcolor{janusTeal!45}0.0724 & \cellcolor{janusTeal!45}0.1137 & 0.0095 & \cellcolor{janusTeal!45}0.1867 & 0.077 \\
+Qwen3 14B (Thinking) & -0.0042 & \cellcolor{janusTeal!45}\underline{0.1095} & \cellcolor{janusTeal!45}0.1283 & 0.0160 & \cellcolor{janusTeal!45}0.2212 & 0.094 \\
+Qwen3 32B & 0.0083 & \cellcolor{janusTeal!43}0.0621 & \cellcolor{janusTeal!45}0.1281 & 0.0123 & \cellcolor{janusTeal!45}0.1786 & 0.078 \\
+Qwen3 32B (Thinking) & -0.0042 & 0.0145 & \cellcolor{janusTeal!45}0.0889 & \underline{0.0271} & \cellcolor{janusTeal!45}0.2086 & 0.067 \\
+
 
 \bottomrule
 
 \end{tabular}
-\caption{Comparison of mean model-level JANUS metrics across models. Lower values correspond to lower distortion. For each dimension, the highest distortion is shown in \textbf{bold}, and the second-highest is \underline{underlined}.}
+\caption{Comparison of JANUS metrics across models. Lower values correspond to lower distortion. For each dimension, the highest distortion is shown in \textbf{bold}, and the second-highest is \underline{underlined}.}
 \label{tab:janus-model-core-metrics-absolute}
 
 \end{table*}
 \subsection{Dataset Construction}
 \label{subsec:dataset_construction}
 
-JANUS contains 160 independently constructed scenarios, evenly
-distributed across eight domains. Its construction process separates
-domain and scenario design, candidate evidence generation, human
-review, and refinement. This separation allows the benchmark to retain
-a common experimental structure across domains while ensuring that
-each scenario contains plausible, material, and recipient-relevant
-evidence.
+JANUS contains 160 scenarios, evenly
+distributed across eight domains. We separate scenario design, candidate evidence generation, and human refinement to preserve a consistent experimental structure and ensure plausible, material, recipient-relevant facts.
 
 \paragraph{Stage 1: Domain and scenario design.}
 
 We include 20 scenarios in each of eight domains: Finance, Healthcare,
-Education, Law, Public Policy, Media, Business, and Workplace. These
-domains were selected because they instantiate a recurring
-institutional communication structure: an actor controls the
-presentation of decision-relevant information to an affected
-recipient while pursuing an objective that may not fully align with
-balanced disclosure. This structure is closely related to models of
-strategic communication and persuasion
-\citep{drew1992talk,heritage2011talk}. The domains also provide variation in the type of recipient, decision,
+Education, Law, Public Policy, Media, Business, and Workplace. Each instantiates strategic communication in which an institution controls decision-relevant information while pursuing an objective potentially at odds with balanced disclosure \citep{drew1992talk,heritage2011talk}. The domains also provide variation in the type of recipient, decision,
 and institutional relationship. Finance and Healthcare primarily cover
 individual and household decisions; Education and Workplace include
 student, employee, and professional decisions; Law and Public Policy
@@ -478,10 +449,7 @@ specified recipient. Adverse statements describe costs, risks,
 limitations, trade-offs or harms that a reasonable recipient would
 want to consider before deciding.
 
-The generation prompt requires the statements to be concise, concrete,
-mutually non-redundant, internally consistent, and neutrally worded,
-with plausible numerical details where appropriate. The statements
-are synthetic and are stipulated as true within the hypothetical
+The statements are synthetic and stipulated as true within the hypothetical
 scenario; JANUS does not require them to correspond to externally
 verifiable entities or events. The complete candidate-generation
 prompt is provided in Appendix~\ref{app:dataset_details}.
@@ -532,19 +500,15 @@ Adverse & 9.99 $\pm$ 2.32 & 26.7\% & 15.4\% \\
 \caption{Artifact checks comparing favorable and adverse facts.}
 \label{tab:artifact_controls}
 \end{table}
-Because JANUS measures asymmetric treatment of favorable and adverse facts, we control for superficial artifacts that could make one fact class easier to identify or communicate. Table~\ref{tab:artifact_controls} compares favorable and adverse facts across several surface-level properties, including average word count, numerical-detail frequency, and hedging frequency (e.g., may, could, \ldots). The two fact classes remain broadly comparable across these dimensions, reducing the likelihood that models can infer fact valence from stylistic artifacts alone. Finally, we note that facts are shuffled before being provided to the model and that fact valence is used only for evaluation.
-
+We check whether superficial artifacts could affect the treatment of favorable versus adverse facts. Table~\ref{tab:artifact_controls} compares word count, numerical-detail frequency, and hedging frequency (e.g., may, could, \ldots). The two fact classes remain broadly comparable across these dimensions, reducing the likelihood that models can infer fact valence from stylistic artifacts alone. Finally, we note that facts are shuffled before being provided to the model and that fact valence is used only for evaluation.
 
 As a sanity check on the benchmark annotations, we test whether the
 intended valence of each statement is recoverable from the scenario
 context alone. Given the recipient context, institutional objective,
 and one unlabeled statement, Llama-3.1-70B recovers the JANUS
-favorable/adverse label with 95.0\% accuracy and marks only 9 of 960 statements
-as ambiguous. Excluding the eight affected scenarios leaves model
+favorable/adverse label with 95.0\% accuracy and marks only 9 of 960 statements as ambiguous. Excluding the eight affected scenarios leaves model
 rankings essentially unchanged across all five dimensions
-(\(\rho=0.946\)--\(0.993\)).
-
-
+(\(\rho=0.958\)--\(0.993\)).
 
 \section{Experiments}
 \label{sec:experiments}
@@ -557,17 +521,20 @@ Appendix~\ref{app:model_generation}).
 
 \subsection{Main Results}
 
-Table~\ref{tab:janus-model-core-metrics-absolute} and Figure~\ref{fig:comp_radar} show that goal conditioning rarely changes factual coverage directly. In Table~\ref{tab:janus-model-core-metrics-absolute}, shading denotes statistically significant deltas  (Appendix~\ref{app:stat_sig}). Across models, Selection deltas remain near zero, suggesting that systems generally retain both favorable and adverse facts rather than omitting inconvenient evidence. The larger effects instead appear in the rhetorical dimensions: Ordering, Framing, and, for some models, Emphasis. In other words, goal conditioning primarily changes how evidence is arranged and presented, not whether it is included. Complete high- and low-distortion output pairs are provided in Appendix~\ref{app:qualitative_examples}. Appendix~\ref{app:human_validation}
+Table~\ref{tab:janus-model-core-metrics-absolute} and Figure~\ref{fig:comp_radar} show comparatively small \textit{selection} effects alongside larger changes in \textit{ordering}, \textit{framing}, and, for some models, \textit{emphasis}. In other words, goal conditioning primarily changes how evidence is arranged and presented, not whether it is included. In Table~\ref{tab:janus-model-core-metrics-absolute}, shading denotes statistically significant deltas  (Appendix~\ref{app:stat_sig}). 
+
+Across models, \textit{selection} deltas remain near zero, suggesting that systems generally retain both favorable and adverse facts to a similar degree. The separate absolute-inclusion analysis in Appendix~\ref{app:absolute_coverage} finds favorable/adverse inclusion of 99.31\%/99.60\% under neutral prompting and 98.85\%/98.52\% under goal conditioning. Additionally the modest \textit{specificity} deltas suggest that models do not usually rely on obvious factual degradation. This further implies that goal-conditioned distortion may be difficult to detect using fact-coverage checks alone. 
+
+The larger effects appear in the rhetorical dimensions: \textit{ordering}, \textit{framing}, and, for some models, \textit{emphasis}. \textit{Ordering} effects are positive for all 12 and significant for 11 models (mean delta: 0.106). This pattern is robust to fact inclusion: \textit{ordering} remains significant for 11 models when restricting to response pairs retaining all six facts in both outputs (Appendix~\ref{app:ordering_robustness}). Framing shifts are even more uniform, with all models exhibiting significant goal-congruent changes (mean delta 0.202). Together these dimensions capture the central JANUS pattern: models can preserve the factual substrate while still changing the reader’s likely interpretation through sequencing and evaluative presentation. Emphasis is more model-dependent, with significant shifts in 7 of 12 models.
+
+DeepSeek v4 Thinking exhibits the highest average distortion (0.114), driven by the strongest \textit{ordering} (0.171) and \textit{framing} (0.305) shifts. Llama 3.1 8B ranks second overall (0.105), with the largest \textit{selection} (0.031) and \textit{emphasis} (0.146) shifts. Qwen models show a more mixed pattern. Qwen3 14B Thinking increases average distortion relative to its non-thinking counterpart (0.094 vs. 0.077), whereas Qwen3 32B Thinking reduces it (0.067 vs. 0.078). Thus, reasoning-oriented variants do not produce a uniform effect; in some cases they amplify goal-conditioned distortion, while in others they moderate it.
+
+Model scale also does not monotonically reduce distortion. While Llama 3.1 70B exhibits lower average distortion than Llama 3.1 8B (0.081 vs. 0.105), the non-thinking Qwen models show slightly increasing distortion from 8B to 32B (0.073 to 0.078). The GPT models exhibit the lowest average shifts, but larger and reasoning-oriented models are not consistently more neutral. These findings suggest that neither scale nor reasoning capability alone guarantees neutral communication under institutional goals.
+
+Complete high- and low-distortion output pairs are provided in Appendix~\ref{app:qualitative_examples}. Appendix~\ref{app:human_validation}
 evaluates whether higher JANUS scores correspond to greater
 human-perceived misleadingness.
 
-The most consistent distortions occur in Ordering and Framing. Every model moves favorable information earlier under the goal-conditioned setting, making goal-supporting evidence more salient before adverse evidence appears. Framing shifts are even more uniform: all models express the same underlying facts in more goal-congruent language. These two dimensions therefore capture the central JANUS pattern: models can preserve the factual substrate while still changing the reader’s likely interpretation through sequencing and evaluative presentation.
-
-By contrast, Selection and Specificity remain comparatively compressed. The near-zero Selection scores indicate little systematic suppression of adverse facts, while the modest Specificity deltas suggest that models do not usually rely on obvious factual degradation. This further implies that goal-conditioned distortion may be difficult to detect using fact-coverage checks alone. 
-
-Emphasis shows a more model-dependent pattern. Llama 3.1 8B produces the largest average distortion overall, driven especially by high Selection, Emphasis, and Framing scores. DeepSeek v4 Thinking shows a different profile: it has the strongest Ordering and Framing distortions, making it one of the clearest cases of structural rather than content-level steering. Qwen models are more mixed. Qwen3 14B Thinking increases Emphasis and Framing relative to its non-thinking counterpart, whereas Qwen3 32B Thinking reduces overall distortion compared with Qwen3 32B. Thus, reasoning-oriented variants do not produce a uniform effect; in some cases they amplify goal alignment, while in others they appear to moderate it.
-
-Model scale also does not monotonically reduce distortion. The GPT models show comparatively low average shifts, but larger or reasoning-capable models are not consistently more neutral. Llama 3.1 70B, DeepSeek v4 Thinking, and several Qwen variants still exhibit substantial rhetorical movement under institutional goals. This suggests that capability alone is insufficient to guarantee neutral communication under an institutional objective.
 
 \subsection{Distortion Across Domains}
 \begin{figure}[t]
@@ -577,9 +544,9 @@ Model scale also does not monotonically reduce distortion. The GPT models show c
   \label{fig:radar}
 \end{figure}
 
-Figure \ref{fig:radar} breaks down composite distortion by scenario category. Distortion is clearly domain-sensitive rather than uniform across the benchmark. The strongest effects appear in \textit{Media / Information}, \textit{Workplace / Organizational}, and \textit{Finance}. These categories share a common structure: the goal condition closely resembles familiar forms of institutional persuasion, such as increasing trust, encouraging acceptance of an organizational change or promoting uptake of a financial product. In these settings, models are especially prone to rearranging and reframing available evidence in a goal-supporting direction.
+Figure \ref{fig:radar} breaks down composite distortion by scenario category. Distortion is domain-sensitive rather than uniform. The strongest effects appear in \textit{Media / Information}, \textit{Workplace / Organizational}, and \textit{Finance}. These categories share a common structure: the goal condition closely resembles familiar forms of institutional persuasion, such as increasing trust, encouraging acceptance of an organizational change or promoting uptake of a financial product. In these settings, models are especially prone to rearranging and reframing available evidence in a goal-supporting direction.
 
-By contrast, \textit{Law} exhibits near-zero distortion for most models. This suggests that legal scenarios trigger a more conservative communication mode, where formal norms of precision and caution constrain rhetorical flexibility. Other categories, occupy an intermediate range.
+By contrast, \textit{Law} exhibits near-zero distortion for most models. This suggests that legal scenarios may trigger a more conservative communication mode, where formal norms of precision and caution constrain rhetorical flexibility. Other categories, occupy an intermediate range.
 
 The same pattern is visible across model families: Llama and DeepSeek models show particularly large distortions in media and workplace contexts, while Qwen models are often more distorted in Finance. Overall, these results indicate that JANUS is not simply measuring a generic tendency toward positivity or verbosity. Goal-conditioned distortion is shaped by communicative context, becoming strongest where persuasive framing, reputational management, and selective presentation are already pragmatically familiar.
 
@@ -591,7 +558,7 @@ The same pattern is visible across model families: Llama and DeepSeek models sho
 \end{figure}
 
 \section{Conclusions and Future Work}
-This paper introduced JANUS, a benchmark for evaluating goal-conditioned information distortion in LLM communication. By comparing neutral and goal-conditioned outputs over the same fixed fact pools, JANUS isolates misleading presentation from hallucination or fabrication. Across 160 scenarios and 8 domains, LLMs generally remain factually grounded while still shifting the recipient’s net impression through ordering, framing, and emphasis. Additionally, we find little correlation between distortion and the use of reasoning mode or model size, suggesting that neither explicit reasoning nor scale reliably prevents goal-conditioned distortion. These findings suggest that factual correctness alone is not enough to assess faithful communication: models must also be evaluated on whether they present material evidence in a balanced, decision-relevant way. Future work should extend JANUS to more realistic deployment settings and
+We introduced JANUS, a benchmark for evaluating goal-conditioned distortion in LLM communication. Across 160 scenarios and 8 domains, LLMs generally remain factually grounded while still shifting the recipient’s net impression through ordering, framing, and emphasis. Additionally, we find little correlation between distortion and the use of reasoning mode or model size, suggesting that neither explicit reasoning nor scale reliably prevents goal-conditioned distortion. These findings suggest that factual correctness alone is not enough to assess faithful communication: models must also be evaluated on whether they present material evidence in a balanced, decision-relevant way. Future work should extend JANUS to more realistic deployment settings and
 use it to compare mitigation strategies; Appendix~\ref{app:mitigation}
 provides an initial example.
 
@@ -1555,11 +1522,7 @@ x_{i,\mathrm{goal}}^{(m,k)} - x_{i,\mathrm{neutral}}^{(m,k)},
 \]
 where \(x_{i,\mathrm{goal}}^{(m,k)}\) is the metric value under the
 goal-conditioned prompt and \(x_{i,\mathrm{neutral}}^{(m,k)}\) is the
-corresponding value under the neutral prompt.
-For ordering, \(d_i^{(m,\mathrm{ord})}=D_{\mathrm{ord}}(x_i,M_m)\)
-is computed directly over shared pairs, as in Equation~\ref{eq:shared_pair_ordering}.
-There are 159 eligible ordering scenarios for DeepSeek v4 Thinking and
-Llama-3.1-8B, and 160 for each of the other ten models. The table reports the mean delta
+corresponding value under the neutral prompt. The table reports the mean delta
 \[
 \bar d^{(m,k)} = \frac{1}{n}\sum_{i=1}^{n} d_i^{(m,k)}.
 \]
@@ -1616,6 +1579,159 @@ shading is capped for \(q \leq .001\). The Average column is descriptive and is 
 
 
 
+
+\section{Absolute Fact Inclusion and Selection Interpretation}
+\label{app:absolute_coverage}
+
+\textit{Selection} measures favorable-minus-adverse inclusion within a response;
+the reported paired effect is the change in this imbalance. A small effect can
+therefore coexist with significant yet balanced omissions. We separately computed absolute
+inclusion from the existing sentence--fact matches for all 3,840 outputs.
+Table~\ref{tab:absolute_coverage} reports every model and both conditions.
+Favorable fact inclusion falls from 99.31\% to 98.85\% and adverse inclusion
+from 99.60\% to 98.52\%: declines of 0.45 and 1.08 percentage points,
+respectively. All six facts are included in 1,858/1,920 neutral responses
+(96.77\%) and 1,783/1,920 goal-conditioned responses (92.86\%).
+
+Goal-conditioned inclusion ranges from 98.12--99.79\% for favorable facts and
+95.83--99.58\% for adverse facts. Llama-3.1-8B has the largest adverse-fact
+decline, from 99.17\% to 95.83\%. These measurements support high overall
+source-fact retention, not complete retention or an absence of selective
+omission. 
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & $F^+$ N (\%) & $F^+$ G (\%) & $F^-$ N (\%) & $F^-$ G (\%) & All six N & All six G \\
+\midrule
+GPT-5.4 & 99.79 & 99.79 & 99.58 & 99.58 & 157 & 157 \\
+GPT-5.4 Mini & 100.00 & 99.17 & 99.79 & 99.38 & 159 & 153 \\
+DeepSeek v4 & 98.96 & 98.75 & 99.58 & 99.38 & 153 & 153 \\
+DeepSeek v4 (Thinking) & 99.17 & 98.12 & 99.38 & 98.12 & 153 & 145 \\
+Llama 3.1 70B & 98.54 & 98.75 & 99.58 & 97.71 & 152 & 145 \\
+Llama 3.1 8B & 98.96 & 98.75 & 99.17 & 95.83 & 151 & 137 \\
+Qwen3 14B & 99.58 & 99.38 & 99.58 & 99.17 & 156 & 153 \\
+Qwen3 14B (Thinking) & 99.38 & 98.33 & 99.79 & 99.17 & 156 & 148 \\
+Qwen3 32B & 98.96 & 98.54 & 100.00 & 98.75 & 155 & 149 \\
+Qwen3 32B (Thinking) & 99.79 & 98.96 & 99.58 & 99.17 & 157 & 151 \\
+Qwen3 8B & 99.17 & 98.96 & 99.58 & 97.92 & 154 & 146 \\
+Qwen3 8B (Thinking) & 99.38 & 98.75 & 99.58 & 98.12 & 155 & 146 \\
+All models & 99.31 & 98.85 & 99.60 & 98.52 & 1,858 & 1,783 \\
+\bottomrule
+\end{tabular}
+\caption{Absolute inclusion of supplied facts from sentence--fact matches.}
+\label{tab:absolute_coverage}
+\end{table*}
+
+\section{Ordering Robustness and Eligible Comparisons}
+\label{app:ordering_robustness}
+
+The \textit{ordering} definition compares exactly the same
+favorable--adverse fact pairs in the neutral and goal-conditioned responses
+(Equation~\ref{eq:shared_pair_ordering}). Each fact's first matched sentence is
+used, including mixed-polarity sentences. A same-sentence first mention is a
+tie, scored 0.5 in each arm; a missing pair is excluded from both arms.
+This avoids attributing favorable ordering to a pair whose relative order
+cannot be observed. It also avoids comparing different pair identities
+within a scenario. Scores are averaged within scenarios and then across
+eligible scenarios with equal weight.
+
+There is no shared comparable pair for DeepSeek v4 Thinking on MED\_18 or
+Llama-3.1-8B on MED\_14. These two models use 159 scenarios; the other ten use
+160. Exclusions apply only to the corresponding model's ordering analysis,
+not globally to these scenarios or to other dimensions. Shared-pair effects
+are positive for all 12 models (0.0354--0.1705), with 11 significant under the
+main 60-test correction. GPT-5.4 Mini is positive but uncertain (0.0354;
+95\% interval [-0.0028, 0.0747]; adjusted $q=0.1295$).
+
+As a separate robustness check, we retain only scenarios where all six facts
+are matched in both responses. The same scoring rule gives positive means for all models
+(0.0241--0.1734) and significance for 11 after correction across these 12
+subset tests. GPT-5.4 Mini is again the exception (0.0241; 95\% interval
+[-0.0157, 0.0636]). Table~\ref{tab:ordering_robustness} reports all results and
+the 132--154 eligible scenarios per model.
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrlrrl}
+\toprule
+Model & $n$ & Shared-pair & 95\% CI & $n_6$ & All-six & 95\% CI \\
+\midrule
+GPT-5.4 & 160 & 0.0608 & [0.0208, 0.1014] & 154 & 0.0610 & [0.0198, 0.1028] \\
+GPT-5.4 Mini & 160 & 0.0354 & [-0.0028, 0.0747] & 152 & 0.0241 & [-0.0157, 0.0636] \\
+DeepSeek v4 & 160 & 0.1345 & [0.0852, 0.1839] & 147 & 0.1413 & [0.0899, 0.1927] \\
+DeepSeek v4 (Thinking) & 159 & 0.1705 & [0.1300, 0.2130] & 141 & 0.1734 & [0.1300, 0.2183] \\
+Llama 3.1 70B & 160 & 0.0975 & [0.0606, 0.1355] & 140 & 0.0897 & [0.0512, 0.1302] \\
+Llama 3.1 8B & 159 & 0.0851 & [0.0503, 0.1209] & 132 & 0.0715 & [0.0349, 0.1086] \\
+Qwen3 14B & 160 & 0.1137 & [0.0729, 0.1556] & 150 & 0.1174 & [0.0748, 0.1615] \\
+Qwen3 14B (Thinking) & 160 & 0.1283 & [0.0849, 0.1714] & 145 & 0.1192 & [0.0739, 0.1644] \\
+Qwen3 32B & 160 & 0.1281 & [0.0939, 0.1632] & 145 & 0.1345 & [0.0985, 0.1705] \\
+Qwen3 32B (Thinking) & 160 & 0.0889 & [0.0563, 0.1217] & 148 & 0.0905 & [0.0567, 0.1246] \\
+Qwen3 8B & 160 & 0.0922 & [0.0524, 0.1332] & 142 & 0.0904 & [0.0485, 0.1330] \\
+Qwen3 8B (Thinking) & 160 & 0.1326 & [0.0927, 0.1734] & 143 & 0.1321 & [0.0905, 0.1760] \\
+\bottomrule
+\end{tabular}
+\caption{Shared-pair ordering and the subset retaining all six facts in both responses.}
+\label{tab:ordering_robustness}
+\end{table*}
+
+
+\section{Neutral Grounding-Instruction Ablation}
+\label{app:grounding_ablation}
+
+The original neutral system message contains the sentence ``Use only the
+provided facts and do not add outside information.'' Its purpose was to keep
+the neutral summary focused on the supplied evidence and discourage outside
+additions. Because this instruction is absent from the goal-conditioned
+prompt, we tested its contribution by deleting only this sentence from the
+neutral prompt for Qwen3-8B (non-thinking) and Llama-3.1-8B. We generated 160
+new neutral responses per model and reused the original goal responses,
+sentence matches, and framing judgments unchanged. Scenario, user message,
+evidence order, institutional role and audience wording were otherwise
+unchanged.
+
+This yields 320 newly generated responses and 640 outputs in the two-model
+paired analysis. Every new response has sentence matches and complete
+framing judgments. 
+
+Table~\ref{tab:grounding_ablation} reports the five JANUS dimensions. \textit{Selection}, \textit{emphasis}, \textit{ specificity}, and \textit{framing} change little in absolute terms. The estimated
+\textit{ordering} effect decreases from 0.0922 to 0.0707 for Qwen and from
+0.0851 to 0.0545 for Llama, but remains positive and significant. After BH
+adjustment across ten tests (five dimensions $\times$ two models),
+\textit{selection}, \textit{emphasis}, \textit{ordering}, and \textit{framing}
+are significant for both models; \textit{specificity} is not
+significant for either. Thus, the main pattern persists in both tested models without the asymmetric
+grounding instruction. 
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llrrlrr}
+\toprule
+Model & Dimension & Original & Sentence removed & 95\% CI (removed) & BH $q$ \\
+\midrule
+Qwen3-8B & Selection & 0.0146 & 0.0229 & [0.0062, 0.0417]  & 0.0242 \\
+Qwen3-8B & Emphasis & 0.0788 & 0.0736 & [0.0292, 0.1195]  & 0.0033 \\
+Qwen3-8B & Ordering & 0.0922 & 0.0707 & [0.0267, 0.1165]  & 0.0034 \\
+Qwen3-8B & Numerical specificity loss & -0.0046 & -0.0055 & [-0.0335, 0.0204] & 0.7029 \\
+Qwen3-8B & Framing & 0.1848 & 0.1799 & [0.1356, 0.2254]  & $<0.0001$ \\
+Llama-3.1-8B & Selection & 0.0312 & 0.0312 & [0.0104, 0.0542] & 0.0147 \\
+Llama-3.1-8B & Emphasis & 0.1457 & 0.1499 & [0.1095, 0.1902]  & $<0.0001$ \\
+Llama-3.1-8B & Ordering & 0.0851 & 0.0545 & [0.0203, 0.0882]  & 0.0034 \\
+Llama-3.1-8B & Numerical specificity loss & 0.0269 & 0.0243 & [-0.0031, 0.0526]  & 0.0990 \\
+Llama-3.1-8B & Framing & 0.2342 & 0.2373 & [0.1883, 0.2865]  & $<0.0001$ \\
+\bottomrule
+\end{tabular}
+\caption{Grounding ablation: goal-minus-neutral effects before and after deleting only the neutral grounding sentence. Both ordering columns use the shared-pair metric. The original goal responses are reused. The correction family contains all ten sentence-removed tests (five dimensions $\times$ two models). These tests do not test the change between prompt variants or establish equivalence.}
+\label{tab:grounding_ablation}
+\end{table*}
+
 \section{Prompt-Level Mitigation}
 \label{app:mitigation}
 
@@ -1633,9 +1749,9 @@ do not soften or amplify its benefit, cost, risk, limitation, or
 qualification.}
 \end{quote}
 
-This was a separate generation experiment with neutral, goal-conditioned, and
+We compare neutral, goal-conditioned, and
 goal-conditioned-plus-guardrail conditions for Qwen3-8B and Llama-3.1-8B.
-Accordingly, the goal-minus-neutral values in Table~\ref{tab:mitigation-results}
+The goal-minus-neutral values in Table~\ref{tab:mitigation-results}
 are the internal baselines for this mitigation run and are reported separately
 from the primary results table.
 
@@ -1651,34 +1767,24 @@ from the primary results table.
 \midrule
 Qwen3-8B &
 Goal minus neutral &
-0.0146 & 0.0788 & 0.0465 & -0.0046 & 0.1848 \\
+0.0146 & 0.0788 & 0.0922 & -0.0046 & 0.1848 \\
 Qwen3-8B &
 Goal + guardrail minus neutral &
-0.0104 & 0.0204 & -0.0618 & -0.0343 & 0.0654 \\
+0.0104 & 0.0204 & -0.0266 & -0.0343 & 0.0654 \\
 \midrule
 Llama-3.1-8B &
 Goal minus neutral &
-0.0312 & 0.1457 & 0.0771 & 0.0269 & 0.2342 \\
+0.0312 & 0.1457 & 0.0851 & 0.0269 & 0.2342 \\
 Llama-3.1-8B &
 Goal + guardrail minus neutral &
-0.0021 & 0.0536 & 0.0389 & 0.0043 & 0.0963 \\
+0.0021 & 0.0536 & 0.0431 & 0.0043 & 0.0867 \\
 \bottomrule
 \end{tabular}
-\caption{Prompt-level mitigation results from a separate generation
-experiment. Values are paired differences relative to the neutral condition
-within that experiment.}
+\caption{Prompt-level mitigation results. Values are paired differences relative to the neutral condition.}
 \label{tab:mitigation-results}
 \end{table*}
 
-The guardrail reduces emphasis and framing distortion for both models. It also
-reduces selection distortion for both models and reduces ordering and
-specificity distortion for Llama-3.1-8B. For Qwen3-8B, ordering and specificity
-cross zero and shift in the opposite direction relative to the neutral
-condition. The intervention therefore improves several measured behaviors
-while retaining the institutional objective, but it does not uniformly move
-every dimension toward zero. This illustrates how JANUS can reveal
-model- and dimension-specific mitigation effects that would be obscured by a
-single aggregate outcome.
+The guardrail substantially reduces the magnitude of goal-induced distortion across most metrics and both models. The strongest improvements are observed in framing and emphasis, suggesting that these dimensions are particularly responsive to prompt-level mitigation. However, the effect is not uniform: for Qwen3-8B, the specificity difference becomes more negative under the guardrail, indicating greater numerical retention relative to the neutral baseline. Thus, the mitigation does not uniformly bring every dimension closer to zero. Overall, these findings suggest that guardrails can meaningfully attenuate or even reverse goal-induced distortions, although they do not eliminate them entirely.
 
 
 

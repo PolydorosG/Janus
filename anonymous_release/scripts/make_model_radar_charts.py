@@ -6,10 +6,14 @@ import argparse
 import csv
 import math
 import re
+import sys
 from pathlib import Path
 from typing import Iterable
 
 import matplotlib.pyplot as plt
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from ordering_metric import paired_ordering
 
 
 FAMILY_ORDER = ["OpenAI", "DeepSeek", "Llama", "Qwen", "Other"]
@@ -144,6 +148,7 @@ def main() -> None:
         category_means=category_means,
         scales=scales,
     )
+    write_raw_latex_table(output_dir / 'model_core_metric_means_table_absolute.tex', model_means)
     save_composite_bar_chart(
         output_dir / "composite_distortion_scores.png",
         model_means=model_means,
@@ -305,11 +310,15 @@ def apply_absolute_pairwise_ordering(
     for fact_path in sorted(metrics_root.glob("*/fact_level_metrics.csv")):
         model = fact_path.parent.name
         values_by_condition: dict[str, list[float]] = {"neutral": [], "latent_goal": []}
-        for (_, condition), rows in grouped_fact_rows(fact_path).items():
-            if condition in values_by_condition:
-                values_by_condition[condition].append(
-                    1.0 - adverse_first_pair_rate(rows)
-                )
+        grouped = grouped_fact_rows(fact_path)
+        for sid in sorted({sid for sid, _ in grouped}):
+            n, g = grouped.get((sid, 'neutral')), grouped.get((sid, 'latent_goal'))
+            if n is None or g is None:
+                continue
+            result = paired_ordering(n, g)
+            if result['delta_ordering_shift'] is not None:
+                values_by_condition['neutral'].append(result['ordering_reference_shared'])
+                values_by_condition['latent_goal'].append(result['ordering_target_shared'])
         for condition, values in values_by_condition.items():
             if values and model in condition_means and condition in condition_means[model]:
                 condition_means[model][condition]["ordering_bias"] = mean(values)
@@ -326,21 +335,11 @@ def apply_pairwise_ordering_metrics(
     model_means: dict[str, dict[str, float]],
     category_means: dict[str, dict[str, dict[str, float]]],
 ) -> None:
-    """Replace raw mean-position ordering with normalized pairwise ordering.
-
-    Positive values mean the latent-goal output has fewer adverse-before-favorable
-    pairs than the neutral output, i.e. favorable facts are moved earlier relative
-    to adverse facts.
-    """
+    """Recompute shared-pair, all-first-mentions, half-tie ordering from facts."""
 
     for fact_path in sorted(metrics_root.glob("*/fact_level_metrics.csv")):
         model = fact_path.parent.name
-        output_scores: dict[tuple[str, str], dict[str, object]] = {}
-        for key, rows in grouped_fact_rows(fact_path).items():
-            output_scores[key] = {
-                "category": rows[0].get("category") or "Uncategorized",
-                "adverse_first_rate": adverse_first_pair_rate(rows),
-            }
+        output_scores = grouped_fact_rows(fact_path)
 
         deltas_by_category: dict[str, list[float]] = {}
         sample_ids = sorted({sample_id for sample_id, _ in output_scores})
@@ -350,8 +349,10 @@ def apply_pairwise_ordering_metrics(
             goal = output_scores.get((sample_id, "latent_goal"))
             if neutral is None or goal is None:
                 continue
-            delta = float(neutral["adverse_first_rate"]) - float(goal["adverse_first_rate"])
-            category = str(goal["category"] or neutral["category"] or "Uncategorized")
+            delta = paired_ordering(neutral, goal)['delta_ordering_shift']
+            if delta is None:
+                continue
+            category = str(goal[0].get("category") or neutral[0].get("category") or "Uncategorized")
             model_deltas.append(delta)
             deltas_by_category.setdefault(category, []).append(delta)
 
@@ -369,34 +370,6 @@ def grouped_fact_rows(path: Path) -> dict[tuple[str, str], list[dict[str, str]]]
         condition = row.get("condition") or ""
         grouped.setdefault((sample_id, condition), []).append(row)
     return grouped
-
-
-def adverse_first_pair_rate(rows: list[dict[str, str]]) -> float:
-    favorable_positions = [
-        value
-        for value in (
-            parse_float(row.get("first_output_unit_id"))
-            for row in rows
-            if row.get("polarity") == "F"
-        )
-        if value is not None
-    ]
-    adverse_positions = [
-        value
-        for value in (
-            parse_float(row.get("first_output_unit_id"))
-            for row in rows
-            if row.get("polarity") == "A"
-        )
-        if value is not None
-    ]
-    adverse_first_pairs = sum(
-        1
-        for favorable_position in favorable_positions
-        for adverse_position in adverse_positions
-        if adverse_position < favorable_position
-    )
-    return adverse_first_pairs / 9.0
 
 
 def read_csv(path: Path) -> Iterable[dict[str, str]]:
@@ -521,6 +494,29 @@ def write_latex_table(
 
     lines.extend([r"\bottomrule", r"\end{tabular}", r"\end{table*}", ""])
     path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_raw_latex_table(path: Path, model_means: dict) -> None:
+    values = {model: [means[k] for k, _ in METRICS] for model, means in model_means.items()}
+    for scores in values.values():
+        scores.append(mean([max(0, v) for v in scores]))
+    maxima = [sorted({v[i] for v in values.values()}, reverse=True)[:2] for i in range(6)]
+    lines = [r'\begin{table*}[t]', r'\centering', r'\small',
+             r'\caption{Mean paired effects. Ordering uses shared pairs and half credit for ties. Average is the mean of positive parts of the five raw means. Specificity is numerical information loss, not a directional distortion measure.}',
+             r'\label{tab:janus-model-core-metrics-absolute}', r'\begin{tabular}{lrrrrrr}',
+             r'\toprule', r'Model & Selection & Emphasis & Ordering & Specificity & Framing & Average \\', r'\midrule']
+    for model in sorted_models(model_means):
+        cells = [escape_latex(display_name(model))]
+        for i, value in enumerate(values[model]):
+            cell = f'{value:.4f}' if i < 5 else f'{value:.3f}'
+            if value == maxima[i][0]:
+                cell = r'\textbf{' + cell + '}'
+            elif value == maxima[i][1]:
+                cell = r'\underline{' + cell + '}'
+            cells.append(cell)
+        lines.append(' & '.join(cells) + r' \\')
+    lines += [r'\bottomrule', r'\end{tabular}', r'\end{table*}', '']
+    path.write_text('\n'.join(lines))
 
 
 def top_two_values(values: list[float]) -> tuple[float | None, float | None]:
@@ -804,7 +800,7 @@ def save_condition_overlay_radar_grid(
         fig.text(
             0.5,
             0.018,
-            "Radii show condition-level absolute distortion scores: positive selection/emphasis bias, favorable-first ordering, numeric specificity loss, and positive framing.",
+            "Radii show positive selection/emphasis, numeric loss and framing; ordering uses shared-pair arm scores, not standalone response scores.",
             ha="center",
             va="center",
             fontsize=8.5,
